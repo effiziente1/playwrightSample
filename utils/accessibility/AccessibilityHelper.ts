@@ -25,7 +25,7 @@ export class AccessibilityHelper {
         this.playAudit = module.playAudit;
         const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
         const violationsLength = accessibilityScanResults.violations.length;
-        expect.soft([violationsLength], `Expected no accessibility violations, but found ${violationsLength}`).toBe(0);
+        expect.soft(violationsLength, `Expected no accessibility violations, but found ${violationsLength}`).toBe(0);
         const lighthouseReport = await this.playAudit({
             page: this.page,
             port: 9222,
