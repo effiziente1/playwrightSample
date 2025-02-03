@@ -1,4 +1,4 @@
-[![Tests](https://github.com/apis3445/PlaywrightFramework/actions/workflows/main.yml/badge.svg)](https://github.com/apis3445/PlaywrightFramework/actions/workflows/main.yml)
+[![Tests](https://github.com/effiziente1/playwrightSample/actions/workflows/main.yml/badge.svg)](https://github.com/effiziente1/playwrightSample/actions/workflows/main.yml)
 
 # POC Accessibility testing tool and end-to-end tests with Playwright.
 
