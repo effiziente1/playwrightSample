@@ -1,0 +1,130 @@
+name: Shard tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  playwright-tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3]
+        shardTotal: [3]
+    env:
+      BASE_URL: ${{vars.BASE_URL}}
+      CONTOSO_URL: ${{vars.CONTOSO_URL}}
+      CONTOSO_API_URL: ${{vars.CONTOSO_API_URL}}
+      LOCALE: ${{vars.LOCALE}}
+      USER_NAME: ${{secrets.USER_NAME}}
+      PASSWORD: ${{secrets.PASSWORD}}
+      LT_USERNAME: ${{secrets.LT_USERNAME}}
+      LT_ACCESS_KEY: ${{secrets.LT_ACCESS_KEY}}
+      EFFIZIENTE_API_URL: ${{vars.EFFIZIENTE_API_URL}}
+      EFFIZIENTE_URL: ${{vars.EFFIZIENTE_URL}}
+      EFFIZIENTE_COMPANY: ${{secrets.EFFIZIENTE_COMPANY}}
+      EFFIZIENTE_NORMAL_USER: ${{secrets.EFFIZIENTE_NORMAL_USER}}
+      EFFIZIENTE_NORMAL_PASSWORD: ${{secrets.EFFIZIENTE_NORMAL_PASSWORD}}
+      EFFIZIENTE_ADMIN_USER: ${{secrets.EFFIZIENTE_ADMIN_USER}}
+      EFFIZIENTE_ADMIN_PASSWORD: ${{secrets.EFFIZIENTE_ADMIN_PASSWORD}}
+      ZEROSTEP_TOKEN: ${{secrets.ZEROSTEP_TOKEN}}
+      PLAYWRIGHT_SERVICE_ACCESS_TOKEN: ${{ secrets.PLAYWRIGHT_SERVICE_ACCESS_TOKEN }}
+      PLAYWRIGHT_SERVICE_URL: ${{ secrets.PLAYWRIGHT_SERVICE_URL }}
+      PLAYWRIGHT_SERVICE_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}
+      WEBDRIVERIO_SHOP: ${{vars.WEBDRIVERIO_SHOP}}
+      ADO_TOKEN: ${{ secrets.ADO_TOKEN}}
+      ADO_ORGANIZATION: ${{vars.ADO_ORGANIZATION}}
+      ADO_PROJECT: ${{vars.ADO_PROJECT}}
+      ADO_PLAN_ID: ${{vars.ADO_PLAN_ID}}
+      TEST_OWNER: ${{vars.TEST_OWNER}}
+      ADO_CONFIG_IDS: ${{vars.ADO_CONFIG_IDS}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: PLAYWRIGHT_JUNIT_OUTPUT_NAME=junit-report/junit-report-${{ matrix.shardIndex }}.xml npx playwright test tests/AI tests/Api tests/Basic tests/Excel tests/Fixture-LambdaTest tests/LocaleGeo tests/Synthetic tests/VisualTesting --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} --config=playwright.merge.config.ts
+
+      - name: Upload blob report to GitHub Actions Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-report-${{ matrix.shardIndex }}
+          path: blob-report
+          retention-days: 5
+
+      - name: Upload JUnit report to GitHub Actions Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-report-${{ matrix.shardIndex }}.xml
+          path: junit-report/junit-report-${{ matrix.shardIndex }}.xml
+          retention-days: 5
+
+  merge-reports:
+    # Merge reports after playwright-tests, even if some shards have failed
+    if: always()
+    needs: [playwright-tests]
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: |
+          npm install -g junit-report-merger
+          npm ci
+
+      - name: Download blob reports from GitHub Actions Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
+
+      - name: Merge into HTML Report
+        run: npx playwright merge-reports --reporter html ./all-blob-reports
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report-${{ github.run_attempt }}
+          path: playwright-report
+          retention-days: 3
+
+      - name: Download JUnit reports from GitHub Actions Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-junit-reports
+          pattern: junit-report-*
+          merge-multiple: true
+
+      - name: Merge JUnit reports
+        run: |
+          mkdir -p merged-reports
+          jrm ./merged-reports/merged-junit-report.xml ./all-junit-reports/*.xml
+
+      - name: Upload merged JUnit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged-junit-report
+          path: merged-reports/merged-junit-report.xml
+          retention-days: 3
+
+      - name: Generate Junit Report in Github
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Junit Tests # Name of the check run which will be created
+          path: ${{ github.workspace }}/merged-reports/*.xml # Path to test results
+          reporter: java-junit # Format of test results
