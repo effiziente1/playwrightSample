@@ -16,10 +16,11 @@ test.describe('Test Accessibility By Page', {
 
     // eslint-disable-next-line playwright/expect-expect
     test('Check Page accessibility', async ({ browserName }, testInfo) => {
-        await allure.feature('Accessibility');
-        await allure.suite('Custom Page');
         // eslint-disable-next-line playwright/no-skipped-test
         test.skip(browserName !== 'chromium', 'Lighthouse only works in chrome');
+        await allure.feature('Accessibility');
+        await allure.suite('Custom Page');
+
         //You can test any page in environment variable
         const pageToTest = process.env.PAGE_URL!;
         const browser = await playwright['chromium'].launch({
@@ -42,15 +43,16 @@ test.describe('Test Accessibility By Page', {
 
     test.afterAll(async ({ }, testInfo) => {
         const videoPath = testInfo.outputPath('allyVideo.webm');
-        await Promise.all([
-            page.video()?.saveAs(videoPath),
-            page.close()
-        ]);
-        testInfo.attachments.push({
-            name: 'video',
-            path: videoPath,
-            contentType: 'video/webm'
-        });
+        if (page) {
+            await Promise.all([
+                page.video()?.saveAs(videoPath),
+                page.close()
+            ]);
+            testInfo.attachments.push({
+                name: 'video',
+                path: videoPath,
+                contentType: 'video/webm'
+            });
+        }
     });
-
 });
