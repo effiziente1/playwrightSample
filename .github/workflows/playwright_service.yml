@@ -60,4 +60,4 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run playwright tests
-        run: npx playwright test --config=playwright.service.config.ts tests/Api/addToCart.spec --workers=20
+        run: npx playwright test --config=playwright.service.config.ts test tests/AI tests/Api tests/Basic tests/Excel tests/Fixture-LambdaTest tests/LocaleGeo tests/Synthetic tests/VisualTesting --workers=20
