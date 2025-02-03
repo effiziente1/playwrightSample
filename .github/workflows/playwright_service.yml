@@ -36,6 +36,7 @@ jobs:
       ADO_PLAN_ID: ${{vars.ADO_PLAN_ID}}
       TEST_OWNER: ${{vars.TEST_OWNER}}
       ADO_CONFIG_IDS: ${{vars.ADO_CONFIG_IDS}}
+      PAGE_URL: ${{vars.PAGE_URL}}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
