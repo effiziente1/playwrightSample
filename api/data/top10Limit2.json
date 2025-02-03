@@ -1,0 +1,26 @@
+[
+    {
+        "ClientId": 17,
+        "Client": "Jorge Peréz Mendieta",
+        "Total": 23148.40,
+        "DaysOverdue": 32
+    },
+    {
+        "ClientId": 6,
+        "Client": "Carlos González Alvarado",
+        "Total": 10382,
+        "DaysOverdue": 35
+    },
+    {
+        "ClientId": 4,
+        "Client": "Comercio Mineiro",
+        "Total": 2900,
+        "DaysOverdue": 37
+    },
+    {
+        "ClientId": 5,
+        "Client": "Ana Trujillo Cruz",
+        "Total": 1345.6,
+        "DaysOverdue": 36
+    }
+]

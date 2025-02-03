@@ -50,3 +50,14 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
+
+      # for playwright reporting service beta is needed the npm config
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run playwright tests
+        run: npx playwright test --config=playwright.a11y.config.ts tests/Api/addToCart.spec --workers=20

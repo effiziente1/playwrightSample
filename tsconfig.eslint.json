@@ -1,0 +1,23 @@
+{
+    "extends": "./tsconfig.json",
+    "include": [
+        // 👇️ add all the directories and files
+        // that you want to lint here
+        "api",
+        "components",
+        "sections",
+        "pages",
+        "tests",
+        "utils",
+        "fixtures",
+        // add all files in which you see
+        // the "parserOptions.project" error
+        "eslint.config.mjs",
+        "playwright.a11y.config.ts",
+        "playwright.service.config.ts",
+        "playwright.merge.config.ts",
+        "stepReporter.ts",
+        "checkly.config.ts",
+
+    ]
+}

@@ -1,0 +1,32 @@
+[
+    {
+        "ClientId": 17,
+        "Client": "Jorge Peréz Mendieta",
+        "Total": 23148.40,
+        "DaysOverdue": 32
+    },
+    {
+        "ClientId": 11,
+        "Client": "Tom's Club",
+        "Total": 11498,
+        "DaysOverdue": 20
+    },
+    {
+        "ClientId": 6,
+        "Client": "Carlos González Alvarado",
+        "Total": 10382,
+        "DaysOverdue": 35
+    },
+    {
+        "ClientId": 19,
+        "Client": "Diseño Web Barcelona",
+        "Total": 6148,
+        "DaysOverdue": 2
+    },
+    {
+        "ClientId": 14,
+        "Client": "Ferretería Especializada",
+        "Total": 4640,
+        "DaysOverdue": 9
+    }
+]
