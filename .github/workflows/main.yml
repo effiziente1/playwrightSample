@@ -1,7 +1,9 @@
 name: Tests HTML & Junit Reporter Daily
 on:
-  schedule:
-    - cron: "30 5 * * *" # Execute every day at 5:30 AM (UTC)
+  workflow_dispatch:
+##on:
+# schedule:
+#   - cron: "30 5 * * *" # Execute every day at 5:30 AM (UTC)
 jobs:
   test:
     timeout-minutes: 60
