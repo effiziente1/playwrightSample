@@ -62,7 +62,6 @@ export default defineConfig({
 
         screenshot: 'only-on-failure',
 
-
     },
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
