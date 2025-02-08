@@ -6,7 +6,6 @@ import config from './playwright.config';
 export default defineConfig(
     config,
     getServiceConfig(config, {
-        serviceAuthType: 'ACCESS_TOKEN',
         exposeNetwork: '<loopback>',
         timeout: 30000,
         os: ServiceOS.LINUX,
