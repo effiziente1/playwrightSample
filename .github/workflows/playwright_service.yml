@@ -6,7 +6,7 @@ jobs:
     timeout-minutes: 60
     name: Run Test
     runs-on: ubuntu-latest
-    permissions:
+    permissions: # Required when using Microsoft Entra ID to authenticate
       id-token: write
       contents: read
     env:
@@ -60,4 +60,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run playwright tests
+        env:
+          # Regional endpoint for Microsoft Playwright Testing
+          PLAYWRIGHT_SERVICE_URL: ${{ secrets.PLAYWRIGHT_SERVICE_URL }}
         run: npx playwright test --config=playwright.service.config.ts test tests/AI tests/Api tests/Basic tests/Excel tests/Fixture-LambdaTest tests/LocaleGeo tests/Synthetic tests/VisualTesting --workers=20
