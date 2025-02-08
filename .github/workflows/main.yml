@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: read
+      contents: write
       checks: write
     env:
       BASE_URL: ${{vars.BASE_URL}}
