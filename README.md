@@ -86,7 +86,7 @@ You can also run it with the Visual Code Extension.
 
 You can see the reporter on the GitHub Pages:
 
-https://apis3445.github.io/Playwright
+https://effiziente1.github.io/playwrightSample/
 
 Video with some explanation
 
