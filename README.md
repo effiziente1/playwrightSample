@@ -91,3 +91,5 @@ https://effiziente1.github.io/playwrightSample/
 Video with some explanation
 
 https://youtu.be/0n1F_eMkUqE?si=m6sJGV42GgHnfpcs
+
+If you like any of my repos [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U1U2V3V)
