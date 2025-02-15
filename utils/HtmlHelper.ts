@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as mustache from 'mustache';
+import * as ejs from 'ejs';
 
 export class HtmlHelper {
 
@@ -15,7 +15,7 @@ export class HtmlHelper {
     async replaceTags(templateFile: string, objectToReplace: any, folderTest: string, fileName: string) {
         const templatePath = path.join(__dirname, 'reporter', 'templates', templateFile);
         const template = fs.readFileSync(templatePath, 'utf8');
-        const htmlContent = mustache.render(template, objectToReplace);
+        const htmlContent = ejs.render(template, objectToReplace);
         if (!fs.existsSync(folderTest)) {
             fs.mkdirSync(folderTest, { recursive: true });
         }

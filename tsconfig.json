@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+        "target": "ES2020",                           // Set the ECMAScript target version
+        "module": "ES2020",    
         "moduleResolution": "node",
         "strict": true,
         "forceConsistentCasingInFileNames": true,
