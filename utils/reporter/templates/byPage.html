@@ -2,547 +2,401 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
-    <title>Accessibility Report</title>
-    <style>
-        :root {
-            --critical-color: {{data.criticalColor}};
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+  <title>Accessibility Report</title>
+  <style>
+    :root {
+      --critical-color: <%= data.criticalColor %>;
+      --serious-color: <%= data.seriousColor %>;
+      --moderate-color: <%= data.moderateColor %>;
+      --minor-color: <%= data.minorColor %>;
+      --footer-height: 60px;
+    }
 
-            --serious-color: {{data.seriousColor}};
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 80px 20px 80px; /* Added vertical margin to avoid fixed header/footer overlap */
+      background-color: #f9f9f9;
+      color: #333;
+    }
 
-            --moderate-color: {{data.moderateColor}};
+    header,
+    footer {
+      background-color: #1d26d7;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+    }
 
-            --minor-color: {{data.minorColor}};
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+    }
 
-            --footer-height: 60px;
-        }
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+    }
 
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
+    h1 {
+      font-size: 2em;
+      margin: 0;
+    }
 
-        h1,
-        h2,
-        h3 {
-            color: #333;
-        }
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 15px;
+    }
 
-        h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    .chip {
+      font-size: 0.9em;
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 10px;
+      border-radius: 16px;
+      background-color: green;
+      margin-right: 5px;
+      white-space: nowrap;
+    }
 
-        h2 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
+    .severity {
+      font-weight: bold;
+    }
 
-        .error-list {
-            margin: 20px 0;
-        }
+    .moderate {
+      background-color: var(--moderate-color);
+      color: #fff;
+    }
 
-        .error-item {
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-bottom: 12px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+    .minor {
+      background-color: var(--minor-color);
+      color: #fff;
+    }
 
-        .error-item h3 {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 0;
-        }
+    .serious {
+      background-color: var(--serious-color);
+      color: #fff;
+    }
 
-        .screenshot {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
-        }
+    .critical {
+      background-color: var(--critical-color);
+      color: #fff;
+    }
 
-        .chip {
-            font-size: medium;
-            display: inline-flex;
-            align-items: center;
-            padding: 5px 10px;
-            border-radius: 16px;
-            background-color: #e0e0e0;
-            margin-right: 5px;
-            white-space: normal;
-            /* Allow text to wrap */
-            line-height: 1.2;
-        }
+    .screenshot {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
 
-        .severity {
-            font-weight: bold;
-        }
+    .suggestion,
+    .error-details {
+      margin-top: 10px;
+      padding: 10px;
+    }
 
-        .moderate {
-            background-color: var(--moderate-color);
-            color: white;
-        }
+    .suggestion {
+      background-color: #dff0d8;
+    }
 
-        .minor {
-            background-color: var(--minor-color);
-            color: white;
-        }
+    .error-details {
+      background-color: #fcf8e3;
+    }
 
-        .serious {
-            background-color: var(--serious-color);
-            color: white;
-        }
+    /* Adjust token button alignment */
+    .token-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
 
-        .critical {
-            background-color: var(--critical-color);
-            color: white;
-        }
+    /* Styles for improved accessibility score section */
+    .accessibility-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
 
-        .suggestion {
-            margin-top: 10px;
-            background-color: #dff0d8;
-            padding: 10px;
-        }
-
-        .error-details {
-            background-color: #fcf8e3;
-            padding: 10px;
-        }
-
-        .error-details p {
-            margin: 5px 0;
-        }
-
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 10px;
-            background-color: #1d26d7;
-            color: white;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 10px;
-            background-color: #1d26d7;
-            color: white;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        header h1 {
-            color: #fff;
-            margin: 0;
-        }
-
-        footer i {
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-
-        .score {
-            text-align: left;
-        }
-
-        @media (min-width: 600px) {
-            .header h2 {
-                flex: 1 1 45%;
-            }
-
-            .score {
-                text-align: right;
-            }
-        }
-
-        .page {
-            text-align: left;
-        }
-
-        .accordion {
-            margin-top: 10px;
-            cursor: pointer;
-            padding: 12px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            font-size: 15px;
-            transition: 0.4s;
-        }
-
-        .panel {
-            padding: 8px;
-            display: none;
-            background-color: white;
-            overflow: hidden;
-        }
-
-        main {
-            margin-top: var(--footer-height);
-        }
-
-        section {
-            display: block;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        section h2 {
-            flex: 1 1 100%;
-            margin: 0;
-        }
-
-        section.header {
-            display: flex !important;
-        }
-
-        video {
-            margin-bottom: var(--footer-height);
-            width: 100%;
-        }
-
-        .accordion {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .accordion .material-icons {
-            transition: transform 0.4s;
-        }
-
-        .accordion[aria-expanded="true"] .expand-icon {
-            transform: rotate(180deg);
-        }
-
-        .right {
-            margin-left: auto;
-        }
-
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .token-container {
-            display: flex;
-            justify-content: flex-end;
-        }
-    </style>
-    <script>
-      
-        async function uploadScreenshot(screenshotBase64, fileName) {
-            
-            const organization = '{{data.adoOrganization}}';
-            const project = '{{data.adoProject}}';
-            const apiVersion = '7.1';
-            const pat = sessionStorage.getItem('userToken')
-
-            const url = `https://dev.azure.com/${organization}/${project}/_apis/wit/attachments?fileName=${fileName}&api-version=${apiVersion}`;
-            const binaryString = atob(screenshotBase64);
-            const len = binaryString.length;
-            const bytes = new Uint8Array(len);
-            for (let i = 0; i < len; i++) {
-                bytes[i] = binaryString.charCodeAt(i);
-            }
-            const blob = new Blob([bytes], { type: 'application/octet-stream' });
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/octet-stream',
-                        'Authorization': `Basic ${btoa(':' + pat)}`
-                    },
-                    body: blob
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    return data.url;
-                } else {
-                    const errorData = await response.json();
-                    alert(`Error uploading screenshot: ${errorData.message}`);
-                    return null;
-                }
-            } catch (error) {
-                console.error('Error uploading screenshot:', error);
-                alert('Error uploading screenshot. Check console for details.');
-                return null;
-            }
-        }
-
-        async function createAzureDevOpsBug(description, wcagRule, help, severity, stepsJson, screenshotBase64) {
-            const organization = '{{data.adoOrganization}}';
-            const project = '{{data.adoProject}}';
-            const apiVersion = '7.1';
-            const pat = sessionStorage.getItem('userToken');
-
-            const url = `https://dev.azure.com/${organization}/${project}/_apis/wit/workitems/$Bug?api-version=${apiVersion}`;
-            // Format the steps array into a string
-            const steps = JSON.parse(stepsJson);
-            const stepsHtml = steps.map(step => `<li>${step}</li>`).join('');
-            const stepsOrderedList = `<ol>${stepsHtml}</ol>`;
-
-            // Upload the screenshot and get the URL
-            const screenshotUrl = await uploadScreenshot(screenshotBase64, 'screenshot.png');
-            const bugData = [
-                {
-                    "op": "add",
-                    "path": "/fields/System.Title",
-                    "value": `${description}`
-                },
-                {
-                    "op": "add",
-                    "path": "/fields/Microsoft.VSTS.TCM.ReproSteps",
-                    "value": stepsOrderedList
-                },
-                {
-                    "op": "add",
-                    "path": "/fields/System.Description",
-                    "value": `${description}<br><b>Impact:</b> ${severity}<br><b>WCAG Rule:</b> ${wcagRule}`
-                },
-                {
-                    "op": "add",
-                    "path": "/fields/Microsoft.VSTS.Common.Priority",
-                    "value": severity === 'critical' ? 1 : severity === 'serious' ? 2 : severity === 'moderate' ? 3 : 4
-                },
-                {
-                    "op": "add",
-                    "path": "/fields/Microsoft.VSTS.Common.Activity",
-                    "value": 'Development'
-                },
-                {
-                    "op": "add",
-                    "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
-                    "value": help
-                },
-                {
-                    "op": "add",
-                    "path": "/fields/System.Tags",
-                    "value": "accessibility"
-                },
-                {
-                    "op": "add",
-                    "path": "/relations/-",
-                    "value": {
-                        "rel": "AttachedFile",
-                        "url": screenshotUrl,
-                        "attributes": {
-                            "comment": "Screenshot of the issue"
-                        }
-                    }
-                }
-            ];
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json-patch+json',
-                        'Authorization': `Basic ${btoa(':' + pat)}`
-                    },
-                    body: JSON.stringify(bugData)
-                });
-
-                if (response.ok) {
-                    alert('Bug created successfully in Azure DevOps!');
-                } else {
-                    const errorData = await response.json();
-                    alert(`Error creating bug: ${errorData.message}`);
-                }
-            } catch (error) {
-                console.error('Error creating bug:', error);
-                alert('Error creating bug. Check console for details.');
-            }
-        }
-    </script>
+    .accessibility-score meter {
+      width: 100%;
+      height: 20px;
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <h1>Accessibility Report</h1>
-    </header>
-    <main>
-        <section class="header">
-            <h2 class="page">Page: {{data.pageKey}}</h2>
-            <h2 class="score">Accessibility Score: {{data.accessibilityScore}}</h2>
-        </section>
-        <div class="token-container">
-            <button id="openModalBtn" class="btn btn-primary">Enter ADO Token</button>
+  <header>
+    <h1>Accessibility Report</h1>
+  </header>
+
+  <main class="container">
+    <section class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <h2 class="mb-0">Page: <%= data.pageKey %></h2>
+      <!-- Improved Accessibility Score Div -->
+      <div class="accessibility-score" role="status" aria-live="polite">
+        <label for="accessibilityScoreMeter" class="visually-hidden">Accessibility Score</label>
+        <meter id="accessibilityScoreMeter" min="0" max="100" value="<%= data.accessibilityScore %>" low="50" high="90" optimum="100">
+          <%= data.accessibilityScore %>%
+        </meter>
+        <span class="mt-2">Accessibility Score: <strong><%= data.accessibilityScore %>%</strong></span>
+      </div>
+    </section>
+
+    <div class="token-container">
+      <!-- Using Bootstrap native modal trigger -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tokenModal">
+        Enter ADO Token
+      </button>
+    </div>
+
+    <!-- Bootstrap Modal for ADO Token -->
+    <div class="modal fade" id="tokenModal" tabindex="-1" aria-labelledby="tokenModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="tokenForm">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tokenModalLabel">Enter ADO Token</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="tokenInput" class="form-label">Token</label>
+                <input type="password" class="form-control" id="tokenInput" name="token" required>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
         </div>
-        <!-- The Modal -->
-        <div id="tokenModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <form id="tokenForm">
-                    <label for="tokenInput">Token:</label>
-                    <input type="password" id="tokenInput" name="token" required>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-        </div>
-        {{#data.errors}}
+      </div>
+    </div>
 
-        <section class="error-item">
-            <h3>
-                <a href="{{helpUrl}}" target="_blank" class="chip" rel="noopener">{{wcagRule}}</a>
-                {{description}}
-                <a href="{{helpUrl}}" target="_blank" class="chip" rel="noopener">{{id}}</a>
-                <span class="chip right severity {{severity}}">{{total}} {{severity}}</span>
-            </h3>
-            <div class="suggestion">
-                <strong>How to Fix:</strong> {{help}}
+    <% if(data.errors && data.errors.length) { %>
+      <% data.errors.forEach(function(error, index) { %>
+        <section class="mb-4">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <div>
+                <a href="<%= error.helpUrl %>" target="_blank" rel="noopener"><%= error.wcagRule %> - <%= error.id %> </a>
+                <span><%= error.description %></span>
+              </div>
+              <span class="chip severity <%= error.severity %>"><%= error.total %> <%= error.severity %></span>
             </div>
-            {{#target}}
-            <button class="accordion {{severity}}" aria-expanded="false">
-                {{element}} - {{id}}
-                <i class="material-icons expand-icon">expand_more</i>
-            </button>
-            <div class="panel">
-                <button class="btn btn-primary" onclick="createAzureDevOpsBug('{{element}} - {{id}} - {{description}}',
-                 '{{wcagRule}}', 
-                 '{{help}}', 
-                 '{{severity}}',
-                  '{{stepsJson}}', 
-                  '{{screenshotBase64}}')">Create Bug in Azure DevOps</button>
-                <br /><strong>Description:</strong> {{description}}
-                <br /><strong>Steps to Reproduce:</strong>
-                    <ol>
-                        {{#steps}}
-                        <li>{{.}}</li>
-                        {{/steps}}
-                    </ol>
-                    <br /><strong>How to Fix:</strong> {{help}}
-                    <br /><strong>Impact:</strong> {{severity}}
-                    <br /><strong>WCAG Rule:</strong><a href="{{helpUrl}}" target="_blank" class="chip"
-                        rel="noopener">{{wcagRule}}</a>
-                    <img class="screenshot" src="{{screenshot}}" alt="Screenshot of the accessibility issue" />
+            <div class="card-body">
+              <% if(error.target) { %>
+                <% error.target.forEach(function(target, index) { %>
+                <div class="accordion mt-3" id="accordionError<%= index %>">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading<%= index %>">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse<%= index %>" aria-expanded="false" aria-controls="collapse<%= index %>">
+                        <%= target.element %> - <%= error.id %>
+                      </button>
+                    </h2>
+                    <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>"
+                      data-bs-parent="#accordionError<%= index %>">
+                      <div class="accordion-body">
+                        <button class="btn btn-primary mb-3" onclick="createAzureDevOpsBug('<%= error.element %> - <%= error.id %> - <%= error.description %>',
+                          '<%= error.wcagRule %>',
+                          '<%= error.help %>',
+                          '<%= error.severity %>',
+                          '<%= error.stepsJson %>',
+                          '<%= error.screenshotBase64 %>')">
+                          Create Bug in Azure DevOps
+                        </button>
+                        <p><strong>Description:</strong> <%= error.description %></p>
+                        <p><strong>Steps:</strong></p>
+                        <% if(target.steps && target.steps.length) { %>
+                          <ol>
+                            <% target.steps.forEach(function(step) { %>
+                              <li><%= step %></li>
+                            <% }); %>
+                          </ol>
+                        <% } else { %>
+                          <p>No steps provided.</p>
+                        <% } %>
+                        <p><strong>How to Fix:</strong> <%= error.help %></p>
+                        <p><strong>Impact:</strong> <%= error.severity %></p>
+                        <p>
+                          <strong>WCAG Rule:</strong>
+                          <a href="<%= error.helpUrl %>" target="_blank" class="chip" rel="noopener"><%= error.wcagRule %></a>
+                        </p>
+                        <img class="screenshot" src="<%= target.screenshot %>" alt="Screenshot illustrating accessibility issue on element '<%= target.element %>'" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <% }); %>
+              <% } %>
             </div>
-            {{/target}}
+          </div>
         </section>
-        {{/data.errors}}
-    </main>
-    <hr />
-    <h2>Video</h2>
-    <video controls>
-        <source src="{{data.video}}" type="video/webm">
-        Your browser does not support the video tag.
-    </video>
-    <footer>
-        &copy; Made with <i class="material-icons">favorite</i> by Abi =)
-    </footer>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var acc = document.getElementsByClassName("accordion");
-            for (var i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function () {
-                    this.classList.toggle("active");
-                    var panel = this.nextElementSibling;
-                    var isExpanded = this.getAttribute("aria-expanded") === "true";
-                    this.setAttribute("aria-expanded", !isExpanded);
-                    if (panel.style.display === "block") {
-                        panel.style.display = "none";
-                    } else {
-                        panel.style.display = "block";
-                    }
-                });
-            }
+      <% }); %>
+    <% } %>
+
+    <hr>
+    <section class="mb-5">
+      <h2>Video</h2>
+      <div class="ratio ratio-16x9">
+        <video controls>
+          <source src="<%= data.video %>" type="video/webm">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; Made with <i class="material-icons align-middle">favorite</i> by Abi =)
+  </footer>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  </script>
+  <script>
+    // Handle token form submission to store token in session storage
+    document.getElementById('tokenForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const token = document.getElementById('tokenInput').value;
+      sessionStorage.setItem('userToken', token);
+      alert('Token stored in session storage!');
+      // Hide modal using Bootstrap's modal hide method
+      const tokenModal = bootstrap.Modal.getInstance(document.getElementById('tokenModal'));
+      tokenModal.hide();
+    });
+  </script>
+  <!-- Uploader & Bug Creation Scripts -->
+  <script>
+    async function uploadScreenshot(screenshotBase64, fileName) {
+      const organization = "<%= data.adoOrganization %>";
+      const project = "<%= data.adoProject %>";
+      const apiVersion = '7.1';
+      const pat = sessionStorage.getItem('userToken');
+      const url = `https://dev.azure.com/${organization}/${project}/_apis/wit/attachments?fileName=${fileName}&api-version=${apiVersion}`;
+      const binaryString = atob(screenshotBase64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([bytes], { type: 'application/octet-stream' });
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/octet-stream',
+            'Authorization': `Basic ${btoa(':' + pat)}`
+          },
+          body: blob
         });
-
-        // Get modal elements
-        const modal = document.getElementById('tokenModal');
-        const openModalBtn = document.getElementById('openModalBtn');
-        const closeModalSpan = document.getElementsByClassName('close')[0];
-
-        // Open the modal
-        openModalBtn.onclick = function() {
-            modal.style.display = 'block';
+        if (response.ok) {
+          const data = await response.json();
+          return data.url;
+        } else {
+          const errorData = await response.json();
+          alert(`Error uploading screenshot: ${errorData.message}`);
+          return null;
         }
+      } catch (error) {
+        console.error('Error uploading screenshot:', error);
+        alert('Error uploading screenshot. Check console for details.');
+        return null;
+      }
+    }
 
-        // Close the modal
-        closeModalSpan.onclick = function() {
-            modal.style.display = 'none';
-        }
-
-        // Close the modal when clicking outside of it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = 'none';
+    async function createAzureDevOpsBug(description, wcagRule, help, severity, stepsJson, screenshotBase64) {
+      const organization = "<%= data.adoOrganization %>";
+      const project = "<%= data.adoProject %>";
+      const apiVersion = '7.1';
+      const pat = sessionStorage.getItem('userToken');
+      const url = `https://dev.azure.com/${organization}/${project}/_apis/wit/workitems/$Bug?api-version=${apiVersion}`;
+      const steps = JSON.parse(stepsJson);
+      const stepsHtml = steps.map(step => `<li>${step}</li>`).join('');
+      const stepsOrderedList = `<ol>${stepsHtml}</ol>`;
+      const screenshotUrl = await uploadScreenshot(screenshotBase64, 'screenshot.png');
+      const bugData = [{
+          "op": "add",
+          "path": "/fields/System.Title",
+          "value": `${description}`
+        },
+        {
+          "op": "add",
+          "path": "/fields/Microsoft.VSTS.TCM.ReproSteps",
+          "value": stepsOrderedList
+        },
+        {
+          "op": "add",
+          "path": "/fields/System.Description",
+          "value": `${description}<br><b>Impact:</b> ${severity}<br><b>WCAG Rule:</b> ${wcagRule}`
+        },
+        {
+          "op": "add",
+          "path": "/fields/Microsoft.VSTS.Common.Priority",
+          "value": severity === 'critical' ? 1 : severity === 'serious' ? 2 : severity === 'moderate' ? 3 : 4
+        },
+        {
+          "op": "add",
+          "path": "/fields/Microsoft.VSTS.Common.Activity",
+          "value": 'Development'
+        },
+        {
+          "op": "add",
+          "path": "/fields/Microsoft.VSTS.Common.AcceptanceCriteria",
+          "value": help
+        },
+        {
+          "op": "add",
+          "path": "/fields/System.Tags",
+          "value": "accessibility"
+        },
+        {
+          "op": "add",
+          "path": "/relations/-",
+          "value": {
+            "rel": "AttachedFile",
+            "url": screenshotUrl,
+            "attributes": {
+              "comment": "Screenshot of the issue"
             }
+          }
         }
-
-        // Handle form submission
-        document.getElementById('tokenForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting the traditional way
-
-            // Get the token from the input field
-            const token = document.getElementById('tokenInput').value;
-
-            // Store the token in session storage
-            sessionStorage.setItem('userToken', token);
-
-            // Optionally, you can display a message or perform other actions
-            alert('Token stored in session storage!');
-
-            // Close the modal
-            modal.style.display = 'none';
+      ];
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json-patch+json',
+            'Authorization': `Basic ${btoa(':' + pat)}`
+          },
+          body: JSON.stringify(bugData)
         });
-
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        if (response.ok) {
+          alert('Bug created successfully in Azure DevOps!');
+        } else {
+          const errorData = await response.json();
+          alert(`Error creating bug: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('Error creating bug:', error);
+        alert('Error creating bug. Check console for details.');
+      }
+    }
+  </script>
 </body>
 
 </html>

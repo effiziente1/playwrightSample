@@ -28,3 +28,4 @@ allure-results/
 .qodo/history.sqlite
 blob-report/report-desktop-firefox-desktop-webkit.zip
 blob-report/report-chrome-latest-MacOS-Catalina-lambdatest.zip
+.DS_Store

@@ -12,7 +12,7 @@ test.describe('Login', () => {
         tag: ['@Basic'],
         annotation: [
             { type: AnnotationType.Description, description: 'Login with valid user on sauce demo' },
-            { type: AnnotationType.Precondition, description: 'A valid username and password' },
+            { type: AnnotationType.Precondition, description: 'A valid username and password should exist' },
         ],
     }, async ({ page }) => {
         await allure.feature('Basic');
