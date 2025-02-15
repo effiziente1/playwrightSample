@@ -235,8 +235,8 @@
             <% if (result.screenshotPaths && result.screenshotPaths.length) { %>
               <h2>Screenshots</h2>
               <div class="screenshots">
-                <% result.screenshotPaths.forEach(function(path) { %>
-                  <img src="<%= path %>" alt="Screenshot" />
+                <% result.screenshotPaths.forEach(function(path, index) { %>
+                  <img src="<%= path %>" alt="Test step screenshot <%= index + 1 %>" />
                 <% }); %>
               </div>
             <% } %>
