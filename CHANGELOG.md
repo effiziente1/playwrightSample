@@ -1,8 +1,8 @@
-# 0.1.0 2025-15-02 [\*](https://github.com/effiziente1/playwrightSample/pull/1)
+# 0.2.0 2025-15-02
 
-- Fixed shard test to publish junit results
-- Replaced Mustache with EJS templating engine
-- Improved HTML templates structure and styling
+- Replaced mustache with ejs for HTML templating.
+- Updated accessibility and test report templates to use ejs.
+- Improved styling and structure of HTML templates for better readability.
 
 # 0.1.0 2025-03-02
 
