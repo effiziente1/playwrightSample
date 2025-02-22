@@ -8,7 +8,6 @@ import { ReportData } from './models/Report';
 import { Target } from './models/Target';
 import { Severity } from './models/Severity';
 import { AnnotationType } from '../annotations/AnnotationType';
-import { playAudit } from 'playwright-lighthouse';
 
 export class AccessibilityHelper {
 
@@ -21,6 +20,7 @@ export class AccessibilityHelper {
         const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
         const violationsLength = accessibilityScanResults.violations.length;
         expect.soft(violationsLength, `Expected no accessibility violations, but found ${violationsLength}`).toBe(0);
+        const { playAudit } = await import('playwright-lighthouse');
         const lighthouseReport = await playAudit({
             page: this.page,
             port: 9222,

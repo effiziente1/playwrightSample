@@ -45,7 +45,7 @@ export class HomePage extends WebDriverBasePage {
     async filterByInStock() {
         await this.selectAccordionOption('Availability');
         await test.step('Check the In stock option', async () => {
-            await await this.page.getByText('In stock').click();
+            await this.page.getByText('In stock').click();
         });
     }
 
