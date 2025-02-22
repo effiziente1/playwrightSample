@@ -30,6 +30,7 @@ const capabilities = {
 const modifyCapabilities = (configName: string, testName: string) => {
     const config = configName.split('@lambdatest')[0];
     const [browserName, browserVersion, platform] = config.split(':');
+
     capabilities.browserName = browserName
         ? browserName
         : capabilities.browserName;
@@ -51,8 +52,11 @@ const testPages = baseTest.extend<pages>({
                 testInfo.project.name,
                 `${testInfo.title} - ${fileName}`
             );
-            const browser = await chromium.connect(`wss://cdp.lambdatest.com/playwright?capabilities=
-        ${encodeURIComponent(JSON.stringify(capabilities))}`);
+            const browser = await chromium.connect({
+                wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(
+                    JSON.stringify(capabilities)
+                )}`,
+            });
             const ltPage = await browser.newPage(testInfo.project.use);
             await use(ltPage);
             const testStatus = {

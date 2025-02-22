@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Execution Summary</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+    .status {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      margin-right: 10px;
+      font-size: 18px;
+      background-color: #ddd;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+      background-color: #3931ca;
+      color: #fff;
+    }
+
+    .table-striped tbody tr:nth-of-type(even) {
+      background-color: #ffffff;
+      color: #3931ca;
+    }
+
+    .status.passed {
+      background-color: #e6f9e9;
+      color: #28a745;
+    }
+
+    .status.failed {
+      background-color: #ffe6e6;
+      color: #dc3545;
+    }
+
+    .status.flaky {
+      background-color: #fff8e6;
+      color: #ffc107;
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 0 15px;
+      height: 32px;
+      line-height: 32px;
+      border-radius: 16px;
+      font-size: 14px;
+      background-color: #e0e0e0;
+      margin-right: 10px;
+    }
+
+    .desktop-webkit {
+      min-width: 155px;
+      background-color: #42062a;
+      color: #fff;
+    }
+
+    .desktop-chromium {
+      min-width: 155px;
+      background-color: #0c5406;
+      color: #fff;
+    }
+
+    .desktop-firefox {
+      min-width: 155px;
+      background-color: #040f71;
+      color: #fff;
+    }
+
+    .chip.tags {
+      background-color: #388bfd;
+      color: #fff;
+    }
+
+    #chart {
+      width: 300px;
+      height: 300px;
+    }
+
+    .test-results {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .test-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0px;
+      border-bottom: 1px solid #388bfd;
+    }
+
+    .test-row:only-child, .test-row:last-child  {
+      border-bottom: none;
+    }
+
+    .test-details {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .test-info {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .test-duration {
+      text-align: right;
+      min-width: 100px;
+      margin-left: auto;
+    }
+
+    .accordion-body {
+      padding: 5px!important;
+    }
+    .report {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    h1 {
+      text-align: center;
+    }
+
+    .summary-info {
+      padding: 15px;
+      padding-left: 0px;
+    }
+    
+    .summary-info .info-card {
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .info-total {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+    .info-passed {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .info-failed {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .info-flaky {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    .info-skipped {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container my-4">
+    <h1 class="mb-4">Test Execution Summary</h1>
+    <div class="report">
+      <span class="status <%= results.status %>">
+        <i class="material-symbols-outlined">
+          <%= results.statusIcon %>
+        </i>
+      </span> 
+      Report generated on: <span id="currentDate"></span>
+      <span class="test-duration">
+      Total Time: <%= results.duration %>
+      </span>
+    </div>
+    <div class="row summary-info">
+      <div class="col-md-2">
+        <div class="info-card info-total">
+          <strong>Total</strong>
+          <div><%= results.total %></div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="info-card info-passed">
+          <strong>Passed</strong>
+          <div><%= results.totalPassed %></div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="info-card info-failed">
+          <strong>Failed</strong>
+          <div><%= results.totalFailed %></div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="info-card info-flaky">
+          <strong>Flaky</strong>
+          <div><%= results.totalFlaky %></div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="info-card info-skipped">
+          <strong>Skipped</strong>
+          <div><%= results.totalSkipped %></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5 col-sm-6 col-lg-4">
+        <div id="chart"></div>
+      </div>
+      <div class="col-md-7 col-sm-6 col-lg-8">
+        <div id="barChart"></div>
+      </div>
+    </div>
+    <div class="accordion mt-3" id="accordionResults">
+      <% Object.keys(results.groupedResults).forEach(function(groupKey,index) { %>
+        <div class="accordion-item mb-3">
+          <h2 class="accordion-header" id="heading-<%= index %>">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse-<%= index %>" aria-expanded="true" aria-controls="collapse-<%= index %>">
+              <%= groupKey %>
+            </button>
+          </h2>
+          <div id="collapse-<%= index %>" class="accordion-collapse collapse show" aria-labelledby="heading-<%= index %>"
+            data-bs-parent="heading-<%= index %>">
+            <div class="accordion-body">
+              <% results.groupedResults[groupKey].forEach(function(test) { %>
+                <div class="test-row">
+                  <div class="test-details">
+                    <span class="status <%= test.status %>">
+                      <i class="material-symbols-outlined">
+                        <%= test.statusIcon %>
+                      </i>
+                    </span>
+                    <div class="test-info">
+                        <a href="./<%= index+1 %>/index.html"><%= test.num %>. <%= test.title %></a>
+                        <span class="chip <%= test.browser %>">
+                          <%= test.browser %>
+                        </span>
+                        <% if (test.tags && test.tags.length) { %>
+                          <% test.tags.forEach(function(tag) { %>
+                            <span class="chip tags">
+                              <%= tag %>
+                            </span>
+                          <% }); %>
+                        <% } %>
+                    </div>
+                  </div>
+                  <div class="test-duration">
+                    <%= test.duration %>
+                  </div>
+                </div>
+                <% }); %>
+                  </tbody>
+                  </table>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+    </div>
+    <script>
+      // Convert the server passed results array to a JavaScript object
+     
+      // Calculate counts for each status
+      var statusCounts = {};
+      statusCounts['passed'] = <%= results.totalPassed %>;
+      statusCounts['failed'] = <%= results.totalFailed %>;
+      statusCounts['flaky'] = <%= results.totalFlaky %>;
+      statusCounts['skipped'] = <%= results.totalSkipped %>;
+      var pieColors = ["#28a745", "#dc3545", "#ffc107", "#0c5460"];
+
+      // Prepare data for ApexCharts
+      var options = {
+        chart: {
+          type: 'pie',
+          width: '300px',
+          height: '300px'
+        },
+        series: Object.values(statusCounts),
+        labels: Object.keys(statusCounts),
+        colors: pieColors,
+        title: {
+          text: 'Tests by Status',
+          align: 'center'
+        },
+        legend: {
+          position: 'bottom'
+        }
+      };
+
+      // Render the chart into the container with id "chart"
+      var chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+
+      function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        let hours = date.getHours();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        if (hours === 0) hours = 12;
+        const formattedHours = String(hours).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${day}-${month}-${year} ${formattedHours}:${minutes}:${seconds} ${ampm}`;
+      }
+
+      // Set the current date in the designated element
+      document.getElementById("currentDate").textContent = formatDate(new Date());
+
+      var allTests = [];
+      <% Object.keys(results.groupedResults).forEach(function(groupKey) { %>
+        <% results.groupedResults[groupKey].forEach(function(test) { %>
+          allTests.push({ 
+            title: "<%= test.num %>", 
+            duration: parseFloat("<%= test.duration %>") 
+          });
+        <% }); %>
+      <% }); %>
+
+      // Sort tests by descending duration and select top 10
+      allTests.sort(function(a, b) {
+        return b.duration - a.duration;
+      });
+      var topTests = allTests.slice(0, 10);
+
+      // Prepare data for ApexCharts - Bar Chart for top 10 longest tests
+      var barChartOptions = {
+        chart: {
+          type: 'bar',
+          height: 300,
+        },
+        series: [{
+          name: 'Duration',
+          data: topTests.map(function(test) {
+            return test.duration;
+          })
+        }],
+        xaxis: {
+          categories: topTests.map(function(test) {
+            return test.title;
+          }),
+          labels: {
+            rotate: -45,
+            style: {
+              fontSize: '12px'
+            }
+          }
+        },
+        title: {
+          text: 'Top 10 Longest Tests',
+          align: 'center'
+        }
+      };
+
+      // Render the Bar Chart into the container with id "barChart"
+      var barChart = new ApexCharts(document.querySelector("#barChart"), barChartOptions);
+      barChart.render();
+    </script>
+</body>
+
+</html>

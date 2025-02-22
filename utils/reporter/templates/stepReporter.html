@@ -165,25 +165,46 @@
       color: #0056b3;
     }
 
-    /* Utility Classes */
     .section {
       margin-top: 20px;
+    }
+
+    .test-details {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .test-info {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .test-duration {
+      text-align: right;
+      min-width: 100px;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <% if (results && results.length) { %>
-      <% results.forEach(function(result) { %>
+  
         <div class="test">
           <!-- Test Header -->
           <header>
             <h1>
-              <span class="status <%= result.status %>">
-                <i class="material-symbols-outlined"><%= result.statusIcon %></i>
+              <span class="test-details">
+                <span class="status <%= result.status %>">
+                  <i class="material-symbols-outlined"><%= result.statusIcon %></i>
+                </span>
+                <span><%= result.title %></span>
               </span>
-              <%= result.title %>
+              <!-- Duration text aligned right -->
+              <span class="test-duration"><%= result.duration %></span>
             </h1>
             <div>
               <span class="chip <%= result.browser %>"><%= result.browser %></span>
@@ -261,10 +282,6 @@
             </section>
           <% } %>
         </div>
-      <% }); %>
-    <% } else { %>
-      <p>No test results available.</p>
-    <% } %>
   </div>
 </body>
 
