@@ -1,5 +1,9 @@
 export interface TestResults {
+    num: number,
     title: string,
+    timeDuration: number,
+    duration: string,
+    fileName: string,
     description?: string,
     status: string,
     tags: string[],

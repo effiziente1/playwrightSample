@@ -25,7 +25,9 @@ link-in-text-block-0.png
 allure-report/
 allure-results/
 .taskkey
+.qodo/history.sqlites
+.DS_Store
+blob-report
+.DS_Store
 .qodo/history.sqlite
-blob-report/report-desktop-firefox-desktop-webkit.zip
-blob-report/report-chrome-latest-MacOS-Catalina-lambdatest.zip
 .DS_Store

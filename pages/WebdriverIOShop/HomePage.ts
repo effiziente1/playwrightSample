@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import test, { Page } from '@playwright/test';
 import { Link } from '../../components/Link';
 import { ProductsApi } from '../../api/WebdriverIO/products.api';
 import { WebDriverBasePage } from './WebDriverBasePage';
@@ -9,6 +9,7 @@ export class HomePage extends WebDriverBasePage {
     productsApi: ProductsApi = new ProductsApi(this.page);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     products: any[] = [];
+    accordion = this.page.locator('[class*="_innerHeaderButton-"]');
 
     constructor(page: Page) {
         super(page, 'Home');
@@ -33,6 +34,19 @@ export class HomePage extends WebDriverBasePage {
         const promise = await responsePromise;
         const responseText = JSON.parse(await promise.text());
         this.products = responseText.data;
+    }
+
+    async selectAccordionOption(accordionOption: string) {
+        await test.step(`Click on the accordion option: "${accordionOption}"`, async () => {
+            await this.accordion.getByText(accordionOption).click();
+        });
+    }
+
+    async filterByInStock() {
+        await this.selectAccordionOption('Availability');
+        await test.step('Check the In stock option', async () => {
+            await await this.page.getByText('In stock').click();
+        });
     }
 
     /**

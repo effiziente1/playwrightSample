@@ -15,6 +15,7 @@ test.describe('WebdriverIO Shop', () => {
         const homePage = new HomePage(page);
         await homePage.goTo();
         await homePage.showAllClick();
+        await homePage.filterByInStock();
         const product = await homePage.selectRandomProduct();
         const productDetailPage = new ProductDetailPage(page);
         await productDetailPage.color.selectRandomOptionWithoutText('Select one');
