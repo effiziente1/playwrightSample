@@ -21,7 +21,7 @@ export class ComboBox extends BaseComponent {
      */
     async selectOption(value: string) {
         this.name = await this.getName();
-        await this.addStepWithAnnotation(`On "${this.name}" select the option ${value}`, async () => {
+        await this.addStepWithAnnotation(`On "${this.name}" select the option "${value}"`, async () => {
             await this.locator.selectOption(value);
         });
     }
