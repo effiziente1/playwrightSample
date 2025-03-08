@@ -1,4 +1,4 @@
-import test, { Page, Response } from '@playwright/test';
+import { Page, Response } from '@playwright/test';
 import { Link } from '../../components/Link';
 import { ProductsApi } from '../../api/WebdriverIO/products.api';
 import { WebDriverBasePage } from './WebDriverBasePage';

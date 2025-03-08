@@ -113,13 +113,10 @@ class StepReporter implements Reporter {
                 this.summary.totalSkipped++;
                 break;
         }
-
-
         this.summary.total++;
         const fileName = 'index.html';
         const testFilePath = path.join(folderTest, fileName);
         await this.htmlHelper.replaceTags('stepReporter.html', { result: resultItem }, folderTest, testFilePath);
-
     }
 
     async onEnd(result: FullResult) {

@@ -178,7 +178,7 @@ export class AnnotationHelper {
         await this.page.evaluate(([element, borderColor]) => {
             const el = document.querySelector(element) as HTMLElement;
             if (el) {
-                el.style.border = `2px solid ${borderColor} `;
+                el.style.border = `2px solid ${borderColor}`;
             }
         }, [element, borderColor]);
     }
