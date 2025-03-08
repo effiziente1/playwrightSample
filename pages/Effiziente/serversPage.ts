@@ -1,4 +1,4 @@
-import { Page, TestInfo, expect } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { EffizienteBasePage } from './effizienteBasePage';
 import { AnnotationType } from '../../utils/annotations/AnnotationType';
 import { Heading } from '../../components/Heading';
@@ -24,12 +24,12 @@ export class ServersPage extends EffizienteBasePage {
     readonly message: Generic;
     serverApi: ServerApi;
 
-    constructor(page: Page, testInfo: TestInfo) {
+    constructor(page: Page) {
         super(page, 'Servers');
         this.title = new Heading(page, this.annotationHelper, 'Servers');
         this.add = new Button(page, this.annotationHelper, 'Add');
         this.delete = new Button(page, this.annotationHelper, 'Delete');
-        this.exportToExcel = new ButtonExcel(page, testInfo, this.annotationHelper, 'Export to Excel');
+        this.exportToExcel = new ButtonExcel(page, this.annotationHelper, 'Export to Excel');
         this.table = new Table(page, this.annotationHelper);
         this.key = new InputText(page, this.annotationHelper, '#minmax', false);
         this.name = new InputText(page, this.annotationHelper, '[placeholder="Name"]', false);

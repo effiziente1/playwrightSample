@@ -6,9 +6,8 @@ export class Table extends BaseComponent {
 
     columnsText: string[];
 
-    constructor(page: Page, annotationHelper: AnnotationHelper) {
-        const locator: Locator = page.locator('table');
-        super(page, annotationHelper, locator);
+    constructor(page: Page, annotationHelper: AnnotationHelper, selector = 'table') {
+        super(page, annotationHelper, selector);
         this.columnsText = [];
     }
 

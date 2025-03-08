@@ -14,8 +14,6 @@ export class Canvas extends BaseComponent {
      * @param selector selector for the canvas element
      */
     constructor(page: Page, annotationHelper: AnnotationHelper, public selector: string) {
-        const locator = page.locator(selector);
-        super(page, annotationHelper, locator);
-        this.text = this.selector;
+        super(page, annotationHelper, selector, 'generic');
     }
 }

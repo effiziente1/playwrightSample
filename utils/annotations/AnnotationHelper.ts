@@ -1,4 +1,3 @@
-
 import { Locator, Page, TestInfo, test } from '@playwright/test';
 import { AnnotationType } from './AnnotationType';
 import { Annotation } from './Annotation';
@@ -10,8 +9,6 @@ export class AnnotationHelper {
     private debugElement = 'playwright-debug';
     private annotations: Annotation[] = [];
     private resultsFolder = 'test-results';
-    private mediaRecorder: unknown;
-    private recordedChunks: Blob[] = [];
 
     constructor(protected page: Page, protected keyPage: string) {
 
@@ -25,33 +22,35 @@ export class AnnotationHelper {
     }
 
     async addDescription(stepDescription: string, backgroundColor: string) {
-        await this.page.evaluate(
-            ([description, backgroundColor]) => {
-                const descriptionElementId = 'playwright-description';
-                let descriptionElement = document.getElementById(descriptionElementId);
-                if (!descriptionElement) {
-                    descriptionElement = document.createElement('div');
-                    descriptionElement.id = descriptionElementId;
-                    document.body.appendChild(descriptionElement);
-                }
-                descriptionElement.style.cssText = `
-                        background-color: ${backgroundColor};
-                        color: #fff;
-                        position: fixed;
-                        left: 0;
-                        right: 0;
-                        top: 0;
-                        padding: 10px;
-                        z-index: 1000;
-                        font-size: 18px;
-                        overflow-y: auto;
-                        max-height: 150px;
-                        opacity: 0.9;
-                        font-weight: bold;
-                    `;
-                descriptionElement.innerText = description;
-
-            }, [stepDescription, backgroundColor]);
+        await test.step(`Add description: "${stepDescription}"`, async () => {
+            await this.page.evaluate(
+                ([description, backgroundColor]) => {
+                    const descriptionElementId = 'playwright-description';
+                    let descriptionElement = document.getElementById(descriptionElementId);
+                    if (!descriptionElement) {
+                        descriptionElement = document.createElement('div');
+                        descriptionElement.id = descriptionElementId;
+                        document.body.appendChild(descriptionElement);
+                    }
+                    descriptionElement.style.cssText = `
+                            background-color: ${backgroundColor};
+                            color: #fff;
+                            position: fixed;
+                            left: 0;
+                            right: 0;
+                            bottom: 50px;
+                            padding: 10px;
+                            z-index: 1000;
+                            font-size: 18px;
+                            overflow-y: auto;
+                            max-height: 150px;
+                            opacity: 0.7;
+                            font-weight: bold;
+                            pointer-events: none;
+                            `;
+                    descriptionElement.innerText = description;
+                }, [stepDescription, backgroundColor]);
+        });
     }
 
     async readDescription(stepDescription: string) {
@@ -119,7 +118,6 @@ export class AnnotationHelper {
      * @param testInfo 
      */
     async attachPageScreenshot(fileName: string, testInfo: TestInfo) {
-
         return await test.step('Add Page screenshot', async () => {
             const file = path.join(this.resultsFolder, fileName);
             const screenshot = await this.page.screenshot({ path: file, fullPage: true });
@@ -180,7 +178,7 @@ export class AnnotationHelper {
         await this.page.evaluate(([element, borderColor]) => {
             const el = document.querySelector(element) as HTMLElement;
             if (el) {
-                el.style.border = `2px solid ${borderColor}`;
+                el.style.border = `2px solid ${borderColor} `;
             }
         }, [element, borderColor]);
     }

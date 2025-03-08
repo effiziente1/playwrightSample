@@ -10,47 +10,53 @@ import { AnnotationHelper } from '../utils/annotations/AnnotationHelper';
 export class BaseComponent {
     locator: Locator;
     componentType: string;
-    text?: string;
-    label?: string;
+    name?: string;
     protected isAnnotationEnabled = true;
     protected isHighlightEnabled = false;
+    protected isDisplayStepEnabled = true;
 
     /**
-     * Constructor for BaseComponent class.
-     * @param page Playwright Page object
-     * @param annotationHelper AnnotationHelper object
-     */
-    constructor(protected page: Page, protected annotationHelper: AnnotationHelper, locator: Locator) {
+ * Constructor for BaseComponent class.
+ * @param page Playwright Page object
+ * @param annotationHelper AnnotationHelper object
+ */
+    constructor(protected page: Page, protected annotationHelper: AnnotationHelper, selector: string, role: 'alert' | 'alertdialog' | 'application' | 'article' | 'banner' | 'blockquote' | 'button' | 'caption' | 'cell' | 'checkbox' | 'code' | 'columnheader' | 'combobox' | 'complementary' | 'contentinfo' | 'definition' | 'deletion' | 'dialog' | 'directory' | 'document' | 'emphasis' | 'feed' | 'figure' | 'form' | 'generic' | 'grid' | 'gridcell' | 'group' | 'heading' | 'img' | 'insertion' | 'link' | 'list' | 'listbox' | 'listitem' | 'log' | 'main' | 'marquee' | 'math' | 'meter' | 'menu' | 'menubar' | 'menuitem' | 'menuitemcheckbox' | 'menuitemradio' | 'navigation' | 'none' | 'note' | 'option' | 'paragraph' | 'presentation' | 'progressbar' | 'radio' | 'radiogroup' | 'region' | 'row' | 'rowgroup' | 'rowheader' | 'scrollbar' | 'search' | 'searchbox' | 'separator' | 'slider' | 'spinbutton' | 'status' | 'strong' | 'subscript' | 'superscript' | 'switch' | 'tab' | 'table' | 'tablist' | 'tabpanel' | 'term' | 'textbox' | 'time' | 'timer' | 'toolbar' | 'tooltip' | 'tree' | 'treegrid' | 'treeitem' = 'generic', byRole = false, name?: string) {
         this.componentType = this.constructor.name;
-        this.locator = locator;
+        this.locator = page.locator(selector);
+        if (byRole) {
+            this.locator = page.getByRole(role, { name: selector });
+            this.name = selector;
+        }
+        this.name = name;
     }
 
     /**
-     * Add an annotation for the html reporter.
-     * 
-     * @param annotationDescription Description of the annotation to add
-     */
+ * Add an annotation for the html reporter.
+ * 
+ * @param annotationDescription Description of the annotation to add
+ */
     addAnnotation(annotationDescription: string): void {
         if (this.isAnnotationEnabled) {
             this.annotationHelper.addAnnotation(this.componentType, annotationDescription);
         }
     }
 
+    async IsVisible(): Promise<boolean> {
+        return await this.addStepWithAnnotation(`Check if the ${this.name} is visible`, async () => {
+            return this.locator.isVisible();
+        });
+    }
+
     /**
-     * Add a step with annotation.
-     * @param stepDescription Description to add as annotation
-     * @param stepFunction Function to encapsulate as step
-     * @returns Promise with step execution
+     * Executes a step function with a given description and returns its promise.
+     * @param stepDescription - A string describing the step.
+     * @param action - A function that returns a promise.
+     * @returns A promise that resolves to the result of the stepFunction.
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async addStepWithAnnotation(stepDescription: string, stepFunction: () => Promise<any>): Promise<any> {
-        if (this.isAnnotationEnabled) {
-            this.addAnnotation(stepDescription);
-            await this.highlightStep(stepDescription);
-            return this.addStep(stepDescription, stepFunction);
-        } else {
-            return stepFunction();
-        }
+    async addStepWithAnnotation(stepDescription: string, action: () => Promise<any>): Promise<any> {
+        this.addAnnotation(stepDescription);
+        return this.addStep(stepDescription, action);
     }
 
     /**
@@ -61,12 +67,20 @@ export class BaseComponent {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async addStep(stepDescription: string, stepFunction: () => Promise<any>): Promise<any> {
+        await this.highlightStep(stepDescription);
+        await this.showStep(stepDescription);
         return await test.step(stepDescription, stepFunction);
     }
 
+    async showStep(stepDescription: string) {
+        if (this.isDisplayStepEnabled) {
+            await this.annotationHelper.addDescription(stepDescription, '#000000');
+        }
+    }
+
     /**
-     * Disable annotations for the component.
-     */
+ * Disable annotations for the component.
+ */
     disableAnnotations(): void {
         this.isAnnotationEnabled = false;
     }
@@ -85,59 +99,14 @@ export class BaseComponent {
     }
 
     /**
-     * Get the placeholder or label for an input element.
-     * @returns Promise with input label
-     */
-    async getInputLabel(): Promise<string> {
-        return await test.step('Get the label for the input', async () => {
-            if (this.label)
-                return this.label;
-
-            const id = await this.locator.getAttribute('id');
-            if (id) {
-                const labelElement = this.page.locator(`label[for="${id}"]`);
-                if (await labelElement.isVisible())
-                    return await labelElement.innerText();
-            }
-
-            const placeHolderAttribute = await this.locator.getAttribute('placeholder');
-            if (placeHolderAttribute)
-                return placeHolderAttribute;
-
-            const ariaLabelAttribute = await this.locator.getAttribute('aria-label');
-            if (ariaLabelAttribute)
-                return ariaLabelAttribute;
-            return '';
-        });
-    }
-
-    /**
      * Get the text content of the component
      */
-    async getText(): Promise<string> {
-        return await test.step('Get the Text', async () => {
-            if (this.text)
-                return this.text;
-            this.text = await this.locator.textContent() ?? '';
-            return this.text;
+    async getName(): Promise<string> {
+        return await test.step('Get the Name', async () => {
+            if (this.name)
+                return this.name;
+            this.name = await this.locator.textContent() ?? '';
+            return this.name.trim();
         });
     }
-
-    /**
-     * Get the text or aria-label for the button
-     * @returns Button text
-     */
-    async getButtonText(): Promise<string> {
-        return await test.step('Get the button text', async () => {
-            if (this.label)
-                return this.label;
-            this.label = await this.locator.textContent() ?? '';
-            if (!this.label || this.label == '')
-                this.label = await this.locator.getAttribute('aria-label') ?? '';
-            if (!this.label || this.label == '')
-                this.label = await this.locator.getAttribute('title') ?? '';
-            return this.label;
-        });
-    }
-
 }

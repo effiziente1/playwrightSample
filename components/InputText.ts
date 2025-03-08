@@ -1,23 +1,21 @@
-import { Locator, Page } from '@playwright/test';
+import test, { Page } from '@playwright/test';
 import { BaseComponent } from './BaseComponent';
 import { AnnotationHelper } from '../utils/annotations/AnnotationHelper';
 
 export class InputText extends BaseComponent {
 
+
     /**
      * Constructor
      * @param page Page
      * @param annotationHelper Annotation that stores steps and custom annotations
-     * @param name Name or locator for the text box
+     * @param selector Name or locator for the text box
      * @param [byRole=true] 
      * True - To locate by role/name
      * False - To locate by css selector
     */
-    constructor(page: Page, annotationHelper: AnnotationHelper, private name: string, byRole = true) {
-        let locator: Locator = page.getByRole('textbox', { name: name });
-        if (!byRole)
-            locator = page.locator(name);
-        super(page, annotationHelper, locator);
+    constructor(page: Page, annotationHelper: AnnotationHelper, selector: string, byRole = true) {
+        super(page, annotationHelper, selector, 'textbox', byRole);
     }
 
     /**
@@ -25,10 +23,42 @@ export class InputText extends BaseComponent {
      * @param value Value to fill
      */
     async fill(value: string) {
-        this.label = await this.getInputLabel();
-        const stepDescription = `Fill "${this.label}:" with the value: "${value}"`;
+        this.name = await this.getName();
+        const stepDescription = `Fill "${this.name}:" with the value: "${value}"`;
         await this.addStepWithAnnotation(stepDescription, async () => {
             await this.locator.fill(value);
+        });
+    }
+
+    /**
+     * Get the placeholder, label, aria-label for an input element.
+     * @returns Promise with input label
+     */
+    override async getName(): Promise<string> {
+        return await test.step('Get the name for the input', async () => {
+            // eslint-disable-next-line playwright/no-conditional-in-test
+            if (this.name)
+                return this.name;
+
+            const id = await this.locator.getAttribute('id');
+            // eslint-disable-next-line playwright/no-conditional-in-test
+            if (id) {
+                const labelElement = this.page.locator(`label[for="${id}"]`);
+                // eslint-disable-next-line playwright/no-conditional-in-test
+                if (await labelElement.isVisible())
+                    return await labelElement.innerText();
+            }
+
+            const placeHolderAttribute = await this.locator.getAttribute('placeholder');
+            // eslint-disable-next-line playwright/no-conditional-in-test
+            if (placeHolderAttribute)
+                return placeHolderAttribute;
+
+            const ariaLabelAttribute = await this.locator.getAttribute('aria-label');
+            // eslint-disable-next-line playwright/no-conditional-in-test
+            if (ariaLabelAttribute)
+                return ariaLabelAttribute;
+            return '';
         });
     }
 }

@@ -9,10 +9,10 @@ test.describe('Servers', () => {
 
     test('Should export servers to excel', {
         tag: ['@Excel'],
-    }, async ({ page }, testInfo) => {
+    }, async ({ page }) => {
         await allure.feature('Excel');
         await allure.suite('Effiziente Servers');
-        const serversPage = new ServersPage(page, testInfo);
+        const serversPage = new ServersPage(page);
         await serversPage.goTo();
         await serversPage.exportToExcel.click('servers.xlsx');
         const excelRows = await serversPage.exportToExcel.getExcelRows();

@@ -1,3 +1,3 @@
-export interface Menu {
+export interface IMenu {
     getTopMenus(): Promise<string[]>
 }

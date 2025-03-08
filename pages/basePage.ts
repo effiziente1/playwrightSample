@@ -6,6 +6,7 @@ export class BasePage {
 
     public stepDescription = '';
     protected isAnnotationEnabled = true;
+    protected isStepEnabled = true;
     protected annotationHelper = new AnnotationHelper(this.page, this.keyPage);
 
     constructor(protected readonly page: Page, public readonly keyPage: string) {
@@ -39,7 +40,14 @@ export class BasePage {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async addStep(stepDescription: string, stepFunction: any): Promise<any> {
+        await this.showStep(stepDescription);
         return await test.step(stepDescription, stepFunction);
+    }
+
+    async showStep(stepDescription: string) {
+        if (this.isStepEnabled) {
+            await this.annotationHelper.addDescription(stepDescription, '#000');
+        }
     }
 
     /**
@@ -51,12 +59,8 @@ export class BasePage {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async addStepWithAnnotation(type: AnnotationType, description: string, stepFunction: () => Promise<any>) {
-        if (this.isAnnotationEnabled) {
-            this.addAnnotation(type, description);
-            return await test.step(description, stepFunction);
-        }
-        else
-            await stepFunction();
+        this.addAnnotation(type, description);
+        return await this.addStep(description, stepFunction);
     }
 
     /**

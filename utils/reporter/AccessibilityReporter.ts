@@ -11,8 +11,6 @@ class AccessibilityReporter implements Reporter {
     private htmlHelper: HtmlHelper = new HtmlHelper();
 
     async onTestEnd(test: TestCase, result: TestResult) {
-        console.log(`Finished test ${test.title}: ${result.status}`);
-
         this.testNo++;
         const folderTest = path.join(this.folderResults, this.testNo.toString());
         const fileName = `a11y${this.testNo}.html`;

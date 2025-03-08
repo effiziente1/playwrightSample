@@ -4,7 +4,7 @@ import { Generic } from '../../components/Generic';
 import { Button } from '../../components/Button';
 
 export class WebDriverBasePage extends BasePage {
-    cart = new Button(this.page, this.annotationHelper, 'button[aria-label="Cart icon"]', false);
+    cart = new Button(this.page, this.annotationHelper, 'button[aria-label="Cart icon"]', false, 'Cart Icon');
     shoppingCartItems = new Generic(this.page, this.annotationHelper, 'span.nav-icon__cart-number', 'Items In Shopping cart');
 
     constructor(page: Page, public readonly keyPage: string) {

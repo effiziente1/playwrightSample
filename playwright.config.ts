@@ -1,9 +1,8 @@
 import { AzureReporterOptions } from '@alex_neo/playwright-azure-reporter/dist/playwright-azure-reporter';
-import { OrtoniReportConfig } from 'ortoni-report';
 import { defineConfig, devices } from '@playwright/test';
-
-import os from 'node:os';
+import { OrtoniReportConfig } from 'ortoni-report';
 import dotenv from 'dotenv';
+import os from 'node:os';
 
 const reportConfig: OrtoniReportConfig = {
     open: 'never',
@@ -44,7 +43,7 @@ export default defineConfig({
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
-    retries: 1,
+    retries: 0,
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 2 : 3,
 
@@ -67,7 +66,7 @@ export default defineConfig({
     reporter: [
         ['blob'],
         ['junit', { outputFile: 'results.xml' }],
-        ['html', { outputFolder: 'playwright-report', open: 'never' }],
+        ['html', { open: 'never' }],
         [
             'playwright-qase-reporter',
             {
@@ -177,9 +176,6 @@ export default defineConfig({
             },
         },
     ],
-
-    /* Folder for test artifacts such as screenshots, videos, traces, etc. */
-    outputDir: 'test-results/',
 
 });
 
