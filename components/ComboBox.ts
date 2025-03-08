@@ -35,9 +35,8 @@ export class ComboBox extends BaseComponent {
         this.name = await this.getName();
         await this.addStepWithAnnotation(`On "${this.name}" select any option`, async () => {
             await this.locator.waitFor();
-            const optionsLocator = await this.locator.locator('option').allInnerTexts();
+            const optionsLocator = await this.locator.locator('option:not([disabled])').allInnerTexts();
             const cleanedOptions = optionsLocator.map(option => option.trim());
-            // Filter out options that contain "out of stock"
             const availableOptions = cleanedOptions.filter(option =>
                 !option.includes(textToExclude));
             if (availableOptions.length === 0) {
@@ -54,7 +53,7 @@ export class ComboBox extends BaseComponent {
      */
     async selectRandomOption() {
         await this.addStepWithAnnotation('Select a random option', async () => {
-            const optionsLocator = await this.locator.locator('option').allInnerTexts();
+            const optionsLocator = await this.locator.locator('option:not([disabled]').allInnerTexts();
             // Clean up the options by trimming whitespace
             const cleanedOptions = optionsLocator.map(option => option.trim());
             const productIndex = Math.floor(Math.random() * optionsLocator.length);

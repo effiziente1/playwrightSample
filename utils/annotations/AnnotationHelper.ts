@@ -22,7 +22,7 @@ export class AnnotationHelper {
     }
 
     async addDescription(stepDescription: string, backgroundColor: string) {
-        await test.step(`Add description: "${stepDescription}"`, async () => {
+        await test.step(`Add step description: "${stepDescription}"`, async () => {
             await this.page.evaluate(
                 ([description, backgroundColor]) => {
                     const descriptionElementId = 'playwright-description';

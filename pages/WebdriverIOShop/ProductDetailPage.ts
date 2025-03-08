@@ -6,7 +6,7 @@ import { Generic } from '../../components/Generic';
 import { AnnotationType } from '../../utils/annotations/AnnotationType';
 
 export class ProductDetailPage extends WebDriverBasePage {
-    private readonly NOT_AVAILABLE_TEXT = 'Select one';
+    private readonly NOT_AVAILABLE_TEXT = 'Out of stock';
     color = new ComboBox(this.page, this.annotationHelper, 'select[name="dropdown-0"]', false, 'Color');
     size = new ComboBox(this.page, this.annotationHelper, 'select[name="dropdown-1"]', false, 'Size');
     addToCart = new Button(this.page, this.annotationHelper, 'button[data-dd-action-name="add-to-cart"]', false, 'Add to Cart');
