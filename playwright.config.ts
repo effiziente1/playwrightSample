@@ -144,14 +144,14 @@ export default defineConfig({
     /* Configure projects for major browsers */
     projects: [
         {
-            name: 'chrome:latest:MacOS Catalina@lambdatest',
+            name: 'chrome:latest:macOS Monterey@lambdatest',
             testMatch: /.*LambdaTestFixture.spec.ts/,
             use: {
                 viewport: { width: 1920, height: 1080 },
             },
         },
         {
-            name: 'chrome:latest:Windows 10@lambdatest',
+            name: 'chrome:latest:Windows 11@lambdatest',
             testMatch: /.*LambdaTestFixture.spec.ts/,
             use: {
                 viewport: { width: 1280, height: 720 },
