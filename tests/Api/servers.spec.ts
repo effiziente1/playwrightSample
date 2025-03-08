@@ -16,10 +16,10 @@ test.describe('Servers', () => {
             { type: AnnotationType.Description, description: 'An admin user can add a server' },
             { type: AnnotationType.Precondition, description: 'A valid admin username and password is logged' },
         ],
-    }, async ({ page }, testInfo) => {
+    }, async ({ page }) => {
         await allure.feature('API');
         await allure.suite('Effiziente Servers');
-        const serversPage = new ServersPage(page, testInfo);
+        const serversPage = new ServersPage(page);
         const addServerPage = new AddServerPage(page);
         await serversPage.goTo();
         //Add server with a random data from faker
@@ -51,10 +51,10 @@ test.describe('Servers', () => {
             { type: AnnotationType.Description, description: 'An admin user can edit a server' },
             { type: AnnotationType.Precondition, description: 'A valid admin username and password is logged' },
         ],
-    }, async ({ page }, testInfo) => {
+    }, async ({ page }) => {
         await allure.feature('API');
         await allure.suite('Effiziente Servers');
-        const serversPage = new ServersPage(page, testInfo);
+        const serversPage = new ServersPage(page);
         const key = faker.number.int({ min: 2, max: 999_998 });
         const newKey = key + 1;
         await serversPage.goTo();

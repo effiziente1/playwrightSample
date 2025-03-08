@@ -1,25 +1,18 @@
-import { Locator, Page } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { BaseComponent } from './BaseComponent';
 import { AnnotationHelper } from '../utils/annotations/AnnotationHelper';
 
-export class Select extends BaseComponent {
+export class ComboBox extends BaseComponent {
 
     /**
      * Constructor
      * @param page Playwright page
      * @param annotationHelper Annotation helper
-     * @param name Name for the Combo box
+     * @param selector Name for the Combo box
      * @param byRole By default will search by role = combobox, if you set to false will search by css selector
      */
-    constructor(page: Page, annotationHelper: AnnotationHelper, private name: string, byRole = true, label = '') {
-        let locator: Locator = page.getByRole('combobox', { name: name });
-        if (!byRole)
-            locator = page.locator(name);
-        super(page, annotationHelper, locator);
-        if (byRole)
-            this.label = name;
-        if (label)
-            this.label = label;
+    constructor(page: Page, annotationHelper: AnnotationHelper, selector: string, byRole = true, name = '') {
+        super(page, annotationHelper, selector, 'combobox', byRole, name);
     }
 
     /**
@@ -27,8 +20,8 @@ export class Select extends BaseComponent {
      * @param value Value to select
      */
     async selectOption(value: string) {
-        this.label = await this.getInputLabel();
-        await this.addStepWithAnnotation(`On "${this.label}" select the option ${value}`, async () => {
+        this.name = await this.getName();
+        await this.addStepWithAnnotation(`On "${this.name}" select the option "${value}"`, async () => {
             await this.locator.selectOption(value);
         });
     }
@@ -39,12 +32,11 @@ export class Select extends BaseComponent {
      * when the out of stock is added to some size or colors
      */
     async selectRandomOptionWithoutText(textToExclude: string) {
-        this.label = await this.getInputLabel();
-        await this.addStepWithAnnotation(`On "${this.label}" select any option`, async () => {
+        this.name = await this.getName();
+        await this.addStepWithAnnotation(`On "${this.name}" select any option`, async () => {
             await this.locator.waitFor();
-            const optionsLocator = await this.locator.locator('option').allInnerTexts();
+            const optionsLocator = await this.locator.locator('option:not([disabled])').allInnerTexts();
             const cleanedOptions = optionsLocator.map(option => option.trim());
-            // Filter out options that contain "out of stock"
             const availableOptions = cleanedOptions.filter(option =>
                 !option.includes(textToExclude));
             if (availableOptions.length === 0) {
@@ -61,7 +53,7 @@ export class Select extends BaseComponent {
      */
     async selectRandomOption() {
         await this.addStepWithAnnotation('Select a random option', async () => {
-            const optionsLocator = await this.locator.locator('option').allInnerTexts();
+            const optionsLocator = await this.locator.locator('option:not([disabled]').allInnerTexts();
             // Clean up the options by trimming whitespace
             const cleanedOptions = optionsLocator.map(option => option.trim());
             const productIndex = Math.floor(Math.random() * optionsLocator.length);

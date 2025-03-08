@@ -76,7 +76,6 @@ export class FileHelper {
 
         imagePaths.map(imagePath => this.copyFileTo(destFolder, imagePath.srcPath, imagePath.fileName));
     }
-
     copyFileTo(destFolder: string, srcPath: string, fileName: string) {
 
         const destDir = path.resolve(__dirname, '..', destFolder);

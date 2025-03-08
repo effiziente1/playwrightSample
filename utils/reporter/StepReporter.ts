@@ -63,7 +63,7 @@ class StepReporter implements Reporter {
         const attachments: { path: string, name: string }[] = result.attachments
             .filter(attachment => attachment.name !== 'screenshot' && attachment.name !== 'video' && !attachment.name.toLowerCase().includes('allure'))
             .map(attachment => ({ path: attachment.path ?? '', name: attachment.name ?? '' })) ?? [];
-        const copiedAttachments = attachments.map(attachment => ({
+        const reportAttachments = attachments.map(attachment => ({
             path: this.fileHelper.copyFileToResults(folderTest, attachment.path),
             name: attachment.name
         }));
@@ -92,11 +92,10 @@ class StepReporter implements Reporter {
             statusIcon: statusIcon,
             videoPath: videoPath,
             screenshotPaths: screenshotPaths,
-            attachments: copiedAttachments,
+            attachments: reportAttachments,
             errors: errors
         };
 
-        //this.results.push(resultItem);
         this.summary.groupedResults[groupKey].push(resultItem);
         const wasRetried = test.results && test.results.length > 1;
         const isFlaky = wasRetried && result.status === 'passed';
@@ -114,13 +113,10 @@ class StepReporter implements Reporter {
                 this.summary.totalSkipped++;
                 break;
         }
-
-
         this.summary.total++;
         const fileName = 'index.html';
         const testFilePath = path.join(folderTest, fileName);
         await this.htmlHelper.replaceTags('stepReporter.html', { result: resultItem }, folderTest, testFilePath);
-
     }
 
     async onEnd(result: FullResult) {

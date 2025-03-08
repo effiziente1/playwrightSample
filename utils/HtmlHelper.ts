@@ -39,10 +39,10 @@ export class HtmlHelper {
             '\u001b[35m': '<span class="magenta">',
             '\u001b[36m': '<span class="cyan">',
             '\u001b[37m': '<span class="white">',
-            '\u001b[0m': '</span>', // Reset
-            '\u001b[2m': '<span class="dim">', // Dim
-            '\u001b[22m': '</span>', // Reset dim
-            '\u001b[39m': '</span>', // Reset color
+            '\u001b[0m': '</span>',
+            '\u001b[2m': '<span class="dim">',
+            '\u001b[22m': '</span>',
+            '\u001b[39m': '</span>',
         };
 
         let htmlText = text;

@@ -21,8 +21,9 @@ export class AccessibilityHelper {
         const violationsLength = accessibilityScanResults.violations.length;
         expect.soft(violationsLength, `Expected no accessibility violations, but found ${violationsLength}`).toBe(0);
         const { playAudit } = await import('playwright-lighthouse');
+
         const lighthouseReport = await playAudit({
-            page: this.page,
+            page: page,
             port: 9222,
             thresholds: {
                 accessibility: 0,

@@ -11,7 +11,6 @@ const capabilities = {
     browserName: 'Chrome', // Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`
     browserVersion: 'latest',
     'LT:Options': {
-        platform: 'Windows 10',
         build: 'Playwright Test ',
         name: 'Playwright Test Lambda',
         user: process.env.LT_USERNAME,
@@ -41,6 +40,7 @@ const modifyCapabilities = (configName: string, testName: string) => {
         ? platform
         : capabilities['LT:Options']['platform'];
     capabilities['LT:Options']['name'] = testName;
+    return capabilities;
 };
 
 const testPages = baseTest.extend<pages>({
@@ -48,15 +48,13 @@ const testPages = baseTest.extend<pages>({
     page: async ({ }, use, testInfo) => {
         const fileName = testInfo.file.split(path.sep).pop();
         if (testInfo.project.name.match(/lambdatest/)) {
-            modifyCapabilities(
+            const ltCapabilities = modifyCapabilities(
                 testInfo.project.name,
                 `${testInfo.title} - ${fileName}`
             );
-            const browser = await chromium.connect({
-                wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(
-                    JSON.stringify(capabilities)
-                )}`,
-            });
+            const wsEndPoint = `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(ltCapabilities))}`;
+            const browser = await chromium.connect(wsEndPoint);
+
             const ltPage = await browser.newPage(testInfo.project.use);
             await use(ltPage);
             const testStatus = {

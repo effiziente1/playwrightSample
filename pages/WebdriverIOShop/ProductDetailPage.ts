@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { Select } from '../../components/Select';
+import { ComboBox } from '../../components/ComboBox';
 import { Button } from '../../components/Button';
 import { WebDriverBasePage } from './WebDriverBasePage';
 import { Generic } from '../../components/Generic';
@@ -7,10 +7,10 @@ import { AnnotationType } from '../../utils/annotations/AnnotationType';
 
 export class ProductDetailPage extends WebDriverBasePage {
     private readonly NOT_AVAILABLE_TEXT = 'Out of stock';
-    color = new Select(this.page, this.annotationHelper, 'select[name="dropdown-0"]', false, 'Color');
-    size = new Select(this.page, this.annotationHelper, 'select[name="dropdown-1"]', false, 'Size');
-    addToCart = new Button(this.page, this.annotationHelper, 'button[data-dd-action-name="add-to-cart"]', false);
-    productPrice = new Generic(this.page, this.annotationHelper, 'h3.product__price', 'Product Price');
+    color = new ComboBox(this.page, this.annotationHelper, 'select[name="dropdown-0"]', false, 'Color');
+    size = new ComboBox(this.page, this.annotationHelper, 'select[name="dropdown-1"]', false, 'Size');
+    addToCart = new Button(this.page, this.annotationHelper, 'button[data-dd-action-name="add-to-cart"]', false, 'Add to Cart');
+    productPrice = new Generic(this.page, this.annotationHelper, 'h3.product__price');
 
     constructor(page: Page) {
         super(page, 'Product Detail');
@@ -25,7 +25,7 @@ export class ProductDetailPage extends WebDriverBasePage {
 
     async getProductPrice(): Promise<string> {
         return this.addStepWithAnnotation(AnnotationType.Step, 'Get the product price', async () => {
-            return (await this.productPrice.getText()).trim();
+            return (await this.productPrice.getName()).trim();
         });
     }
 }

@@ -28,6 +28,7 @@ test.describe('Synthetic testing', () => {
         await allure.suite('PerfAgents');
         const dashboardPageUrl = baseURL + '/AccountsReceivable/dashboard';
         const stepDescription = `Go to: "${baseURL}"`;
+
         await test.step(stepDescription, async () => {
             test.info().annotations.push({ type: 'Navigation', description: stepDescription });
             await page.goto(baseURL);

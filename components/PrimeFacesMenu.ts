@@ -1,17 +1,16 @@
-import { Locator, Page } from '@playwright/test';
-import { Menu } from './Menu';
+import { Page } from '@playwright/test';
+import { IMenu } from './IMenu';
 import { AnnotationHelper } from '../utils/annotations/AnnotationHelper';
 import { BaseComponent } from './BaseComponent';
 
 /**
  * PrimeFaces menu component.
  */
-export class PrimeFacesMenu extends BaseComponent implements Menu {
+export class PrimeFacesMenu extends BaseComponent implements IMenu {
 
     constructor(protected page: Page, protected annotationHelper: AnnotationHelper) {
         const topMenuLocator = '[aria-level="1"][role="menuitem"]';
-        const locator: Locator = page.locator(topMenuLocator);
-        super(page, annotationHelper, locator);
+        super(page, annotationHelper, topMenuLocator);
     }
 
     /**

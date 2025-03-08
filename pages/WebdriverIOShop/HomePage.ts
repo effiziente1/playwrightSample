@@ -1,12 +1,14 @@
-import test, { Page } from '@playwright/test';
+import { Page, Response } from '@playwright/test';
 import { Link } from '../../components/Link';
 import { ProductsApi } from '../../api/WebdriverIO/products.api';
 import { WebDriverBasePage } from './WebDriverBasePage';
 import { AnnotationType } from '../../utils/annotations/AnnotationType';
 
 export class HomePage extends WebDriverBasePage {
-    shopAll = new Link(this.page, this.annotationHelper, 'Shop All', true, true);
+    shopAll = new Link(this.page, this.annotationHelper, '[data-block-purpose="header"] nav a[href="/s/shop"]', false);
     productsApi: ProductsApi = new ProductsApi(this.page);
+    inStockCheck = this.page.getByText('In stock', { exact: true });
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     products: any[] = [];
     accordion = this.page.locator('[class*="_innerHeaderButton-"]');
@@ -29,23 +31,31 @@ export class HomePage extends WebDriverBasePage {
      * Click in show all button and get the products
      */
     async showAllClick() {
-        const responsePromise = this.productsApi.waitForGetAllProducts();
-        await this.shopAll.click();
+        await this.addStepWithAnnotation(AnnotationType.Step, 'Click in show all button', async () => {
+            const responsePromise = this.productsApi.waitForGetAllProducts();
+            await this.shopAll.click();
+            await this.getProducts(responsePromise);
+        });
+    }
+
+    async getProducts(responsePromise: Promise<Response>) {
         const promise = await responsePromise;
         const responseText = JSON.parse(await promise.text());
         this.products = responseText.data;
     }
 
     async selectAccordionOption(accordionOption: string) {
-        await test.step(`Click on the accordion option: "${accordionOption}"`, async () => {
+        await this.addStepWithAnnotation(AnnotationType.Step, `Click on the accordion option: "${accordionOption}"`, async () => {
             await this.accordion.getByText(accordionOption).click();
         });
     }
 
     async filterByInStock() {
         await this.selectAccordionOption('Availability');
-        await test.step('Check the In stock option', async () => {
-            await this.page.getByText('In stock').click();
+        await this.addStepWithAnnotation(AnnotationType.Step, 'Check the In stock option', async () => {
+            const responsePromise = this.productsApi.waitForGetAllProducts();
+            await this.inStockCheck.click();
+            await this.getProducts(responsePromise);
         });
     }
 
