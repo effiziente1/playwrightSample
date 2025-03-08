@@ -53,7 +53,6 @@ const testPages = baseTest.extend<pages>({
                 `${testInfo.title} - ${fileName}`
             );
             const wsEndPoint = `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(ltCapabilities))}`;
-            console.log(wsEndPoint);
             const browser = await chromium.connect(wsEndPoint);
 
             const ltPage = await browser.newPage(testInfo.project.use);
