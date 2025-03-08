@@ -1,8 +1,9 @@
-0.3.1 2025-03-08
+0.4.0 2025-03-08
 
 - Refactored component architecture for improved flexibility and maintainability
 - Enhanced annotation and step reporting for better test visibility
 - Updated dependencies to latest versions
+- Fix the webdriver add item test
 
 # 0.3.0 [\*](https://github.com/effiziente1/playwrightSample/pull/2) 2025-22-02
 
@@ -10,7 +11,7 @@
 - Enhanced test reporting with duration tracking and better organization
 - Improved test stability with in-stock filtering and consistent retries
 
-# 0.2.0 2025-15-02s
+# 0.2.0 2025-15-02
 
 - Replaced mustache with ejs for HTML templating.
 - Updated accessibility and test report templates to use ejs.
