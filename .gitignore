@@ -31,3 +31,4 @@ blob-report
 .DS_Store
 .qodo/history.sqlite
 .DS_Store
+.qodo

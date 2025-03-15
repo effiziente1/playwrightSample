@@ -15,25 +15,25 @@
   "devDependencies": {
     "@azure/microsoft-playwright-testing": "^1.0.0-beta.7",
     "@eslint/eslintrc": "^3.3.0",
-    "@eslint/js": "^9.21.0",
-    "@faker-js/faker": "^9.5.1",
+    "@eslint/js": "^9.22.0",
+    "@faker-js/faker": "^9.6.0",
     "@types/ejs": "^3.1.5",
     "@types/eslint": "^9.6.1",
     "@types/eslint__js": "^9.14.0",
     "@types/node": "^22.13.9",
-    "@typescript-eslint/eslint-plugin": "^8.26.0",
-    "@typescript-eslint/parser": "^8.26.0",
+    "@typescript-eslint/eslint-plugin": "^8.26.1",
+    "@typescript-eslint/parser": "^8.26.1",
     "@zerostep/playwright": "^0.1.5",
     "allure-playwright": "^3.2.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.21.0",
+    "eslint": "^9.22.0",
     "eslint-plugin-playwright": "^2.2.0",
     "husky": "^9.1.7",
-    "junit-report-merger": "^7.0.0",
+    "junit-report-merger": "^7.0.1",
     "playwright": "^1.51.0",
     "playwright-lighthouse": "^4.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.2"
+    "typescript": "^5.8.2"
   },
   "dependencies": {
     "@alex_neo/playwright-azure-reporter": "^1.12.0",
@@ -46,7 +46,7 @@
     "exceljs": "^4.4.0",
     "lighthouse": "^12.4.0",
     "ortoni-report": "^2.0.9",
-    "playwright-qase-reporter": "^2.0.16"
+    "playwright-qase-reporter": "^2.0.17"
   },
   "config": {
     "commitizen": {

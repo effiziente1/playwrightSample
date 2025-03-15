@@ -17,7 +17,7 @@ export class PrimeFacesMenu extends BaseComponent implements IMenu {
      * Get top menus
      * @returns Top menus texts
      */
-    getTopMenus(): Promise<string[]> {
+    getMenus(): Promise<string[]> {
         const stepDescription = 'Get top menus';
         return this.addStepWithAnnotation(stepDescription, async () => {
             const menuTexts = await this.locator.allInnerTexts();

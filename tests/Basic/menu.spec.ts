@@ -17,7 +17,7 @@ test.describe('Normal user', () => {
         await allure.suite('Effiziente');
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.goTo();
-        const menuInPage = await dashboardPage.menu.getTopMenus();
+        const menuInPage = await dashboardPage.menu.getMenus();
         const menus = ['AccountsReceivable', 'Config'];
         await dashboardPage.AssertArrayEqual(menuInPage, menus, `Menu are equal to: "${menus.toString()}"`);
     });
@@ -37,7 +37,7 @@ test.describe('Admin user', () => {
         await allure.suite('Effiziente');
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.goTo();
-        const menuInPage = await dashboardPage.menu.getTopMenus();
+        const menuInPage = await dashboardPage.menu.getMenus();
         const menus = ['AccountsReceivable', 'Security', 'Config'];
         await dashboardPage.AssertArrayEqual(menuInPage, menus, 'Menu are equal to: "' + menus.toString() + '"');
     });

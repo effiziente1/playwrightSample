@@ -25,7 +25,7 @@ test.describe('Geo Location Test', () => {
         //With click in the locate button the map will be centered in your current geolocation
         await bingMapsPage.locateMe.click();
         // eslint-disable-next-line playwright/no-conditional-in-test
-        if (await bingMapsPage.unCollapse.IsVisible())
+        if (await bingMapsPage.unCollapse.isVisible())
             await bingMapsPage.unCollapse.click();
         const assertionDescription = `Geo name is equal to: "${geoName}"`;
         //Add the assertion to the html reporter annotations

@@ -67,6 +67,7 @@
       padding: 5px 10px;
       border-radius: 16px;
       background-color: green;
+      color: #fff;
       margin-right: 5px;
       white-space: nowrap;
     }
@@ -154,14 +155,12 @@
         <span class="mt-2">Accessibility Score: <strong><%= data.accessibilityScore %>%</strong></span>
       </div>
     </section>
-
     <div class="token-container">
       <!-- Using Bootstrap native modal trigger -->
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tokenModal">
         Enter ADO Token
       </button>
     </div>
-
     <!-- Bootstrap Modal for ADO Token -->
     <div class="modal fade" id="tokenModal" tabindex="-1" aria-labelledby="tokenModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -247,7 +246,6 @@
         </section>
       <% }); %>
     <% } %>
-
     <hr>
     <section class="mb-5">
       <h2>Video</h2>
@@ -398,5 +396,4 @@
     }
   </script>
 </body>
-
 </html>
