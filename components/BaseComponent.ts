@@ -142,9 +142,9 @@ export class BaseComponent {
    * @returns A boolean promise indicating visibility.
    */
     async isVisible(): Promise<boolean> {
-        return this.addStepWithAnnotation(`Check if the ${this.name} is visible`, async () =>
-            this.locator.isVisible()
-        );
+        return this.addStepWithAnnotation(`Check if the ${this.name} is visible`, async () => {
+            return await this.locator.isVisible();
+        });
     }
 
     /**
