@@ -1,8 +1,9 @@
 import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from './BaseComponent';
 import { AnnotationHelper } from '../utils/annotations/AnnotationHelper';
+import { ITable } from './interfaces/iTable';
 
-export class Table extends BaseComponent {
+export class Table extends BaseComponent implements ITable {
 
     columnsText: string[];
 
