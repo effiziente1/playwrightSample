@@ -1,17 +1,18 @@
 import test, { Page } from '@playwright/test';
-import { ApiHelper } from '../../utils/ApiHelper';
 import { Server } from './Server';
 import { AnnotationHelper } from '../../utils/annotations/AnnotationHelper';
+import { ApiHelper } from '../../utils/ApiHelper';
+import { PWApiHelper } from '../../utils/PWApiHelper';
 
 export class ServerApi {
 
-    private apiHelper: ApiHelper;
+    private apiHelper: PWApiHelper;
     private api = 'api/Server';
     private annotationHelper = new AnnotationHelper(this.page, '');
 
     constructor(private page: Page) {
         const baseURL = process.env.EFFIZIENTE_API_URL ?? 'https://effizienteauthdemo.azurewebsites.net';
-        this.apiHelper = new ApiHelper(this.page, baseURL, this.annotationHelper);
+        this.apiHelper = new PWApiHelper(this.page, baseURL, this.annotationHelper);
     }
 
     /**

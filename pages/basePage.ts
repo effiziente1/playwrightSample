@@ -5,8 +5,8 @@ import { AnnotationHelper } from '../utils/annotations/AnnotationHelper';
 export class BasePage {
 
     public stepDescription = '';
-    protected isAnnotationEnabled = true;
-    protected isStepEnabled = true;
+    protected isAnnotationEnabled = false;
+    protected isStepEnabled = false;
     protected annotationHelper = new AnnotationHelper(this.page, this.keyPage);
 
     constructor(protected readonly page: Page, public readonly keyPage: string) {
@@ -76,16 +76,16 @@ export class BasePage {
     }
 
     /**
- * Init annotation to an empty array
- */
+     * Init annotation to an empty array
+     */
     initAnnotations() {
         this.annotationHelper.initAnnotations();
     }
 
     /**
- * Get current annotations
- * @returns Array of current annotations
- */
+     * Get current annotations
+     * @returns Array of current annotations
+     */
     getAnnotations() {
         return this.annotationHelper.getAnnotations();
     }

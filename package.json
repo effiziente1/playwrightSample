@@ -32,13 +32,14 @@
     "junit-report-merger": "^7.0.1",
     "playwright": "^1.51.0",
     "playwright-lighthouse": "^4.0.0",
+    "pw-api-plugin": "^1.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
   "dependencies": {
     "@alex_neo/playwright-azure-reporter": "^1.12.0",
     "@axe-core/playwright": "^4.10.1",
-    "@playwright/test": "^1.51.0",
+    "@playwright/test": "^1.51.1",
     "axe-core": "^4.10.3",
     "checkly": "^5.0.1",
     "dotenv": "^16.4.7",
