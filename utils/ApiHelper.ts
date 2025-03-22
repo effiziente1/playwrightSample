@@ -3,11 +3,18 @@ import test, { APIRequestContext, APIResponse, Page } from '@playwright/test';
 import { request } from '@playwright/test';
 import { AnnotationHelper } from './annotations/AnnotationHelper';
 import { AnnotationType } from './annotations/AnnotationType';
+import { IApiHelper } from './IApiHelper';
 
-export class ApiHelper implements ApiHelper {
+export class ApiHelper implements IApiHelper {
 
-    constructor(private page: Page, private baseUrl: string, private annotationHelper: AnnotationHelper) {
+    annotationHelper: AnnotationHelper;
+    baseUrl: string;
+    page: Page;
 
+    constructor(page: Page, baseUrl: string, annotationHelper: AnnotationHelper) {
+        this.page = page;
+        this.baseUrl = baseUrl;
+        this.annotationHelper = annotationHelper;
     }
 
     /**
