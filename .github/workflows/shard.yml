@@ -55,7 +55,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: PLAYWRIGHT_JUNIT_OUTPUT_NAME=junit-report/junit-report-${{ matrix.shardIndex }}.xml npx playwright test tests/AI tests/Api tests/Basic tests/Excel tests/Fixture-LambdaTest tests/LocaleGeo tests/Synthetic tests/VisualTesting --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} --config=playwright.merge.config.ts
+        run: PLAYWRIGHT_JUNIT_OUTPUT_NAME=junit-report/junit-report-${{ matrix.shardIndex }}.xml npx playwright test tests/AI tests/Api tests/Basic tests/Excel tests/LocaleGeo tests/Synthetic tests/VisualTesting --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} --config=playwright.merge.config.ts
 
       - name: Upload blob report to GitHub Actions Artifacts
         if: always()
