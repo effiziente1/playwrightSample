@@ -10,7 +10,7 @@ test.describe('Servers', () => {
     let id = 0;
     test.use({ storageState: 'auth/admin.json' });
 
-    test.only('Should add a server', {
+    test('Should add a server', {
         tag: ['@API'],
         annotation: [
             { type: AnnotationType.Description, description: 'An admin user can add a server' },
