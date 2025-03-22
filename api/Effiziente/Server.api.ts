@@ -1,11 +1,12 @@
 import test, { Page } from '@playwright/test';
-import { ApiHelper } from '../../utils/ApiHelper';
 import { Server } from './Server';
 import { AnnotationHelper } from '../../utils/annotations/AnnotationHelper';
+import { ApiHelper } from '../../utils/ApiHelper';
+import { IApiHelper } from '../../utils/IApiHelper';
 
 export class ServerApi {
 
-    private apiHelper: ApiHelper;
+    private apiHelper: IApiHelper;
     private api = 'api/Server';
     private annotationHelper = new AnnotationHelper(this.page, '');
 

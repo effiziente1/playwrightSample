@@ -14,7 +14,7 @@ export class BaseComponent {
     name?: string;
     protected isAnnotationEnabled = true;
     protected isHighlightEnabled = false;
-    protected isDisplayStepEnabled = true;
+    protected isDisplayStepEnabled = false;
 
     /**
    * Constructor for BaseComponent class.
@@ -195,7 +195,8 @@ export class BaseComponent {
         if (this.isHighlightEnabled) {
             await test.step(`Highlight: ${stepDescription}`, async () => {
                 await this.locator.highlight();
-                await this.annotationHelper.addDescription(stepDescription, '#00008B');
+                if (this.isDisplayStepEnabled)
+                    await this.annotationHelper.addDescription(stepDescription, '#00008B');
             });
         }
     }
