@@ -9,12 +9,14 @@ import { ServerApi } from '../../api/Effiziente/Server.api';
 import { InputText } from '../../components/InputText';
 import { Generic } from '../../components/Generic';
 import { ButtonExcel } from '../../components/ButtonExcel';
+import { ButtonPDF } from '../../components/ButtonPDF';
 
 export class ServersPage extends EffizienteBasePage {
     readonly title: Heading;
     readonly add: Button;
     readonly delete: Button;
     readonly exportToExcel: ButtonExcel;
+    readonly exportToPDF: ButtonPDF;
     readonly table: Table;
     readonly key: InputText;
     readonly name: InputText;
@@ -30,6 +32,7 @@ export class ServersPage extends EffizienteBasePage {
         this.add = new Button(page, this.annotationHelper, 'Add');
         this.delete = new Button(page, this.annotationHelper, 'Delete');
         this.exportToExcel = new ButtonExcel(page, this.annotationHelper, 'Export to Excel');
+        this.exportToPDF = new ButtonPDF(page, this.annotationHelper, 'Export to PDF');
         this.table = new Table(page, this.annotationHelper);
         this.key = new InputText(page, this.annotationHelper, '#minmax', false);
         this.name = new InputText(page, this.annotationHelper, '[placeholder="Name"]', false);

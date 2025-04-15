@@ -73,8 +73,7 @@ export default defineConfig({
         ['blob'],
         ['junit', { outputFile: 'results.xml' }],
         ['html', { open: 'never' }],
-        [
-            'playwright-qase-reporter',
+        ['playwright-qase-reporter',
             {
                 debug: true,
                 testops: {
@@ -89,8 +88,7 @@ export default defineConfig({
                 },
             },
         ],
-        [
-            '@alex_neo/playwright-azure-reporter',
+        ['@alex_neo/playwright-azure-reporter',
             {
                 orgUrl: `https://dev.azure.com/${process.env.ADO_ORGANIZATION}`,
                 token: process.env.ADO_TOKEN,
@@ -141,9 +139,9 @@ export default defineConfig({
                     },
                     {
                         name: 'Accessibility',
-                        messageRegex: '.*accessibility.*'
+                        messageRegex: /.accessibility./
                     }
-                ],
+                ]
             }
         ]
     ],
