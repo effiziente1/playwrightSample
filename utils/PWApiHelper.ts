@@ -3,8 +3,8 @@ import { APIRequestContext, APIResponse, Page, Response } from 'playwright';
 import { IApiHelper } from './IApiHelper';
 import { AnnotationHelper } from './annotations/AnnotationHelper';
 import test, { request } from '@playwright/test';
-import { apiGet, apiPost, apiPut, apiDelete } from 'pw-api-plugin';
 import { AnnotationType } from './annotations/AnnotationType';
+import { pwApi } from 'pw-api-plugin';
 
 export class PWApiHelper implements IApiHelper {
 
@@ -43,25 +43,25 @@ export class PWApiHelper implements IApiHelper {
 
     async get(url: string): Promise<APIResponse> {
         const apiRequest = await this.createRequest(this.baseUrl);
-        const responseGet = await apiGet({ request: apiRequest, page: this.page }, url);
-        return responseGet;
+        const response = await pwApi.get({ request: apiRequest }, url);
+        return response;
     }
 
     async post(url: string, data: any): Promise<APIResponse> {
         const apiRequest = await this.createRequest(this.baseUrl);
-        const responseGet = await apiPost({ request: apiRequest, page: this.page }, url, { data: data });
-        return responseGet;
+        const response = await pwApi.post({ request: apiRequest }, url, { data: data });
+        return response;
     }
 
     async put(url: string, data: any): Promise<APIResponse> {
         const apiRequest = await this.createRequest(this.baseUrl);
-        const responseGet = await apiPut({ request: apiRequest, page: this.page }, url, { data: data });
-        return responseGet;
+        const response = await pwApi.put({ request: apiRequest }, url, { data: data });
+        return response;
     }
 
     async delete(url: string): Promise<APIResponse> {
         const apiRequest = await this.createRequest(this.baseUrl);
-        return await apiDelete({ request: apiRequest, page: this.page }, url);
+        return await pwApi.delete({ request: apiRequest }, url);
     }
 
     async mockApi(description: string, url: string, jsonData: any): Promise<void> {

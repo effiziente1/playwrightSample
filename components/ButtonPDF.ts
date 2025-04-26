@@ -34,4 +34,9 @@ export class ButtonPDF extends BaseComponent {
             });
         });
     }
+
+    async getRowValues(fileName: string, totalHeaders: number) {
+        return await this.pdfHelper.getRowValues(fileName, totalHeaders);
+    }
+
 }
