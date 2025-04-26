@@ -1,3 +1,10 @@
+# 0.5.0 [\*](https://github.com/effiziente1/playwrightSample/pull/6) 2025-04-26
+
+- Added PDF export and validation testing capabilities
+- Implemented PDFHelper for extracting and validating PDF content
+- Refactored API helper usage with improved PWApiHelper implementation
+- Added documentation for Copilot instructions and best practices
+
 0.4.0 2025-03-08
 
 - Refactored component architecture for improved flexibility and maintainability
