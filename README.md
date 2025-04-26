@@ -20,6 +20,8 @@ This boilerplate includes demos to test different testing scenarios with Playwri
 
 [Locale and Geo](./tests/LocaleGeo): Emulates another country, for example, de-DE.
 
+[PDF](./tests/PDF): Test to check the export to PDF for a PrimeNG Table with pdfjs-dist.
+
 [Qase](./tests/Qase): Modern test management tool for manual, automated tests and AI.
 
 [Synthetic](./tests/Synthetic): Test to monitor your test with [PerfAgents](https://www.perfagents.com) and [Checkly](https://www.checklyhq.com).
