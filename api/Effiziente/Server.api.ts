@@ -1,7 +1,7 @@
 import test, { Page } from '@playwright/test';
 import { Server } from './Server';
 import { AnnotationHelper } from '../../utils/annotations/AnnotationHelper';
-import { ApiHelper } from '../../utils/ApiHelper';
+import { PWApiHelper } from '../../utils/PWApiHelper';
 import { IApiHelper } from '../../utils/IApiHelper';
 
 export class ServerApi {
@@ -12,7 +12,7 @@ export class ServerApi {
 
     constructor(private page: Page) {
         const baseURL = process.env.EFFIZIENTE_API_URL ?? 'https://effizienteauthdemo.azurewebsites.net';
-        this.apiHelper = new ApiHelper(this.page, baseURL, this.annotationHelper);
+        this.apiHelper = new PWApiHelper(this.page, baseURL, this.annotationHelper);
     }
 
     /**
