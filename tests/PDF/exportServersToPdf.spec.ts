@@ -16,9 +16,9 @@ test.describe('Servers', () => {
         const expectedTitles = ['Key', 'Name', 'Url', 'Active'];
         await serversPage.exportToPDF.click('servers.pdf');
         const pdfRows = await serversPage.exportToPDF.getRowValues('servers.pdf', expectedTitles.length);
-        const assertDescription = 'The excel file rows are equal to the grid rows';
+        const assertDescription = 'The pdf file rows are equal to the grid rows';
         await serversPage.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
-            expect(pdfRows, 'The rows on the excel are equal to the rows on the grid').toStrictEqual(gridRows);
+            expect(pdfRows, 'The rows on the pdf are equal to the rows on the grid').toStrictEqual(gridRows);
         });
     });
 

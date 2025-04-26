@@ -43,20 +43,20 @@ export class PWApiHelper implements IApiHelper {
 
     async get(url: string): Promise<APIResponse> {
         const apiRequest = await this.createRequest(this.baseUrl);
-        const responseGet = await pwApi.get({ request: apiRequest }, url);
-        return responseGet;
+        const response = await pwApi.get({ request: apiRequest }, url);
+        return response;
     }
 
     async post(url: string, data: any): Promise<APIResponse> {
         const apiRequest = await this.createRequest(this.baseUrl);
-        const responseGet = await pwApi.post({ request: apiRequest }, url, { data: data });
-        return responseGet;
+        const response = await pwApi.post({ request: apiRequest }, url, { data: data });
+        return response;
     }
 
     async put(url: string, data: any): Promise<APIResponse> {
         const apiRequest = await this.createRequest(this.baseUrl);
-        const responseGet = await pwApi.put({ request: apiRequest }, url, { data: data });
-        return responseGet;
+        const response = await pwApi.put({ request: apiRequest }, url, { data: data });
+        return response;
     }
 
     async delete(url: string): Promise<APIResponse> {
