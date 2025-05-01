@@ -1,51 +1,45 @@
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
+
+import playwright from 'eslint-plugin-playwright';
+import tseslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import js from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
+// Import recommended config objects for flat config
+const tsRecommended = tseslint.configs.recommended;
+const playwrightRecommended = playwright.configs['flat/recommended'];
 
-export default [{
-    ignores: ['**/checkly.config.ts', 'eslint.config.mjs'],
-}, ...compat.extends(
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/stylistic',
-    'plugin:playwright/recommended',
-), {
-    plugins: {
-        '@typescript-eslint': typescriptEslint
-    },
-
-    languageOptions: {
-        parser: tsParser,
-        ecmaVersion: "latest",
-        sourceType: 'module',
-
-        parserOptions: {
-            project: 'tsconfig.eslint.json',
+export default [
+    {
+        ...playwrightRecommended,
+        //Ignores some config files and custom reporters
+        ignores: [
+            'checkly.config.ts',
+            'eslint.config.mjs', 
+            'report/', 
+            'steps-reports/',
+            'test-results/',
+            'blob-report/'
+        ],
+        files: ['**/*.ts'],
+        languageOptions: {
+            parser: tsParser,
+            parserOptions: {
+                ecmaVersion: 'latest',
+                sourceType: 'module',
+            },
         },
-    },
-
-    rules: {
-        '@typescript-eslint/no-floating-promises': 'error',
-        '@typescript-eslint/no-unused-vars': 'error',
-
-        indent: ['error', 4, {
-            SwitchCase: 1,
-        }],
-
-        'linebreak-style': ['error', 'unix'],
-        quotes: ['error', 'single'],
-        semi: ['error', 'always'],
-    },
-    
-}];
+        // Explicitly declare both plugins for the rules below
+        plugins: {
+            '@typescript-eslint': tseslint,
+            'playwright': playwright
+        },
+        rules: {
+            ...playwrightRecommended.rules,
+            ...tsRecommended.rules,
+            //Code formats
+            indent: ['error', 4, { SwitchCase: 1 }],
+            'linebreak-style': ['error', 'unix'],
+            quotes: ['error', 'single'],
+            semi: ['error', 'always'],
+        },
+    }
+];
