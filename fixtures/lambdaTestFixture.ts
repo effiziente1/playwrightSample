@@ -1,3 +1,4 @@
+
 import { chromium, test as baseTest } from '@playwright/test';
 import path from 'path';
 import { LoginPage } from '../pages/SauceDemo/loginPage';
@@ -22,6 +23,7 @@ const capabilities = {
         tunnel: false, // Add tunnel configuration if testing locally hosted webpage
         tunnelName: '', // Optional
         geoLocation: 'US', // country code can be fetched from https://www.lambdatest.com/capabilities-generator/
+        platform: undefined as string | undefined // <-- Added this line
     },
 };
 
@@ -64,7 +66,7 @@ const testPages = baseTest.extend<pages>({
                     remark: testInfo.error?.stack || testInfo.error?.message,
                 },
             };
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
+
             await ltPage.evaluate(() => { },
                 `lambdatest_action: ${JSON.stringify(testStatus)}`);
             await ltPage.close();
@@ -82,3 +84,4 @@ const testPages = baseTest.extend<pages>({
 });
 
 export const test = testPages;
+
