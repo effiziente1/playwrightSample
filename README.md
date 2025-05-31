@@ -30,6 +30,8 @@ This boilerplate includes demos to test different testing scenarios with Playwri
 
 [Shard](./tests/Shard): Pipeline to execute your tests in different machines simultaneously with GitHub actions
 
+[WebSockets](./tests/WebSocket): Examples to test websocket a chat and intercpet a websocket connection
+
 # Required software
 
 - Node js -> v.16 or above
