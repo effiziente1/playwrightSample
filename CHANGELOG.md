@@ -1,3 +1,10 @@
+# 0.7.0 [\*](https://github.com/effiziente1/playwrightSample/pull/8) 2025-05-31
+
+- Added WebSocket testing capabilities for chat and notification features
+- Implemented WebSocketHelper for intercepting and modifying WebSocket messages
+- Fixed bug in HomePage product link instantiation
+- Updated and upgraded multiple npm dependencies
+
 # 0.5.0 [\*](https://github.com/effiziente1/playwrightSample/pull/6) 2025-04-26
 
 - Added PDF export and validation testing capabilities
