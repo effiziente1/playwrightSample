@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
-import { IMenu } from './IMenu';
 import { AnnotationHelper } from '../utils/annotations/AnnotationHelper';
 import { BaseComponent } from './BaseComponent';
+import { IMenu } from './interfaces/iMenu';
 
 /**
  * PrimeFaces menu component.
@@ -9,7 +9,7 @@ import { BaseComponent } from './BaseComponent';
 export class PrimeFacesMenu extends BaseComponent implements IMenu {
 
     constructor(protected page: Page, protected annotationHelper: AnnotationHelper) {
-        const topMenuLocator = '[aria-level="1"][role="menuitem"]';
+        const topMenuLocator = 'li[data-pc-section="menuitem"] .p-menubar-item-label';
         super(page, annotationHelper, topMenuLocator);
     }
 
@@ -20,7 +20,7 @@ export class PrimeFacesMenu extends BaseComponent implements IMenu {
     getMenus(): Promise<string[]> {
         const stepDescription = 'Get top menus';
         return this.addStepWithAnnotation(stepDescription, async () => {
-            const menuTexts = await this.locator.allInnerTexts();
+            const menuTexts = await this.locator.filter({ visible: true }).allInnerTexts();
             return menuTexts.map(text => text.replace(/\n/g, ''));
         });
     }
