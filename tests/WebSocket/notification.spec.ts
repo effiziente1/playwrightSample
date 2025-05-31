@@ -66,9 +66,5 @@ test('WebSockets Demo Intercept', async ({ page }) => {
     const row = page.getByRole('row', { name: 'GOOG' });
     await row.waitFor();
 
-    // Wait for the intercepted values to appear
-    // The price should be updated to 2.00 and change should be 1
-    await expect(row.locator('td').nth(3)).toHaveText('▲ 1');
-
-    console.log('Test completed - values successfully intercepted and modified');
+    await expect(row.locator('td').nth(3), 'Change should be 1 because was intercepted').toHaveText('▲ 1');
 });
