@@ -27,7 +27,7 @@ dotenv.config();
  */
 export default defineConfig({
     testDir: 'tests',
-    globalSetup: './tests/globalSetup.ts',
+    //globalSetup: './tests/globalSetup.ts',
     /* Maximum time one test can run for. */
     timeout: 50 * 1000,
 

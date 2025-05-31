@@ -7,7 +7,7 @@ import { ProductsApi } from '../../api/Contoso/products.api';
 
 export class HomePage extends ContosoBasePage {
 
-    allProducts: Link = new Link(this.page, this.annotationHelper, 'All Products', true, true);
+    allProducts: Link = new Link(this.page, this.annotationHelper, 'All Products');
     productsApi: ProductsApi = new ProductsApi(this.page);
     products: any[] = [];
 
