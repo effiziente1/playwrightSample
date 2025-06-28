@@ -22,7 +22,7 @@ export class Button extends BaseComponent {
     async click() {
         const stepDescription = `Click: "${await this.getName()}"`;
         await this.addStepWithAnnotation(stepDescription, async () => {
-            await this.locator.click();
+            await this.locator.filter({ visible: true }).click();
         });
     }
 
