@@ -41,7 +41,7 @@
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "exceljs": "^4.4.0",
-    "lighthouse": "^12.6.0",
+    "lighthouse": "^12.7.0",
     "ortoni-report": "^3.0.2",
     "pdfjs-dist": "^5.2.133",
     "playwright-qase-reporter": "^2.1.2"
