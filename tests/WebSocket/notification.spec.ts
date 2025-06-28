@@ -10,7 +10,6 @@ test('WebSockets Demo Intercept', async ({ page }) => {
         // Intercept server -> client messages
         server.onMessage(message => {
             try {
-
                 // Convert Buffer to string if necessary
                 const messageStr = typeof message === 'string' ? message : message.toString();
                 const data = JSON.parse(messageStr);
@@ -18,7 +17,6 @@ test('WebSockets Demo Intercept', async ({ page }) => {
 
                 // Handle initial stock data response
                 if (data.R && Array.isArray(data.R)) {
-
                     data.R.forEach((stock: { Symbol: any; Price: number | undefined; Change: number; PercentChange: number; }) => {
                         if (stock.Symbol && stock.Price !== undefined) {
                             stock.Change = 1.00;
