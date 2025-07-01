@@ -5,6 +5,7 @@ import { test, expect } from '@playwright/test';
 
 test('WebSockets Demo Intercept', async ({ page }) => {
     await page.routeWebSocket(/stockticker/, ws => {
+        //Connect to the server
         const server = ws.connectToServer();
 
         // Intercept server -> client messages
@@ -12,15 +13,14 @@ test('WebSockets Demo Intercept', async ({ page }) => {
             try {
                 // Convert Buffer to string if necessary
                 const messageStr = typeof message === 'string' ? message : message.toString();
+                //Parse to JSON
                 const data = JSON.parse(messageStr);
-                let modified = false;
 
                 // Handle initial stock data response
                 if (data.R && Array.isArray(data.R)) {
                     data.R.forEach((stock: { Symbol: any; Price: number | undefined; Change: number; PercentChange: number; }) => {
                         if (stock.Symbol && stock.Price !== undefined) {
                             stock.Change = 1.00;
-                            modified = true;
                         }
                     });
                 }
@@ -35,17 +35,13 @@ test('WebSockets Demo Intercept', async ({ page }) => {
 
                             messageItem.A.forEach(stock => {
                                 stock.Change = 1.00;
-                                modified = true;
                             });
                         }
                     });
                 }
 
-                if (modified) {
-                    ws.send(JSON.stringify(data));
-                } else {
-                    ws.send(message);
-                }
+                ws.send(JSON.stringify(data));
+
             } catch (e) {
                 console.log(e);
                 ws.send(message);

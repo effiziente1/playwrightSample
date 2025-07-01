@@ -4,7 +4,6 @@ import { AnnotationHelper } from '../utils/annotations/AnnotationHelper';
 
 export class Button extends BaseComponent {
 
-
     /**
      * Constructor
      * @param page Playwright page 
