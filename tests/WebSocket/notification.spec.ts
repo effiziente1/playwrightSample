@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-
 import { test, expect } from '@playwright/test';
 
 test('WebSockets Demo Intercept', async ({ page }) => {
+    const MOCK_CHANGE_VALUE = 1;
     await page.routeWebSocket(/stockticker/, ws => {
+
         //Connect to the server
         const server = ws.connectToServer();
 
@@ -16,25 +16,22 @@ test('WebSockets Demo Intercept', async ({ page }) => {
                 //Parse to JSON
                 const data = JSON.parse(messageStr);
 
-                // Handle initial stock data response
+                // Change stock.Change to 1 to test with the UI with a fixed number
                 if (data.R && Array.isArray(data.R)) {
-                    data.R.forEach((stock: { Symbol: any; Price: number | undefined; Change: number; PercentChange: number; }) => {
-                        if (stock.Symbol && stock.Price !== undefined) {
-                            stock.Change = 1.00;
-                        }
+                    data.R.forEach((stock: { Symbol: any; Price: number; Change: number; PercentChange: number; }) => {
+                        stock.Change = MOCK_CHANGE_VALUE;
                     });
                 }
 
                 // Handle SignalR update messages
                 if (data.C && data.M && Array.isArray(data.M)) {
-
+                    //Change the stock.Change on the updateStockPrice method
                     data.M.forEach((messageItem: { H: string; M: string; A: any[]; }) => {
                         if (messageItem.H === 'stockTickerMini' &&
                             messageItem.M === 'updateStockPrice' &&
                             messageItem.A && Array.isArray(messageItem.A)) {
-
                             messageItem.A.forEach(stock => {
-                                stock.Change = 1.00;
+                                stock.Change = MOCK_CHANGE_VALUE;
                             });
                         }
                     });
@@ -43,7 +40,8 @@ test('WebSockets Demo Intercept', async ({ page }) => {
                 ws.send(JSON.stringify(data));
 
             } catch (e) {
-                console.log(e);
+                //Log the error message
+                console.error('Failed to parse websocket: ' + e);
                 ws.send(message);
             }
         });
@@ -60,5 +58,5 @@ test('WebSockets Demo Intercept', async ({ page }) => {
     const row = page.getByRole('row', { name: 'GOOG' });
     await row.waitFor();
 
-    await expect(row.locator('td').nth(3), 'Change should be 1 because was intercepted').toHaveText('▲ 1');
+    await expect(row.locator('td').nth(3), 'Change should be 1 because was intercepted').toHaveText('▲ ' + MOCK_CHANGE_VALUE);
 });
