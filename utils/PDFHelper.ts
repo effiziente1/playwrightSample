@@ -1,14 +1,33 @@
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { TextItem, TextMarkedContent } from 'pdfjs-dist/types/src/display/api';
+import * as path from 'path';
 
 export class PDFHelper {
+
+    constructor() {
+        // Set the worker path
+        pdfjsLib.GlobalWorkerOptions.workerSrc = path.join(
+            path.dirname(require.resolve('pdfjs-dist/package.json')),
+            'legacy/build/pdf.worker.mjs'
+        );
+    }
 
     async getRowValues(fileName: string, totalHeaders: number) {
         const fs = await import('fs/promises');
         const data = await fs.readFile(fileName);
 
-        // Load the PDF document
-        const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(data) });
+        // Configure standard font data URL for this document
+        const standardFontDataUrl = path.join(
+            path.dirname(require.resolve('pdfjs-dist/package.json')),
+            'standard_fonts/'
+        );
+
+        // Load the PDF document with font configuration
+        const loadingTask = pdfjsLib.getDocument({
+            data: new Uint8Array(data),
+            standardFontDataUrl: standardFontDataUrl,
+            useSystemFonts: false
+        });
         const pdf = await loadingTask.promise;
 
         const items: (TextItem | TextMarkedContent)[] = [];

@@ -12,8 +12,8 @@ test.describe('Servers', () => {
     }, async ({ page }) => {
         const serversPage = new ServersPage(page);
         await serversPage.goTo();
-        expect(await serversPage.table.getTotalRows(), 'The number of rows should be at least one').toBeGreaterThanOrEqual(1);
         const gridRows = await serversPage.table.getRowsValues();
+        expect(gridRows.length, 'The number of rows should be at least one').toBeGreaterThanOrEqual(1);
         const expectedTitles = ['Key', 'Name', 'Url', 'Active'];
         await serversPage.exportToPDF.click('servers.pdf');
         const pdfRows = await serversPage.exportToPDF.getRowValues('servers.pdf', expectedTitles.length);
