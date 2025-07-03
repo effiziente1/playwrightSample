@@ -12,6 +12,7 @@ test.describe('Servers', () => {
     }, async ({ page }) => {
         const serversPage = new ServersPage(page);
         await serversPage.goTo();
+        await serversPage.table.locator.waitFor();
         const gridRows = await serversPage.table.getRowsValues();
         const expectedTitles = ['Key', 'Name', 'Url', 'Active'];
         await serversPage.exportToPDF.click('servers.pdf');
