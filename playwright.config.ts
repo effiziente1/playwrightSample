@@ -139,7 +139,7 @@ export default defineConfig({
                     },
                     {
                         name: 'Accessibility',
-                        messageRegex: /.accessibility./
+                        messageRegex: '.*accessibility.*'
                     }
                 ]
             }
