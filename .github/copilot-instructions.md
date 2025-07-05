@@ -57,3 +57,4 @@ Playwright Framework Usage:
 - Follow the playwright eslint rules
 - Don't use .waitForLoadState('networkidle') or waitForSelector unless the test is failing
 - Use components and create new components when needed
+- Don't use page.locator('selector') on spec.ts files, use the page object and component instead
