@@ -23,7 +23,7 @@
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
     "@zerostep/playwright": "^0.1.5",
-    "allure-playwright": "^3.3.0",
+    "allure-playwright": "^3.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.30.1",
     "eslint-plugin-playwright": "^2.2.0",
@@ -36,15 +36,15 @@
   },
   "dependencies": {
     "@alex_neo/playwright-azure-reporter": "^1.13.1",
-    "@playwright/test": "^1.53.2",
-    "checkly": "^6.0.1",
+    "@playwright/test": "^1.54.1",
+    "checkly": "^6.1.1",
     "dotenv": "^17.0.1",
     "ejs": "^3.1.10",
     "exceljs": "^4.4.0",
-    "lighthouse": "^12.7.1",
-    "ortoni-report": "^3.0.2",
-    "pdfjs-dist": "^5.3.31",
-    "playwright-qase-reporter": "^2.1.3"
+    "lighthouse": "^12.8.0",
+    "ortoni-report": "^3.0.4",
+    "pdfjs-dist": "^5.3.93",
+    "playwright-qase-reporter": "^2.1.4"
   },
   "config": {
     "commitizen": {

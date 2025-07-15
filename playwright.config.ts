@@ -117,7 +117,7 @@ export default defineConfig({
         ['ortoni-report', reportConfig],
         ['allure-playwright',
             {
-                detail: false, //false to don't include the code as sub step
+                detail: true, //false to don't include the code as sub step
                 suiteTitle: false,
                 environmentInfo: {
                     OS: os.platform(), //os name for example darwin

@@ -84,7 +84,7 @@ export default defineConfig({
         ],
         ['allure-playwright',
             {
-                detail: false,
+                detail: true,
                 suiteTitle: false,
                 links: {
                     link: {
