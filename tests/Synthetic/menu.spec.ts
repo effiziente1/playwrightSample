@@ -42,7 +42,7 @@ test.describe('Synthetic testing', () => {
         await expect(page.locator('#top5Debt canvas')).toBeVisible({ timeout: timeout });
         await expect(page.locator('#top5DaysDelay canvas')).toBeVisible({ timeout: timeout });
         await expect(page.locator('#summaryExpiration canvas')).toBeVisible({ timeout: timeout });
-        const topMenuLocator = 'li[data-pc-section="menuitem"] .p-menubar-item-label';
+        const topMenuLocator = '.nav-menu .mdc-button__label';
         let menusInPage = await page.locator(topMenuLocator).filter({ visible: true }).allInnerTexts();
         menusInPage = menusInPage.map(text => text.replace(/\n/g, ''));
         const menus = ['AccountsReceivable', 'Config'];
