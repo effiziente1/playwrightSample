@@ -57,6 +57,7 @@ test.describe('Servers', () => {
         const serversPage = new ServersPage(page);
         const key = faker.number.int({ min: 2, max: 999_998 });
         const newKey = key + 1;
+        await serversPage.goTo();
         //Check if exists a server with key if not exists create one with API
         const response = await serversPage.serverApi.getServerByKey(key.toString());
         // eslint-disable-next-line playwright/no-conditional-in-test
