@@ -44,7 +44,7 @@ test.describe('Servers', () => {
         await serversPage.checkRow(key, name, url);
     });
 
-    // eslint-disable-next-line playwright/expect-expect
+
     test('Should edit a server', {
         tag: ['@API'],
         annotation: [
@@ -57,7 +57,6 @@ test.describe('Servers', () => {
         const serversPage = new ServersPage(page);
         const key = faker.number.int({ min: 2, max: 999_998 });
         const newKey = key + 1;
-        await serversPage.goTo();
         //Check if exists a server with key if not exists create one with API
         const response = await serversPage.serverApi.getServerByKey(key.toString());
         // eslint-disable-next-line playwright/no-conditional-in-test
@@ -87,6 +86,9 @@ test.describe('Servers', () => {
         await serversPage.url.fill(newUrl);
         await serversPage.save.click();
         await serversPage.checkSuccessMessage();
+        const totalRows = await serversPage.table.getTotalRows();
+        const assertDescription = 'The total rows for server is greater than 1';
+        expect(totalRows, assertDescription).toBeGreaterThan(1);
         await serversPage.checkRow(newKey, newName, newUrl);
     });
 
