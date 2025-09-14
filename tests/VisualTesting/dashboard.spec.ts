@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
-import { DashboardPage } from '../../pages/Effiziente/dashboardPage';
 import { AccountReceivableApi } from '../../api/Effiziente/AccountsReceivable.api';
 import * as allure from 'allure-js-commons';
+import { DashboardPage } from '../../pages/Effiziente/dashboardPage';
 
 test.describe('Check Dashboard', () => {
     test.use({ storageState: 'auth/user.json' });

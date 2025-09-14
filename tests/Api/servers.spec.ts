@@ -44,7 +44,7 @@ test.describe('Servers', () => {
         await serversPage.checkRow(key, name, url);
     });
 
-    // eslint-disable-next-line playwright/expect-expect
+
     test('Should edit a server', {
         tag: ['@API'],
         annotation: [
@@ -87,6 +87,9 @@ test.describe('Servers', () => {
         await serversPage.url.fill(newUrl);
         await serversPage.save.click();
         await serversPage.checkSuccessMessage();
+        const totalRows = await serversPage.table.getTotalRows();
+        const assertDescription = 'The total rows for server is greater than 1';
+        expect(totalRows, assertDescription).toBeGreaterThan(1);
         await serversPage.checkRow(newKey, newName, newUrl);
     });
 

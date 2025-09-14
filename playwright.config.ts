@@ -6,7 +6,6 @@ import os from 'node:os';
 
 const reportConfig: OrtoniReportConfig = {
     open: 'never',
-    preferredTheme: 'light',
     filename: 'index',
     projectName: 'Playwright Example',
     testType: 'Release',

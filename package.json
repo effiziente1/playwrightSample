@@ -20,12 +20,12 @@
     "@types/eslint": "^9.6.1",
     "@types/node": "^24.0.10",
     "@types/pdfjs-dist": "^2.10.378",
-    "@typescript-eslint/eslint-plugin": "^8.41.0",
-    "@typescript-eslint/parser": "^8.41.0",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
     "@zerostep/playwright": "^0.1.5",
-    "allure-playwright": "^3.3.3",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.34.0",
+    "allure-playwright": "^3.4.0",
+    "cz-conventional-changelog": "^3.0.1",
+    "eslint": "^9.35.0",
     "eslint-plugin-playwright": "^2.2.2",
     "husky": "^9.1.7",
     "junit-report-merger": "^7.0.1",
@@ -35,16 +35,16 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@alex_neo/playwright-azure-reporter": "^1.13.1",
+    "@alex_neo/playwright-azure-reporter": "^1.13.3",
     "@playwright/test": "^1.55.0",
     "checkly": "^6.5.0",
-    "dotenv": "^17.2.1",
+    "dotenv": "^17.2.2",
     "ejs": "^3.1.10",
     "exceljs": "^4.4.0",
-    "lighthouse": "^12.8.1",
+    "lighthouse": "^12.8.2",
     "ortoni-report": "^4.0.0",
-    "pdfjs-dist": "^5.4.54",
-    "playwright-qase-reporter": "^2.1.5"
+    "pdfjs-dist": "^5.4.149",
+    "playwright-qase-reporter": "^2.1.6"
   },
   "config": {
     "commitizen": {

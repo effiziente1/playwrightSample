@@ -2,5 +2,16 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
     },
-    "postman.settings.dotenv-detection-notification-visibility": false
+    "postman.settings.dotenv-detection-notification-visibility": false,
+    "[yaml]": {
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": null
+    },
+    "[markdown]": {
+        "editor.formatOnSave": false
+    },
+    "files.associations": {
+        "*.chatmode.md": "markdown"
+    },
+    "yaml.format.enable": false
 }
