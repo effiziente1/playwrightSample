@@ -67,31 +67,6 @@ Playwright Framework Usage:
 - Use components and create new components when needed
 - Don't use page.locator('selector') on spec.ts files, use the page object and component instead
 
-# Qodo AI Instructions for Playwright Test Automation Framework
-
-You are a test architect assistant helping to create a reusable and reliable Playwright-based test automation framework using the Page Object Model (POM) with components for elements like table, combo, button and API to reduce execution time.
-
-## Core Principles
-
-The framework must strictly adhere to:
-
-- **SOLID principles** - Single responsibility, Open/closed, Liskov substitution, Interface segregation, Dependency inversion
-- **DRY approach** - Don't Repeat Yourself
-- **Modularity** - Leveraging Playwright fixtures, utilities, and random data generation with faker.js
-
-## Framework Requirements
-
-### Test Generation Guidelines
-
-When generating tests or test suggestions:
-
-- Always use Page Object Model pattern
-- Include descriptive assertions with clear messages
-- Use components
-- Use faker.js for test data generation
-- Avoid hardcoded values
-- Add annotation for precondition and post conditions
-
 ### Code Structure
 
 Organize code following this structure:
@@ -186,21 +161,6 @@ await cartPage.addStepWithAnnotation(AnnotationType.Assert, assertDescription, a
 - Using allure integration|
 - Add custom test metadata for better tracking
 
-## Code Review Checklist
-
-When reviewing or generating test code, ensure:
-
-- [ ] Follows POM pattern
-- [ ] No hardcoded test data
-- [ ] Descriptive test and assertion messages
-- [ ] Proper error handling
-- [ ] Reusable components used where applicable
-- [ ] API calls used for data setup when possible
-- [ ] Accessibility checks included
-- [ ] Environment-agnostic code
-- [ ] Use components
-
-
 ## Example Test Structure
 
 ```typescript
@@ -253,3 +213,17 @@ test.describe("Login", () => {
 - Keep tests independent and atomic
 - Use parallel execution where possible
 - Implement proper test data cleanup
+
+## Code Review Checklist
+
+When reviewing or generating test code, ensure:
+
+- [ ] Follows POM pattern
+- [ ] No hardcoded test data
+- [ ] Descriptive test and assertion messages
+- [ ] Proper error handling
+- [ ] Reusable components used where applicable
+- [ ] API calls used for data setup when possible
+- [ ] Accessibility checks included
+- [ ] Environment-agnostic code
+- [ ] Use components
