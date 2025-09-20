@@ -68,9 +68,12 @@ EFFIZIENTE_NORMAL_USER='Demo'
 EFFIZIENTE_NORMAL_PASSWORD='Demo'
 EFFIZIENTE_ADMIN_USER='Admin'
 EFFIZIENTE_ADMIN_PASSWORD='Admin'
+WEBDRIVERIO_SHOP='https://shop.webdriver.io'
 ```
 
 ## Run tests
+
+### Local
 
 Execute the following command to run your tests:
 
@@ -96,4 +99,45 @@ Video with some explanation
 
 https://youtu.be/0n1F_eMkUqE?si=m6sJGV42GgHnfpcs
 
-If you like any of my repos [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U1U2V3V)
+### BrowserStack
+
+To execute the tests on browserstack add the next .env variables
+
+```
+BROWSERSTACK_USERNAME=Username
+BROWSERSTACK_ACCESS_KEY=Access Key
+```
+
+### Azure DevOps Test Results
+
+To publish your test results to Azure DevOps Test Results add the next .env variables
+
+```
+ADO_TOKEN=Token of the user that execute the tests
+ADO_ORGANIZATION=Azure Devops Organization
+ADO_PROJECT=Azure DevOps Project
+ADO_PLAN_ID=Test Plan Id
+TEST_OWNER=Azure DevOps account to execute the tests
+ADO_CONFIG_IDS=The config usually browser and operating system to execute test on your test plan
+```
+
+### Allure Cloud 
+
+To publish your test results to Allure Cloud report add the next .env variable
+
+```
+ALLURE_TOKEN=Your allure token
+```
+
+
+### Playwright workspace
+
+To execute your tests on playwright workspaces add the next .env variables
+
+```
+PLAYWRIGHT_SERVICE_URL=your playwright service url
+
+```
+
+
+If you like any of my repos you can [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U1U2V3V)
