@@ -1,11 +1,11 @@
-# 0.8.0 [*](https://github.com/effiziente1/playwrightSample/pull/13) 2025-09-20
+# 0.7.0 [*](https://github.com/effiziente1/playwrightSample/pull/13) 2025-09-20
 
 - Migrated to Azure Playwright workspace and updated related configuration
 - Upgraded dependencies and tooling versions
 - Improved test reliability with async expect patterns
 - Expanded documentation for CI and reporting integrations
 
-# 0.7.0 [\*](https://github.com/effiziente1/playwrightSample/pull/8) 2025-05-31
+# 0.6.0 [\*](https://github.com/effiziente1/playwrightSample/pull/8) 2025-05-31
 
 - Added WebSocket testing capabilities for chat and notification features
 - Implemented WebSocketHelper for intercepting and modifying WebSocket messages
