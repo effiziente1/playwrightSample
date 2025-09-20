@@ -5,6 +5,7 @@ Qase is a test management tool to execute your manual and automated tests
 If you want to connect with QASE a test management tool add the next variables:
 
 ```
+QASE_REPORT=1 To enable reports to Qase
 QASE_TOKEN= Qase token for playwright
 QASE_PROJECT_CODE= Qase project to connect
 ```

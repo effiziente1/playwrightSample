@@ -68,9 +68,12 @@ EFFIZIENTE_NORMAL_USER='Demo'
 EFFIZIENTE_NORMAL_PASSWORD='Demo'
 EFFIZIENTE_ADMIN_USER='Admin'
 EFFIZIENTE_ADMIN_PASSWORD='Admin'
+WEBDRIVERIO_SHOP='https://shop.webdriver.io'
 ```
 
 ## Run tests
+
+### Local
 
 Execute the following command to run your tests:
 
@@ -96,4 +99,27 @@ Video with some explanation
 
 https://youtu.be/0n1F_eMkUqE?si=m6sJGV42GgHnfpcs
 
-If you like any of my repos [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U1U2V3V)
+### BrowserStack
+
+To execute the tests on browserstack add the next .env variables
+
+```
+BROWSERSTACK_USERNAME=<your_username>
+BROWSERSTACK_ACCESS_KEY=<your_access_key>
+ADO_TOKEN=<ado_pat_token>
+ALLURE_TOKEN=<allure_token>
+# Store these in environment-specific .env files (e.g., .env.local, .env.ci) and never commit real values.
+```
+
+
+### Playwright workspace
+
+To execute your tests on playwright workspaces add the next .env variables
+
+```
+PLAYWRIGHT_SERVICE_URL=your playwright service url
+
+```
+
+
+If you like any of my repos you can [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U1U2V3V)
