@@ -104,29 +104,11 @@ https://youtu.be/0n1F_eMkUqE?si=m6sJGV42GgHnfpcs
 To execute the tests on browserstack add the next .env variables
 
 ```
-BROWSERSTACK_USERNAME=Username
-BROWSERSTACK_ACCESS_KEY=Access Key
-```
-
-### Azure DevOps Test Results
-
-To publish your test results to Azure DevOps Test Results add the next .env variables
-
-```
-ADO_TOKEN=Token of the user that execute the tests
-ADO_ORGANIZATION=Azure Devops Organization
-ADO_PROJECT=Azure DevOps Project
-ADO_PLAN_ID=Test Plan Id
-TEST_OWNER=Azure DevOps account to execute the tests
-ADO_CONFIG_IDS=The config usually browser and operating system to execute test on your test plan
-```
-
-### Allure Cloud 
-
-To publish your test results to Allure Cloud report add the next .env variable
-
-```
-ALLURE_TOKEN=Your allure token
+BROWSERSTACK_USERNAME=<your_username>
+BROWSERSTACK_ACCESS_KEY=<your_access_key>
+ADO_TOKEN=<ado_pat_token>
+ALLURE_TOKEN=<allure_token>
+# Store these in environment-specific .env files (e.g., .env.local, .env.ci) and never commit real values.
 ```
 
 
