@@ -3,8 +3,6 @@ import { BaseComponent } from './BaseComponent';
 import { AnnotationHelper } from '../utils/annotations/AnnotationHelper';
 
 export class InputText extends BaseComponent {
-
-
     /**
      * Constructor
      * @param page Page

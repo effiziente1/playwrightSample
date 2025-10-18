@@ -24,6 +24,17 @@ export class Table extends BaseComponent implements ITable {
     }
 
     /**
+     * Click in delete by key 
+     * @param keyValue 
+     */
+    async clickInDeleteByKey(keyValue: number) {
+        await this.addStep(`Click in the delete button for the row with the key: "${keyValue}"`, async () => {
+            const row = this.page.getByRole('row', { name: keyValue.toString() });
+            await row?.locator('[aria-label="Delete"]').click();
+        });
+    }
+
+    /**
      * Get columns headers
      * @returns columns headers
      */

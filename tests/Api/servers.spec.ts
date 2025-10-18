@@ -14,7 +14,7 @@ test.describe('Servers', () => {
         tag: ['@API'],
         annotation: [
             { type: AnnotationType.Description, description: 'An admin user can add a server' },
-            { type: AnnotationType.Precondition, description: 'A valid admin username and password is logged' },
+            { type: AnnotationType.Precondition, description: 'A valid admin user is already created' },
         ],
     }, async ({ page }) => {
         await allure.feature('API');
@@ -49,7 +49,7 @@ test.describe('Servers', () => {
         tag: ['@API'],
         annotation: [
             { type: AnnotationType.Description, description: 'An admin user can edit a server' },
-            { type: AnnotationType.Precondition, description: 'A valid admin username and password is logged' },
+            { type: AnnotationType.Precondition, description: 'A valid admin user is already created' },
         ],
     }, async ({ page }) => {
         await allure.feature('API');
@@ -97,7 +97,80 @@ test.describe('Servers', () => {
         await serversPage.checkRow(newKey, newName, newUrl);
     });
 
+    test('Should delete a server', {
+        tag: ['@API'],
+        annotation: [
+            { type: AnnotationType.Description, description: 'An admin user can delete a server using the UI' },
+            { type: AnnotationType.Precondition, description: 'A valid admin user is logged' },
+        ],
+    }, async ({ page }) => {
+        await allure.feature('API');
+        await allure.suite('Effiziente Servers');
+        const serversPage = new ServersPage(page);
+
+        // Create a server using API for test isolation
+        const key = faker.number.int({ min: 2, max: 999_999 });
+        const name = faker.company.name();
+        const url = faker.internet.url();
+
+        const server: Server = {
+            Key: key,
+            Name: name,
+            Url: url,
+            Active: true
+        };
+
+        await serversPage.goTo();
+
+        // Create server via API to ensure it exists
+        id = await serversPage.createServer(server);
+
+        // Navigate to servers page
+        await serversPage.goTo();
+
+        // Get initial row count
+        const initialRowCount = await serversPage.table.getTotalRows();
+        let assertDescription = 'Initial row count should be greater than 1';
+        await serversPage.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
+            expect(initialRowCount, assertDescription).toBeGreaterThan(1);
+        });
+
+        // Verify the server exists in the table before deletion
+        await serversPage.checkRow(key, name, url);
+
+        // Verify the row exists and click the delete button for that specific row
+        const rowToDelete = await serversPage.table.getRowByKey(key);
+        assertDescription = `Row with key "${key}" should exist in the table`;
+        await serversPage.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
+            expect(rowToDelete, assertDescription).not.toBeNull();
+        });
+
+        // Click the delete button for the specific row
+        await serversPage.table.clickInDeleteByKey(key);
+
+        await serversPage.goTo();
+
+        // Verify the server no longer exists in the table
+        const deletedRow = await serversPage.table.getRowByKey(key);
+        assertDescription = `Server with key "${key}" should no longer exist in the table after deletion`;
+        await serversPage.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
+            expect(deletedRow, assertDescription).toBeNull();
+        });
+
+        // Verify the total row count has decreased
+        const finalRowCount = await serversPage.table.getTotalRows();
+        assertDescription = 'Row count should decrease after deletion';
+        await serversPage.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
+            expect(finalRowCount, assertDescription).toBeLessThan(initialRowCount);
+        });
+
+        // Reset id to 0 since the server has been deleted via UI
+        id = 0;
+    });
+
     test.afterEach(async ({ page }) => {
+        const errors = await page.pageErrors();
+        expect(errors, `There should be no errors in the console. Errors: ${errors.map(e => e.message).join(', ')}`).toEqual([]);
         //Delete the server created after each test 
         const addServerPage = new AddServerPage(page);
         if (id > 0) {
