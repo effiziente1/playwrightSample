@@ -69,6 +69,10 @@ EFFIZIENTE_NORMAL_PASSWORD='Demo'
 EFFIZIENTE_ADMIN_USER='Admin'
 EFFIZIENTE_ADMIN_PASSWORD='Admin'
 WEBDRIVERIO_SHOP='https://shop.webdriver.io'
+MAIL_TRAP_API="https://mailtrap.io"
+MAIL_INBOX=mailtrap inbox id
+MAIL_ACCOUNT=mailtrap account id
+MAIL_TOKEN=mailtrap token
 ```
 
 ## Run tests

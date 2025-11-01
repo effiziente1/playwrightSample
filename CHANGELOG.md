@@ -1,3 +1,10 @@
+# 0.8.0 [*](https://github.com/effiziente1/playwrightSample/pull/14) 2025-11-01
+
+- Added mail testing with MailTrap integration and forgot password flow
+- Introduced Users API client and enhanced API helper with token support
+- Refactored base page to centralize message checks and navigation
+- Updated CI/workflows and docs for new mail environment variables
+
 # 0.7.0 [*](https://github.com/effiziente1/playwrightSample/pull/13) 2025-09-20
 
 - Migrated to Azure Playwright workspace and updated related configuration
