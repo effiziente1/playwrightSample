@@ -25,15 +25,15 @@ export class MailTrapApi {
     async getLastEmailWithTitle(title: string) {
         return await test.step(`Get the last email with the title "${title}"`, async () => {
             const response = await this.apiHelper.get(`api/accounts/${this.account}/inboxes/${this.mailInbox}/messages`, this.token);
-            // eslint-disable-next-line playwright/no-conditional-in-test
-            if (response.status() == 200) {
-                const mails = JSON.parse(await response.text());
-                const lastMail = mails.filter((m: { subject: string; }) => m.subject == title)[0];
-                // eslint-disable-next-line playwright/no-conditional-in-test
-                if (lastMail)
-                    return lastMail;
+            if (response.status() !== 200) {
+                throw new Error(`Failed to fetch emails from MailTrap. Status: ${response.status()}`);
             }
-            return response;
+            const mails = JSON.parse(await response.text());
+            const lastMail = mails.find((m: { subject: string; }) => m.subject == title);
+            if (!lastMail) {
+                throw new Error(`Email with title "${title}" not found.`);
+            }
+            return lastMail;
         });
     }
 
