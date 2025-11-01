@@ -1,4 +1,5 @@
 name: Shard tests
+
 on:
   push:
     branches: [main]
@@ -43,6 +44,10 @@ jobs:
       ADO_PLAN_ID: ${{vars.ADO_PLAN_ID}}
       TEST_OWNER: ${{vars.TEST_OWNER}}
       ADO_CONFIG_IDS: ${{vars.ADO_CONFIG_IDS}}
+      MAIL_TRAP_API: ${{vars.WEBDRIVERIO_SHOP}}
+      MAIL_INBOX: ${{secrets.MAIL_INBOX}}
+      MAIL_ACCOUNT: $${{secrets.MAIL_ACCOUNT}}
+      MAIL_TOKEN: ${{secrets.MAIL_TOKEN}}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
