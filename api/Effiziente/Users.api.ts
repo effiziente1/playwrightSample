@@ -14,16 +14,16 @@ export class UsersApi {
         this.apiHelper = new ApiHelper(this.page, baseURL, this.annotationHelper);
     }
 
-    async getCurrentUser() {
+    async getCurrentUser(): Promise<User> {
         return await test.step('Get the info for the current user', async () => {
             const response = await this.apiHelper.get('api/Users');
-            // eslint-disable-next-line playwright/no-conditional-in-test
-            if (response.status() == 200) {
+            if (response.status() === 200) {
                 const user: User = JSON.parse(await response.text());
                 return user;
             }
-            else
-                console.log(response.status());
+            else {
+                throw new Error(`Failed to get current user. Status: ${response.status()} ${response.statusText()}`);
+            }
         });
     }
 }
