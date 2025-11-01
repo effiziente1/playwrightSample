@@ -20,8 +20,9 @@ export class ApiHelper implements IApiHelper {
     /**
      * Create a request with token from localStorage
      */
-    async createRequest(baseURL: string) {
-        const token = await this.page.evaluate('localStorage["token"]');
+    async createRequest(baseURL: string, token?: string) {
+        if (!token)
+            token = await this.page.evaluate('localStorage["token"]');
         const apiRequest: APIRequestContext = await request.newContext({
             baseURL: baseURL,
             extraHTTPHeaders: {
@@ -48,8 +49,8 @@ export class ApiHelper implements IApiHelper {
      * @param data data to post
      * @returns 
      */
-    async get(url: string): Promise<APIResponse> {
-        const apiRequest = await this.createRequest(this.baseUrl);
+    async get(url: string, token?: string): Promise<APIResponse> {
+        const apiRequest = await this.createRequest(this.baseUrl, token);
         return await apiRequest.get(url);
     }
 

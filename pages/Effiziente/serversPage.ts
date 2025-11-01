@@ -7,7 +7,6 @@ import { Table } from '../../components/Table';
 import { Server } from '../../api/Effiziente/Server';
 import { ServerApi } from '../../api/Effiziente/Server.api';
 import { InputText } from '../../components/InputText';
-import { Generic } from '../../components/Generic';
 import { ButtonExcel } from '../../components/ButtonExcel';
 import { ButtonPDF } from '../../components/ButtonPDF';
 
@@ -23,7 +22,6 @@ export class ServersPage extends EffizienteBasePage {
     readonly url: InputText;
     readonly save: Button;
     readonly cancel: Button;
-    readonly message: Generic;
     serverApi: ServerApi;
 
     constructor(page: Page) {
@@ -39,7 +37,7 @@ export class ServersPage extends EffizienteBasePage {
         this.url = new InputText(page, this.annotationHelper, '[placeholder="Url"]', false);
         this.save = new Button(page, this.annotationHelper, 'Save');
         this.cancel = new Button(page, this.annotationHelper, 'Cancel');
-        this.message = new Generic(page, this.annotationHelper, '[data-test="message"]', 'Message');
+
         this.serverApi = new ServerApi(page);
     }
 
@@ -103,16 +101,6 @@ export class ServersPage extends EffizienteBasePage {
                 const id = +responseText.Id;
                 await this.serverApi.deleteServer(id);
             }
-        });
-    }
-
-    /**
-     * Check if the success message is visible
-     */
-    async checkSuccessMessage() {
-        const assertDescription = 'Success message is visible';
-        await this.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
-            await expect(this.message.locator, assertDescription).toBeVisible();
         });
     }
 }
