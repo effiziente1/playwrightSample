@@ -87,6 +87,12 @@ export class ApiHelper implements IApiHelper {
         return await apiRequest.delete(url);
     }
 
+    /**
+     * Mock an api
+     * @param description Description for the HTML reporter
+     * @param url API URL to mock
+     * @param jsonData JSON that will be returned
+     */
     async mockApi(description: string, url: string, jsonData: any) {
         this.annotationHelper.addAnnotation(AnnotationType.Mock, description);
         await test.step(description, async () => {
