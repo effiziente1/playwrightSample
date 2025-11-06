@@ -7,6 +7,10 @@ export class ForgotPasswordMail extends EffizienteBasePage {
     userTitle: Locator = this.page.getByText('Hello John Doe! Forgot your password?');
     resetPassword: Link = new Link(this.page, this.annotationHelper, 'Reset password');
     constructor(page: Page) {
-        super(page, 'Login');
+        super(page, 'Request Password');
+    }
+
+    getEmailTitle(user: string) {
+        return this.page.getByText(`Hello ${user}! Forgot your password?`);
     }
 }

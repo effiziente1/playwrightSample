@@ -16,7 +16,7 @@ test.describe('Forgot Password tests', () => {
         await forgotPasswordPage.email.fill(user!.Email);
         await forgotPasswordPage.requestPassword.click();
         const expectedSubject = 'Reset password request';
-        await expect(forgotPasswordPage.message.locator, 'Forgot Password is visible').toBeVisible();
+        await expect(forgotPasswordPage.message.locator, 'Success request password is visible').toBeVisible();
         const lastMail = await forgotPasswordPage.mail.getLastEmailWithTitle(expectedSubject);
         const expectedUser = user!.Name;
         await test.step(`Assert mail user equals "${expectedUser}"`, async () => {
@@ -24,7 +24,8 @@ test.describe('Forgot Password tests', () => {
         });
         await forgotPasswordPage.mail.getEmail(lastMail.html_path);
         const forgotPasswordMail = new ForgotPasswordMail(page);
-        await expect(forgotPasswordMail.userTitle).toBeVisible();
+        await expect(forgotPasswordMail.getEmailTitle(expectedUser)).toBeVisible();
         await expect(forgotPasswordMail.resetPassword.locator, 'Reset password is visble').toBeVisible();
+        await forgotPasswordMail.resetPassword.click();
     });
 });
