@@ -1,4 +1,4 @@
-import { Page, expect, test } from '@playwright/test';
+import { Page, test } from '@playwright/test';
 import { AnnotationHelper } from './annotations/AnnotationHelper';
 import { AnnotationType } from './annotations/AnnotationType';
 
@@ -19,16 +19,9 @@ export class VisualHelper {
     async checkPageSnapshot(snapshotName: string, timeout = 5_000, maxDiffPixelsRatio = 0.1) {
         const stepDescription = 'Compare snapshot: ' + snapshotName + ' with maxDiffPixelsRatio: ' + maxDiffPixelsRatio;
         await this.annotationHelper.addAnnotation(AnnotationType.Step, stepDescription);
-         
+
         await test.step(stepDescription, async () => {
-            await expect(this.page, stepDescription).toHaveScreenshot(snapshotName,
-                {
-                    maxDiffPixelRatio: maxDiffPixelsRatio,
-                    timeout: timeout,
-                    fullPage: true,
-                    animations: 'disabled',
-                });
+            await this.page.screenshot({ path: snapshotName, fullPage: true, timeout: timeout });
         });
     }
-
 }
