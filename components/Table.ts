@@ -16,6 +16,41 @@ export class Table extends BaseComponent implements ITable {
         this.columnsText = [];
     }
 
+    /**
+     * Get the rows of the table as an array of record <string, string>
+     * @returns The rows in the table as an array of record with the header as properties and the row data as the value
+     */
+    async getRowsValues(): Promise<Record<string, string>[]> {
+        return await this.addStep('Get all the rows in the table', async () => {
+            const rows: Record<string, string>[] = [];
+            const totalRows = await this.getTotalRows();
+            await this.getColumnsHeaders();
+
+            //Starts in 1 to exclude header
+            for (let i = 0; i < totalRows; i++) {
+                let rowValues: Record<string, string> = {};
+                const row = this.page.locator(this.rowSelector).nth(i);
+                rowValues = await this.getRowValues(row);
+                rows.push(rowValues);
+            }
+            return rows;
+        });
+    }
+
+    /**
+     * Get rows values as an object finding the row with the key column
+     * @param key Key to find the row
+     * @param keyColumnTitle Key column header title
+     * @returns 
+     */
+    async getRowValuesByKey(key: number, keyColumnTitle = 'Key') {
+        return await this.addStep(`Get the row values for the key: "${key}" in the column: "${keyColumnTitle}"`, async () => {
+            const row = await this.getRowByKey(key, keyColumnTitle);
+            const rowValues = await this.getRowValues(row);
+            return rowValues;
+        });
+    }
+
     async clickInEditByKey(keyValue: number): Promise<void> {
         await this.addStep(`Click in the edit table for the row with the key: "${keyValue}"`, async () => {
             const row = this.page.getByRole('row', { name: keyValue.toString() });
@@ -24,12 +59,13 @@ export class Table extends BaseComponent implements ITable {
     }
     async getColumnsHeaders(): Promise<string[]> {
         return await this.addStep('Get the columns headers of the table', async () => {
-            this.columnsText = await this.page.locator(this.columnSelector).allInnerTexts();
-            for (let i = 0; i < this.columnsText.length; i++) {
-                const columnHeader = this.columnsText[i];
-                if (columnHeader.trim() != '') {
+            const gridColumns = await this.page.locator(this.columnSelector).allInnerTexts();
+            this.columnsText = [];
+            for (let i = 0; i < gridColumns.length; i++) {
+                const columnHeader = gridColumns[i].trim();
+                if (columnHeader != '' && columnHeader != 'Actions') {
                     // Webkit adds '\n' so we need to remove 
-                    this.columnsText[i] = this.columnsText![i].replace(/\n/g, '');
+                    this.columnsText.push(columnHeader.replace(/\n/g, ''));
                 }
             }
             return this.columnsText;
@@ -75,50 +111,14 @@ export class Table extends BaseComponent implements ITable {
         return await this.addStep('Get the row values', async () => {
             const rowValues: Record<string, string> = {};
             const columnValues = await row?.locator(this.cellSelector).allInnerTexts();
-            this.columnsText.forEach((columnHeader, i) => {
-                if (columnHeader.trim() != '') {
-                    if (columnValues) {
-                        let columnValue = columnValues[i].trim();
-                        columnValue = columnValue === 'Yes' ? 'true' : columnValue === 'No' ? 'false' : columnValue;
-                        rowValues[columnHeader] = columnValue;
+            for (let i = 1; i < columnValues!.length - 1; i++) {
+                if (columnValues) {
+                    let columnValue = columnValues[i].trim();
+                    if (columnValue != '') {
+                        rowValues[this.columnsText[i - 1]] = columnValue;
                     }
                 }
-            });
-            return rowValues;
-        });
-    }
-
-    /**
-     * Get the rows of the table as an array of record <string, string>
-     * @returns The rows in the table as an array of record with the header as properties and the row data as the value
-     */
-    async getRowsValues(): Promise<Record<string, string>[]> {
-        return await this.addStep('Get all the rows in the table', async () => {
-            const rows: Record<string, string>[] = [];
-            const totalRows = await this.getTotalRows();
-            await this.getColumnsHeaders();
-
-            //Starts in 1 to exclude header
-            for (let i = 1; i < totalRows; i++) {
-                let rowValues: Record<string, string> = {};
-                const row = this.page.locator(this.rowSelector).nth(i);
-                rowValues = await this.getRowValues(row);
-                rows.push(rowValues);
             }
-            return rows;
-        });
-    }
-
-    /**
-     * Get rows values as an object finding the row with the key column
-     * @param key Key to find the row
-     * @param keyColumnTitle Key column header title
-     * @returns 
-     */
-    async getRowValuesByKey(key: number, keyColumnTitle = 'Key') {
-        return await this.addStep(`Get the row values for the key: "${key}" in the column: "${keyColumnTitle}"`, async () => {
-            const row = await this.getRowByKey(key, keyColumnTitle);
-            const rowValues = await this.getRowValues(row);
             return rowValues;
         });
     }
