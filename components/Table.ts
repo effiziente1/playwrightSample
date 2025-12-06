@@ -55,7 +55,7 @@ export class Table extends BaseComponent implements ITable {
     }
     async getTotalRows(): Promise<number> {
         return await this.addStep('Get total of rows in the table', async () => {
-            const totalRows = await this.page.getByRole('row').count();
+            const totalRows = await this.page.locator(this.rowSelector).count();
             return totalRows;
         });
     }
