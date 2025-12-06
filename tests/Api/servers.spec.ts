@@ -55,6 +55,7 @@ test.describe('Servers', () => {
         await allure.feature('API');
         await allure.suite('Effiziente Servers');
         const serversPage = new ServersPage(page);
+        const addServerPage = new AddServerPage(page);
         const key = faker.number.int({ min: 2, max: 999_998 });
         const newKey = key + 1;
         await serversPage.goTo();
@@ -82,11 +83,11 @@ test.describe('Servers', () => {
         //Go to page again to get the server created by api
         await serversPage.goTo();
         await serversPage.table.clickInEditByKey(key);
-        await serversPage.key.fill(newKey.toString());
-        await serversPage.name.fill(newName);
-        await serversPage.url.fill(newUrl);
-        await serversPage.save.click();
-        await serversPage.checkSuccessMessage();
+        await addServerPage.key.fill(newKey.toString());
+        await addServerPage.name.fill(newName);
+        await addServerPage.url.fill(newUrl);
+        await addServerPage.save.click();
+        await addServerPage.checkSuccessMessage();
 
         const assertDescription = 'The total rows for server is greater than 1';
         await expect(async () => {
