@@ -14,6 +14,6 @@ test.describe('Synthetic login testing', () => {
         await page.getByLabel('User').fill(process.env.EFFIZIENTE_NORMAL_USER!);
         await page.getByPlaceholder('Password').fill(process.env.EFFIZIENTE_NORMAL_PASSWORD!);
         await page.getByRole('button', { name: 'Login' }).click();
-        await page.locator('app-card-pie').getByRole('img').click({ timeout: 35_000 });
+        await page.locator('app-card-pie canvas').click({ timeout: 35_000 });
     });
 });

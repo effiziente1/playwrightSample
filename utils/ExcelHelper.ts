@@ -10,7 +10,7 @@ export class ExcelHelper {
      * @param worksheetName Name of the worksheet to get the data
      * @returns 
      */
-    async readExcel(fileName: string, worksheetName = 'data'): Promise<Record<string, string>[]> {
+    async readExcel(fileName: string, worksheetName = 'Sheet1'): Promise<Record<string, string>[]> {
         const workbook = new ExcelJS.Workbook();
         await workbook.xlsx.readFile(fileName);
         const rows: Record<string, string>[] = [];

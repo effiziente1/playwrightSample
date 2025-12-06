@@ -46,6 +46,6 @@ export class ButtonExcel extends BaseComponent {
 
     /** Gets the Excel rows */
     async getExcelRows() {
-        return await this.excelHelper.readExcel(this.fileName, 'Servers');
+        return await this.excelHelper.readExcel(this.fileName);
     }
 }

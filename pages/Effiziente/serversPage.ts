@@ -6,9 +6,9 @@ import { Button } from '../../components/Button';
 import { Table } from '../../components/Table';
 import { Server } from '../../api/Effiziente/Server';
 import { ServerApi } from '../../api/Effiziente/Server.api';
-import { InputText } from '../../components/InputText';
 import { ButtonExcel } from '../../components/ButtonExcel';
 import { ButtonPDF } from '../../components/ButtonPDF';
+import { AGGrid } from '../../components/AGGrid';
 
 export class ServersPage extends EffizienteBasePage {
     readonly title: Heading;
@@ -17,9 +17,6 @@ export class ServersPage extends EffizienteBasePage {
     readonly exportToExcel: ButtonExcel;
     readonly exportToPDF: ButtonPDF;
     readonly table: Table;
-    readonly key: InputText;
-    readonly name: InputText;
-    readonly url: InputText;
     readonly save: Button;
     readonly cancel: Button;
     serverApi: ServerApi;
@@ -31,10 +28,7 @@ export class ServersPage extends EffizienteBasePage {
         this.delete = new Button(page, this.annotationHelper, 'Delete');
         this.exportToExcel = new ButtonExcel(page, this.annotationHelper, 'Export to Excel');
         this.exportToPDF = new ButtonPDF(page, this.annotationHelper, 'Export to PDF');
-        this.table = new Table(page, this.annotationHelper);
-        this.key = new InputText(page, this.annotationHelper, '#minmax', false);
-        this.name = new InputText(page, this.annotationHelper, '[placeholder="Name"]', false);
-        this.url = new InputText(page, this.annotationHelper, '[placeholder="Url"]', false);
+        this.table = new AGGrid(page, this.annotationHelper);
         this.save = new Button(page, this.annotationHelper, 'Save');
         this.cancel = new Button(page, this.annotationHelper, 'Cancel');
 
