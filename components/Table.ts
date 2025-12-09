@@ -98,7 +98,7 @@ export class Table extends BaseComponent implements ITable {
     async getRowByKey(key: number, keyColumnTitle = 'Key'): Promise<Locator | null> {
         return await this.addStep(`Get the row with the "${key}" in the column: "${keyColumnTitle}"`, async () => {
             const index = await this.getColumnIndex(keyColumnTitle);
-            const row = await this.getRowByColumnIndex(key.toString(), index);
+            const row = await this.getRowByColumnIndex(key.toString(), index + 1);
             return row;
         });
     }
