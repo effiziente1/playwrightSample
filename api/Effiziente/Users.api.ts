@@ -16,7 +16,8 @@ export class UsersApi {
 
     async getCurrentUser(): Promise<User> {
         return await test.step('Get the info for the current user', async () => {
-            const response = await this.apiHelper.get('api/Users');
+            const response = await this.apiHelper.get('api/Users/Current');
+            // eslint-disable-next-line playwright/no-conditional-in-test
             if (response.status() === 200) {
                 const user: User = JSON.parse(await response.text());
                 return user;
