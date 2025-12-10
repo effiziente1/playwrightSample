@@ -66,23 +66,22 @@ export class ServersPage extends EffizienteBasePage {
      * @param url url for the server
      */
     async checkRow(key: number, name: string, url: string) {
-        const row = await this.table.getRowByKey(key);
+        let row = await this.table.getRowByKey(key);
         let assertDescription = `Server with the key: "${key}" exists in the table`;
         await this.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
             expect(row, assertDescription).not.toBeNull();
-        });
-        //Get the row values as a object the header title are the property of the object
-        const rowValues = await this.table.getRowValues(row);
-        assertDescription = `The server name for the key: "${key}" is: "${name}"`;
-        await this.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
-            expect(rowValues.Name, assertDescription).toBe(name);
-        });
-        assertDescription = `The server url for the key: "${key}" is: "${url}"`;
-        await this.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
-            expect(rowValues.Url, assertDescription).toBe(url);
+            //Get the row values as a object the header title are the property of the object
+            const rowValues = await this.table.getRowValues(row);
+            assertDescription = `The server name for the key: "${key}" is: "${name}"`;
+            await this.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
+                expect(rowValues.Name, assertDescription).toBe(name);
+            });
+            assertDescription = `The server url for the key: "${key}" is: "${url}"`;
+            await this.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
+                expect(rowValues.Url, assertDescription).toBe(url);
+            });
         });
     }
-
     /**
      * Deletes the server by key if exists
      * @param key Server key to delete

@@ -26,13 +26,7 @@ export class AddServerPage extends EffizienteBasePage {
      */
     async saveClick() {
         return await this.addStepWithAnnotation(AnnotationType.Step, 'Save server and return server id from api', async () => {
-            const responseCreatePromise = this.serverApi.waitForCreateServer();
-            const responseGetPromise = this.serverApi.waitForGetServers();
             await this.save.click();
-            const responseCreate = await responseCreatePromise;
-            await responseGetPromise;
-            const responseText = JSON.parse(await responseCreate.text());
-            return +responseText.Id;
         });
     }
 }

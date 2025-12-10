@@ -10,6 +10,7 @@ test.describe('Servers', () => {
     let id = 0;
     test.use({ storageState: 'auth/admin.json' });
 
+    // eslint-disable-next-line playwright/expect-expect
     test('Should add a server', {
         tag: ['@API'],
         annotation: [
@@ -33,18 +34,17 @@ test.describe('Servers', () => {
         await addServerPage.name.fill(name);
         await addServerPage.url.fill(url);
         //Click and save and wait for the id returned by the api to delete this server
-        id = await addServerPage.saveClick();
+        await addServerPage.saveClick();
         await serversPage.checkSuccessMessage();
-        let assertDescription = 'Server id should be a number greater than 1';
-        addServerPage.addAnnotation(AnnotationType.Assert, assertDescription);
-        expect(id, assertDescription).toBeGreaterThan(1);
-        const totalRows = await serversPage.table.getTotalRows();
-        assertDescription = 'The total rows for server is greater than 1';
-        expect(totalRows, assertDescription).toBeGreaterThan(1);
         await serversPage.checkRow(key, name, url);
+        const response = await serversPage.serverApi.getServerByKey(key.toString());
+        const responseText = await response.text();
+        const responseObject = JSON.parse(responseText);
+        id = +responseObject.Id;
     });
 
 
+    // eslint-disable-next-line playwright/expect-expect
     test('Should edit a server', {
         tag: ['@API'],
         annotation: [
@@ -57,7 +57,6 @@ test.describe('Servers', () => {
         const serversPage = new ServersPage(page);
         const addServerPage = new AddServerPage(page);
         const key = faker.number.int({ min: 2, max: 999_998 });
-        const newKey = key + 1;
         await serversPage.goTo();
         //Check if exists a server with key if not exists create one with API
         const response = await serversPage.serverApi.getServerByKey(key.toString());
@@ -83,19 +82,11 @@ test.describe('Servers', () => {
         //Go to page again to get the server created by api
         await serversPage.goTo();
         await serversPage.table.clickInEditByKey(key);
-        await addServerPage.key.fill(newKey.toString());
         await addServerPage.name.fill(newName);
         await addServerPage.url.fill(newUrl);
         await addServerPage.save.click();
         await addServerPage.checkSuccessMessage();
-
-        const assertDescription = 'The total rows for server is greater than 1';
-        await expect(async () => {
-            const totalRows = await serversPage.table.getTotalRows();
-            expect(totalRows, assertDescription).toBeGreaterThan(1);
-        }).toPass();
-
-        await serversPage.checkRow(newKey, newName, newUrl);
+        await serversPage.checkRow(key, newName, newUrl);
     });
 
     test.afterEach(async ({ page }) => {

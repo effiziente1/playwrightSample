@@ -30,6 +30,22 @@ export class InputText extends BaseComponent {
         });
     }
 
+    async clear() {
+        this.name = await this.getName();
+        const stepDescription = `Clear "${this.name}"`;
+        await this.addStepWithAnnotation(stepDescription, async () => {
+            await this.locator.clear();
+        });
+    }
+
+    async type(value: string) {
+        this.name = await this.getName();
+        const stepDescription = `Type "${this.name}:" with the value: "${value}"`;
+        await this.addStepWithAnnotation(stepDescription, async () => {
+            await this.locator.pressSequentially(value);
+        });
+    }
+
     /**
      * Get the placeholder, label, aria-label for an input element.
      * @returns Promise with input label

@@ -22,6 +22,14 @@ export class ServerApi {
         return this.apiHelper.waitForResponse(this.api, 201, 'POST');
     }
 
+
+    /**
+     * Wait for the server to be created
+     */
+    waitForUpdateServer() {
+        return this.apiHelper.waitForResponse(this.api, 204, 'PUT');
+    }
+
     /**
      * Wait to get the list of servers
      */
