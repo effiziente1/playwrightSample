@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { Server } from '../../api/Effiziente/Server';
 import { ServersPage } from '../../pages/Effiziente/serversPage';
