@@ -98,7 +98,7 @@ export class Table extends BaseComponent implements ITable {
     async getRowByKey(key: number, keyColumnTitle = 'Key'): Promise<Locator | null> {
         return await this.addStep(`Get the row with the "${key}" in the column: "${keyColumnTitle}"`, async () => {
             const index = await this.getColumnIndex(keyColumnTitle);
-            const row = await this.getRowByColumnIndex(key.toString(), index + 1);
+            const row = await this.getRowByColumnIndex(key.toString(), index);
             return row;
         });
     }
@@ -111,11 +111,11 @@ export class Table extends BaseComponent implements ITable {
         return await this.addStep('Get the row values', async () => {
             const rowValues: Record<string, string> = {};
             const columnValues = await row?.locator(this.cellSelector).allInnerTexts();
-            for (let i = 1; i < columnValues!.length - 1; i++) {
+            for (let i = 0; i < columnValues!.length; i++) {
                 if (columnValues) {
                     let columnValue = columnValues[i].trim();
                     if (columnValue != '') {
-                        rowValues[this.columnsText[i - 1]] = columnValue;
+                        rowValues[this.columnsText[i]] = columnValue;
                     }
                 }
             }
