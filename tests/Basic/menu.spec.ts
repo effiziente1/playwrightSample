@@ -18,7 +18,7 @@ test.describe('Normal user', () => {
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.goTo();
         const menuInPage = await dashboardPage.menu.getMenus();
-        const menus = ['AccountsReceivable', 'Config'];
+        const menus = ['Accounts Receivable', 'Config'];
         await dashboardPage.AssertArrayEqual(menuInPage, menus, `Menu are equal to: "${menus.toString()}"`);
     });
 });
@@ -38,7 +38,7 @@ test.describe('Admin user', () => {
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.goTo();
         const menuInPage = await dashboardPage.menu.getMenus();
-        const menus = ['AccountsReceivable', 'Security', 'Config'];
+        const menus = ['Accounts Receivable', 'Security', 'Config'];
         await dashboardPage.AssertArrayEqual(menuInPage, menus, 'Menu are equal to: "' + menus.toString() + '"');
     });
 });

@@ -45,7 +45,7 @@ test.describe('Synthetic testing', () => {
         const topMenuLocator = '.menu-list';
         let menusInPage = await page.locator(topMenuLocator).locator('.menu-item .menu-label').allInnerTexts();
         menusInPage = menusInPage.map(text => text.replace(/\n/g, ''));
-        const menus = ['AccountsReceivable', 'Config'];
+        const menus = ['Accounts Receivable', 'Config'];
         expect(menusInPage).toEqual(menus);
     });
 
