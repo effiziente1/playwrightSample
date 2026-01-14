@@ -9,6 +9,7 @@ import { ServerApi } from '../../api/Effiziente/Server.api';
 import { ButtonExcel } from '../../components/ButtonExcel';
 import { ButtonPDF } from '../../components/ButtonPDF';
 import { AGGrid } from '../../components/AGGrid';
+import { InputText } from '../../components/InputText';
 
 export class ServersPage extends EffizienteBasePage {
     readonly title: Heading;
@@ -19,6 +20,7 @@ export class ServersPage extends EffizienteBasePage {
     readonly table: Table;
     readonly save: Button;
     readonly cancel: Button;
+    readonly filter: InputText;
     serverApi: ServerApi;
 
     constructor(page: Page) {
@@ -28,10 +30,10 @@ export class ServersPage extends EffizienteBasePage {
         this.delete = new Button(page, this.annotationHelper, 'Delete');
         this.exportToExcel = new ButtonExcel(page, this.annotationHelper, 'Export to Excel');
         this.exportToPDF = new ButtonPDF(page, this.annotationHelper, 'Export to PDF');
-        this.table = new AGGrid(page, this.annotationHelper);
+        this.table = new Table(page, this.annotationHelper);
         this.save = new Button(page, this.annotationHelper, 'Save');
         this.cancel = new Button(page, this.annotationHelper, 'Cancel');
-
+        this.filter = new InputText(page, this.annotationHelper, '[placeholder="Filter results..."]', false);
         this.serverApi = new ServerApi(page);
     }
 

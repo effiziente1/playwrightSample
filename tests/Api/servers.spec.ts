@@ -36,6 +36,7 @@ test.describe('Servers', () => {
         //Click and save and wait for the id returned by the api to delete this server
         await addServerPage.saveClick();
         await serversPage.checkSuccessMessage();
+        await serversPage.filter.fill(key.toString());
         await serversPage.checkRow(key, name, url);
         const response = await serversPage.serverApi.getServerByKey(key.toString());
         const responseText = await response.text();
