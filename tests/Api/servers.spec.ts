@@ -62,7 +62,7 @@ test.describe('Servers', () => {
         //Check if exists a server with key if not exists create one with API
         const response = await serversPage.serverApi.getServerByKey(key.toString());
         // eslint-disable-next-line playwright/no-conditional-in-test
-        if (response.status() == 204) {
+        if (response.status() == 404) {
             //Create and server by api to test edit to remove dependencies for the create with UI
             const server: Server = {
                 Key: key,
