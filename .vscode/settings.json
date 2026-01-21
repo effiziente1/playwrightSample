@@ -1,11 +1,21 @@
 {
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit"
+        "source.fixAll.eslint": "always"
     },
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": false,
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+        "editor.formatOnSave": false
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+        "editor.formatOnSave": false
+    },
+    "prettier.enable": false,
     "postman.settings.dotenv-detection-notification-visibility": false,
     "[yaml]": {
-        "editor.formatOnSave": false,
-        "editor.defaultFormatter": null
+        "editor.formatOnSave": false
     },
     "[markdown]": {
         "editor.formatOnSave": false
@@ -13,5 +23,6 @@
     "files.associations": {
         "*.chatmode.md": "markdown"
     },
-    "yaml.format.enable": false
+    "yaml.format.enable": false,
+    "snyk.advanced.autoSelectOrganization": true
 }

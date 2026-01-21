@@ -12,90 +12,127 @@ import top10Limit3 from '../../api/data/top10Limit3.json';
 import top10ToExpire from '../../api/data/top10ToExpire.json';
 
 export class AccountReceivableApi {
-
     apiHelper: ApiHelper;
     private annotationHelper = new AnnotationHelper(this.page, '');
 
     constructor(private page: Page) {
-        const baseURL = process.env.EFFIZIENTE_API_URL ? process.env.EFFIZIENTE_API_URL : 'https://effizienteauthdemo.azurewebsites.net';
+        const baseURL = process.env.EFFIZIENTE_API_URL
+            ? process.env.EFFIZIENTE_API_URL
+            : 'https://effizienteauthdemo.azurewebsites.net';
         this.apiHelper = new ApiHelper(this.page, baseURL, this.annotationHelper);
     }
 
     /**
-     * Change the summary to fixed json file to get always the same data
-     */
+   * Change the summary to fixed json file to get always the same data
+   */
     async mockSummary() {
         const stepDescription = 'Modify the summary with fixed data';
-        await this.apiHelper.mockApi(stepDescription, '/api/Collection/Summary', summary);
+        await this.apiHelper.mockApi(
+            stepDescription,
+            '/api/collection/summary',
+            summary,
+        );
     }
 
     /**
-     * Change the summary expiration api response to fixed json file to get always the same data
-     */
+   * Change the summary expiration api response to fixed json file to get always the same data
+   */
     async mockSummaryExpiration() {
         const stepDescription = 'Modify the "Sumary Expiration" with fixed data';
-        await this.apiHelper.mockApi(stepDescription, '/api/Collection/DueDateSummary', summaryExpiration);
+        await this.apiHelper.mockApi(
+            stepDescription,
+            '/api/collection/due-date-summary',
+            summaryExpiration,
+        );
     }
 
     /**
-     * Change the top 5 delay api response to fixed json file to get always the same data
-     */
+   * Change the top 5 delay api response to fixed json file to get always the same data
+   */
     async mockTop5Delay() {
         const stepDescription = 'Modify the "Top 5 delay" with fixed data';
-        await this.apiHelper.mockApi(stepDescription, '/api/Collection/Top5DDO', top5Delay);
+        await this.apiHelper.mockApi(
+            stepDescription,
+            '/api/collection/top-5-avg-days',
+            top5Delay,
+        );
     }
 
     /**
-     * Change the top 5 total api response to fixed json file to get always the same data
-     */
+   * Change the top 5 total api response to fixed json file to get always the same data
+   */
     async mockTop5Total() {
         const stepDescription = 'Modify the "Top 5 total" with fixed data';
-        await this.apiHelper.mockApi(stepDescription, '/api/Collection/Top5Total', top5Total);
+        await this.apiHelper.mockApi(
+            stepDescription,
+            '/api/collection/top-5-total',
+            top5Total,
+        );
     }
 
     /**
-     * Change the top 5 type api response to fixed json file to get always the same data
-     */
+   * Change the top 5 type api response to fixed json file to get always the same data
+   */
     async mockTop5Type() {
         const stepDescription = 'Modify the "Top 5 type" with fixed data';
-        await this.apiHelper.mockApi(stepDescription, '/api/Collection/Top5Type', top5Type);
+        await this.apiHelper.mockApi(
+            stepDescription,
+            '/api/collection/top-5-type',
+            top5Type,
+        );
     }
 
     /**
-     * Change the top 10 limit 1 api response to fixed json file to get always the same data
-     */
+   * Change the top 10 limit 1 api response to fixed json file to get always the same data
+   */
     async mockTop10Limit1() {
         const stepDescription = 'Modify the "Top 10 Limit 1" with fixed data';
-        await this.apiHelper.mockApi(stepDescription, '/api/Collection/Top10Limit1', top10Limit1);
+        await this.apiHelper.mockApi(
+            stepDescription,
+            '/api/collection/top-10-Limit-1',
+            top10Limit1,
+        );
     }
 
     /**
-     * Change the top 10 limit 2 api response to fixed json file to get always the same data
-     */
+   * Change the top 10 limit 2 api response to fixed json file to get always the same data
+   */
     async mockTop10Limit2() {
         const stepDescription = 'Modify the "Top 10 Limit 2" with fixed data';
-        await this.apiHelper.mockApi(stepDescription, '/api/Collection/Top10Limit2', top10Limit2);
+        await this.apiHelper.mockApi(
+            stepDescription,
+            '/api/collection/top-10-Limit-2',
+            top10Limit2,
+        );
     }
 
     /**
-     * Change the top 10 limit 3 api response to fixed json file to get always the same data
-     */
+   * Change the top 10 limit 3 api response to fixed json file to get always the same data
+   */
     async mockTop10Limit3() {
         const stepDescription = 'Modify the "Top 10 Limit 3" with fixed data';
-        await this.apiHelper.mockApi(stepDescription, '/api/Collection/Top10Limit3', top10Limit3);
+        await this.apiHelper.mockApi(
+            stepDescription,
+            '/api/collection/top-10-Limit-3',
+            top10Limit3,
+        );
     }
 
     /**
-     * Change the top 10 next to expire response to fixed json file to get always the same data
-     */
+   * Change the top 10 next to expire response to fixed json file to get always the same data
+   */
     async mockTop10ToExpire() {
         const stepDescription = 'Modify the "Top 10 To Expire" with fixed data';
-        await this.apiHelper.mockApi(stepDescription, '/api/Collection/Top10ToExpire', top10ToExpire);
+        await this.apiHelper.mockApi(
+            stepDescription,
+            '/api/collection/top-10-to-expire',
+            top10ToExpire,
+        );
     }
 
     /**
-     * Mock all apis for dashboard
-     */
+   * Mock all apis for dashboard
+   */
     async mockAllApis() {
         await this.mockSummary();
         await this.mockSummaryExpiration();

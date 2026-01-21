@@ -5,6 +5,7 @@ import { DashboardPage } from '../../pages/Effiziente/dashboardPage';
 
 test.describe('Check Dashboard', () => {
     test.use({ storageState: 'auth/user.json' });
+
     // eslint-disable-next-line playwright/expect-expect
     test('Should show dashboard', {
         tag: ['@VisualTesting'],
