@@ -89,7 +89,7 @@ export class AccountReceivableApi {
         const stepDescription = 'Modify the "Top 10 Limit 1" with fixed data';
         await this.apiHelper.mockApi(
             stepDescription,
-            '/api/collection/top-10-Limit-1',
+            '/api/collection/top-10-limit-1',
             top10Limit1,
         );
     }
