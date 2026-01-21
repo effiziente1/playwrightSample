@@ -48,7 +48,7 @@ export class ServersPage extends EffizienteBasePage {
         const serversPage = this.baseURL + "/security/servers";
         await this.addStepWithAnnotation(
             AnnotationType.GoTo,
-            `Go to the servers page: "${serversPage}'"`,
+            `Go to the servers page: "${serversPage}"`,
             async () => {
                 await this.page.goto(serversPage);
                 await this.title.locator.waitFor({ timeout: 30_000 });
