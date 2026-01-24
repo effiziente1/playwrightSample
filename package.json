@@ -41,7 +41,7 @@
     "ejs": "^4.0.1",
     "exceljs": "^4.4.0",
     "lighthouse": "^13.0.1",
-    "ortoni-report": "^4.0.4",
+    "ortoni-report": "^2.0.7",
     "pdfjs-dist": "^5.4.530",
     "playwright-qase-reporter": "^2.1.7"
   },
