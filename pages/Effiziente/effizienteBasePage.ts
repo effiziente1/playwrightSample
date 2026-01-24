@@ -6,9 +6,7 @@ import { Menu } from '../../components/Menu';
 
 export class EffizienteBasePage extends BasePage {
     menu: Menu;
-    baseURL = process.env.EFFIZIENTE_URL
-        ? process.env.EFFIZIENTE_URL
-        : 'https://abi-testing-dojo-demo.azurewebsites.net';
+    baseURL: string;
     message = new Generic(
         this.page,
         this.annotationHelper,
@@ -20,9 +18,13 @@ export class EffizienteBasePage extends BasePage {
         page: Page,
     public readonly keyPage: string,
     ) {
-    //We need the page, and a friendly name for the page to be used in reports
+        //We need the page, and a friendly name for the page to be used in reports
         super(page, keyPage);
         this.menu = new Menu(page, this.annotationHelper);
+        if (!process.env.EFFIZIENTE_URL) {
+            throw new Error('The environment variable EFFIZIENTE_URL must be set.');
+        }
+        this.baseURL = process.env.EFFIZIENTE_URL;
     }
 
     /**
