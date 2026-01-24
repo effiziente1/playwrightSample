@@ -25,7 +25,7 @@ export class LoginApi {
         const statusCode = response.status();
         if (statusCode === 200) {
             const responseBody = await response.json();
-            return responseBody.Token;
+            return responseBody.AccessToken;
         } else {
             console.log('Status code: ' + statusCode);
             console.log(await response.text());

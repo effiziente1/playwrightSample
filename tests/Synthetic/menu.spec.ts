@@ -36,12 +36,14 @@ test.describe('Synthetic testing', () => {
                 localStorage.setItem('token', token);
             }, token);
         });
+
         await page.goto(dashboardPageUrl);
+        
         const timeout = 35_000;
-        await expect(page.locator('#top5 canvas')).toBeVisible({ timeout: timeout });
-        await expect(page.locator('#top5Debt canvas')).toBeVisible({ timeout: timeout });
-        await expect(page.locator('#top5DaysDelay canvas')).toBeVisible({ timeout: timeout });
-        await expect(page.locator('#summaryExpiration canvas')).toBeVisible({ timeout: timeout });
+        await expect(page.locator('#top5')).toBeVisible({ timeout: timeout });
+        await expect(page.locator('#top5Debt')).toBeVisible({ timeout: timeout });
+        await expect(page.locator('#top5DaysDelay')).toBeVisible({ timeout: timeout });
+        await expect(page.locator('#summaryExpiration')).toBeVisible({ timeout: timeout });
         const topMenuLocator = '.menu-list';
         let menusInPage = await page.locator(topMenuLocator).locator('.menu-item .menu-label').allInnerTexts();
         menusInPage = menusInPage.map(text => text.replace(/\n/g, ''));

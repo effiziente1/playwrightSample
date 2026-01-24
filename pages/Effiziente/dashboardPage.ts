@@ -17,17 +17,17 @@ export class DashboardPage extends EffizienteBasePage {
         super(page, 'Dashboard');
         const noByRole = false;
         this.title = new Heading(page, this.annotationHelper, '#title', noByRole);
-        this.top5 = new Canvas(page, this.annotationHelper, '#top5 canvas');
-        this.top5Debt = new Canvas(page, this.annotationHelper, '#top5Debt canvas');
+        this.top5 = new Canvas(page, this.annotationHelper, '#top5');
+        this.top5Debt = new Canvas(page, this.annotationHelper, '#top5-debt');
         this.top5DaysDelay = new Canvas(
             page,
             this.annotationHelper,
-            '#top5DaysDelay canvas',
+            '#top5-type-delay',
         );
         this.summaryExpiration = new Canvas(
             page,
             this.annotationHelper,
-            '#summaryExpiration canvas',
+            '#summary-expiration',
         );
     }
 
