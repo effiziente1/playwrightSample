@@ -26,7 +26,7 @@ test.describe('Synthetic testing', () => {
     }, async ({ page }) => {
         await allure.feature('Synthetic');
         await allure.suite('PerfAgents');
-        const dashboardPageUrl = baseURL + '/AccountsReceivable/dashboard';
+        const dashboardPageUrl = baseURL + '/accounts-receivable/dashboard';
         const stepDescription = `Go to: "${baseURL}"`;
 
         await test.step(stepDescription, async () => {

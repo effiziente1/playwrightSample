@@ -7,7 +7,7 @@ import { UsersApi } from '../../api/Effiziente/Users.api';
 
 export class EffizienteForgotPassword extends EffizienteBasePage {
     email: InputText = new InputText(this.page, this.annotationHelper, 'Email');
-    requestPassword: Button = new Button(this.page, this.annotationHelper, 'Request Password');
+    requestPassword: Button = new Button(this.page, this.annotationHelper, 'Send Reset Link');
     mail: MailTrapApi = new MailTrapApi(this.page);
     usersApi: UsersApi = new UsersApi(this.page);
 

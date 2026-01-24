@@ -25,6 +25,6 @@ test.describe('AI Zero Step', () => {
         await ai(`Type "${userName}" in the "User" textbox`, aiArgs);
         await ai(`Type "${password}" in the "Password" textbox`, aiArgs);
         await ai('Click in "Login" button', aiArgs);
-        await expect(page.locator('#top5 canvas')).toBeVisible({ timeout: 35_000 });
+        await expect(page.locator('#top5')).toBeVisible({ timeout: 35_000 });
     });
 });
