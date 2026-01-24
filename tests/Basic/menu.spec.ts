@@ -6,6 +6,7 @@ import * as allure from 'allure-js-commons';
 
 test.describe('Normal user', () => {
     test.use({ storageState: 'auth/user.json' });
+    
     test('Should returns user menu', {
         tag: ['@Basic'],
         annotation: [

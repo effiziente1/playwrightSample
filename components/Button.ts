@@ -34,15 +34,15 @@ export class Button extends BaseComponent {
             // eslint-disable-next-line playwright/no-conditional-in-test
             if (this.name)
                 return this.name;
-            // eslint-disable-next-line playwright/no-conditional-in-test
+             
             this.name = await this.locator.textContent() ?? '';
             // eslint-disable-next-line playwright/no-conditional-in-test
             if (!this.name || this.name == '')
-                // eslint-disable-next-line playwright/no-conditional-in-test
+                 
                 this.name = await this.locator.getAttribute('aria-label') ?? '';
             // eslint-disable-next-line playwright/no-conditional-in-test
             if (!this.name || this.name == '')
-                // eslint-disable-next-line playwright/no-conditional-in-test
+                 
                 this.name = await this.locator.getAttribute('title') ?? '';
             return this.name.trim();
         });

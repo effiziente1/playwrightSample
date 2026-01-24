@@ -66,6 +66,7 @@ export class PWApiHelper implements IApiHelper {
 
     async mockApi(description: string, url: string, jsonData: any): Promise<void> {
         this.annotationHelper.addAnnotation(AnnotationType.Mock, description);
+
         await test.step(description, async () => {
             await this.page.route(url, async route => {
                 await route.fulfill({ body: JSON.stringify(jsonData) });

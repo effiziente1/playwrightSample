@@ -1,14 +1,14 @@
-import { Page, expect } from "@playwright/test";
-import { EffizienteBasePage } from "./effizienteBasePage";
-import { AnnotationType } from "../../utils/annotations/AnnotationType";
-import { Heading } from "../../components/Heading";
-import { Button } from "../../components/Button";
-import { Table } from "../../components/Table";
-import { Server } from "../../api/Effiziente/Server";
-import { ServerApi } from "../../api/Effiziente/Server.api";
-import { ButtonExcel } from "../../components/ButtonExcel";
-import { ButtonPDF } from "../../components/ButtonPDF";
-import { InputText } from "../../components/InputText";
+import { Page, expect } from '@playwright/test';
+import { EffizienteBasePage } from './effizienteBasePage';
+import { AnnotationType } from '../../utils/annotations/AnnotationType';
+import { Heading } from '../../components/Heading';
+import { Button } from '../../components/Button';
+import { Table } from '../../components/Table';
+import { Server } from '../../api/Effiziente/Server';
+import { ServerApi } from '../../api/Effiziente/Server.api';
+import { ButtonExcel } from '../../components/ButtonExcel';
+import { ButtonPDF } from '../../components/ButtonPDF';
+import { InputText } from '../../components/InputText';
 
 export class ServersPage extends EffizienteBasePage {
     readonly title: Heading;
@@ -23,15 +23,15 @@ export class ServersPage extends EffizienteBasePage {
     serverApi: ServerApi;
 
     constructor(page: Page) {
-        super(page, "Servers");
-        this.title = new Heading(page, this.annotationHelper, "Servers");
-        this.add = new Button(page, this.annotationHelper, "Add");
-        this.delete = new Button(page, this.annotationHelper, "Delete");
-        this.exportToExcel = new ButtonExcel(page, this.annotationHelper, "Excel");
-        this.exportToPDF = new ButtonPDF(page, this.annotationHelper, "PDF");
+        super(page, 'Servers');
+        this.title = new Heading(page, this.annotationHelper, 'Servers');
+        this.add = new Button(page, this.annotationHelper, 'Add');
+        this.delete = new Button(page, this.annotationHelper, 'Delete');
+        this.exportToExcel = new ButtonExcel(page, this.annotationHelper, 'Excel');
+        this.exportToPDF = new ButtonPDF(page, this.annotationHelper, 'PDF');
         this.table = new Table(page, this.annotationHelper);
-        this.save = new Button(page, this.annotationHelper, "Save");
-        this.cancel = new Button(page, this.annotationHelper, "Cancel");
+        this.save = new Button(page, this.annotationHelper, 'Save');
+        this.cancel = new Button(page, this.annotationHelper, 'Cancel');
         this.filter = new InputText(
             page,
             this.annotationHelper,
@@ -45,7 +45,7 @@ export class ServersPage extends EffizienteBasePage {
      * Go to servers page
      */
     public async goTo() {
-        const serversPage = this.baseURL + "/security/servers";
+        const serversPage = this.baseURL + '/security/servers';
         await this.addStepWithAnnotation(
             AnnotationType.GoTo,
             `Go to the servers page: "${serversPage}"`,
@@ -63,7 +63,7 @@ export class ServersPage extends EffizienteBasePage {
     async createServer(server: Server) {
         return await this.addStepWithAnnotation(
             AnnotationType.Step,
-            "Create server with API",
+            'Create server with API',
             async () => {
                 const response = await this.serverApi.createServer(server);
                 const responseText = JSON.parse(await response.text());

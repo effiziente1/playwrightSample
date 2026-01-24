@@ -5,6 +5,7 @@ import { ForgotPasswordMail } from '../../pages/Effiziente/forgotPassword.mail';
 
 test.describe('Forgot Password tests', () => {
     test.use({ storageState: 'auth/admin.json' });
+
     test('Check the forgot mail is send', {
         tag: ['@Mail'],
     }, async ({ page }) => {
@@ -19,9 +20,11 @@ test.describe('Forgot Password tests', () => {
         await expect(forgotPasswordPage.message.locator, 'Success request password message is visible').toBeVisible();
         const lastMail = await forgotPasswordPage.mail.getLastEmailWithTitle(expectedSubject);
         const expectedUser = user!.Name;
+        
         await test.step(`Assert mail user equals "${expectedUser}"`, async () => {
             expect(lastMail.template_variables.user, `Expected mail user to be "${expectedUser}"`).toBe(expectedUser);
         });
+
         await forgotPasswordPage.mail.getEmail(lastMail.html_path);
         const forgotPasswordMail = new ForgotPasswordMail(page);
         await expect(forgotPasswordMail.getEmailTitle(expectedUser)).toBeVisible();
