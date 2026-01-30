@@ -14,11 +14,11 @@ test.describe('Synthetic testing', () => {
             KeepSession: true,
             Code: 0
         };
-        const loginAPi = baseAPI_URL + '/api/Users/Login';
+        const loginAPi = baseAPI_URL + '/api/users/login';
 
         const response = await request.post(loginAPi, { data: userLogin });
         const responseBody = await response.json();
-        token = responseBody.Token;
+        token = responseBody.AccessToken;
     });
 
     test('Should show dashboard', {
@@ -41,9 +41,9 @@ test.describe('Synthetic testing', () => {
         
         const timeout = 35_000;
         await expect(page.locator('#top5')).toBeVisible({ timeout: timeout });
-        await expect(page.locator('#top5Debt')).toBeVisible({ timeout: timeout });
-        await expect(page.locator('#top5DaysDelay')).toBeVisible({ timeout: timeout });
-        await expect(page.locator('#summaryExpiration')).toBeVisible({ timeout: timeout });
+        await expect(page.locator('#top5-debt')).toBeVisible({ timeout: timeout });
+        await expect(page.locator('#top5-delay')).toBeVisible({ timeout: timeout });
+        await expect(page.locator('#summary-expiration')).toBeVisible({ timeout: timeout });
         const topMenuLocator = '.menu-list';
         let menusInPage = await page.locator(topMenuLocator).locator('.menu-item .menu-label').allInnerTexts();
         menusInPage = menusInPage.map(text => text.replace(/\n/g, ''));
