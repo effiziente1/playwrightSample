@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { Server } from '../../api/Effiziente/Server';
 import { ServersPage } from '../../pages/Effiziente/serversPage';
@@ -45,7 +45,7 @@ test.describe('Servers', () => {
     });
 
 
-    // eslint-disable-next-line playwright/expect-expect
+     
     test('Should edit a server', {
         tag: ['@API'],
         annotation: [
@@ -59,30 +59,20 @@ test.describe('Servers', () => {
         const addServerPage = new AddServerPage(page);
         const key = faker.number.int({ min: 2, max: 999_998 });
         await serversPage.goTo();
-        //Check if exists a server with key if not exists create one with API
-        const response = await serversPage.serverApi.getServerByKey(key.toString());
-        // eslint-disable-next-line playwright/no-conditional-in-test
-        if (response.status() == 404) {
-            //Create and server by api to test edit to remove dependencies for the create with UI
-            const server: Server = {
-                Key: key,
-                Name: faker.company.name(),
-                Url: faker.internet.url(),
-                Active: true
-            };
-            id = await serversPage.createServer(server);
-        }
-        else {
-            //Get the id for the server to delete it
-            const responseText = await response.text();
-            const responseObject = JSON.parse(responseText);
-            id = +responseObject.Id;
-        }
+        //Create and server by api to test edit to remove dependencies for the create with UI
+        const server: Server = {
+            Key: key,
+            Name: faker.company.name(),
+            Url: faker.internet.url(),
+            Active: true
+        };
+        id = await serversPage.createServer(server);
         const newName = faker.company.name();
         const newUrl = faker.internet.url();
         //Go to page again to get the server created by api
         await serversPage.goTo();
         await serversPage.table.clickInEditByKey(key);
+        await expect(addServerPage.name.locator).toHaveValue(server.Name);
         await addServerPage.name.fill(newName);
         await addServerPage.url.fill(newUrl);
         await addServerPage.save.click();
