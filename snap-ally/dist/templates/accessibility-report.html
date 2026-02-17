@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snap Ally - Accessibility Audit</title>
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap for functional components only (modals/accordions), custom CSS for styling -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-soft: #eef2ff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      
+      --critical: <%= data.criticalColor || '#dc2626' %>;
+      --serious: <%= data.seriousColor || '#ea580c' %>;
+      --moderate: <%= data.moderateColor || '#f59e0b' %>;
+      --minor: <%= data.minorColor || '#0ea5e9' %>;
+      
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      --card-radius: 24px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 100px 20px 0;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Fixed Header */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 14px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+    }
+
+    .brand-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(to right, var(--primary-dark), #818cf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    footer {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--glass-border);
+      padding: 24px 40px;
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .powered-by {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    .badge-tool {
+      background: #f1f5f9;
+      padding: 2px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      color: #334155;
+      font-size: 0.8rem;
+    }
+
+    .verified-icon { font-size: 18px; color: var(--primary); }
+
+    /* Container Overrides */
+    .container {
+      max-width: 1200px !important;
+      margin: 0 auto;
+      width: 100%;
+      padding-bottom: 40px;
+    }
+
+    /* Summary Section */
+    .page-hero {
+      background: linear-gradient(135deg, #fff 0%, #f1f5f9 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: var(--glass-shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .hero-content h2 {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .page-url {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      word-break: break-all;
+      color: var(--text-main);
+      margin: 0;
+    }
+
+    .stats-pills {
+      display: flex;
+      gap: 12px;
+    }
+
+    .stat-pill {
+      padding: 8px 16px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .stat-pill-passed { background: #ecfdf5; border-color: #d1fae5; color: #047857; }
+    .stat-pill-icon { color: var(--primary); }
+
+    /* Violation Cards */
+    .violation-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(8px);
+      border-radius: var(--card-radius);
+      border: 1px solid var(--glass-border);
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .violation-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .violation-header {
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.5);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .title-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+    .violation-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: block;
+      margin: 0;
+    }
+
+    .violation-rule-info {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rule-name { font-weight: 700; color: var(--text-main); }
+    .rule-sep { opacity: 0.5; }
+
+    .severity-badge {
+      padding: 6px 16px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .severity-badge.critical { background: var(--critical); }
+    .severity-badge.serious { background: var(--serious); }
+    .severity-badge.moderate { background: var(--moderate); }
+    .severity-badge.minor { background: var(--minor); }
+
+    .violation-body { padding: 16px 20px; }
+
+    .fix-suggestion {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+      color: #166534;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .fix-icon { color: #059669; font-size: 20px; }
+    .fix-title { font-weight: 700; margin-bottom: 4px; }
+    .fix-link { margin-left: 8px; color: #059669; font-weight: 600; text-decoration: none; border-bottom: 1.5px solid rgba(5,150,105,0.3); }
+    .fix-link-icon { font-size: 14px; vertical-align: middle; }
+
+    /* Instances */
+    .instances-title { font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .instances-icon { font-size: 18px; color: var(--primary); }
+
+    /* Bug Preview Card Styling */
+    .bug-preview-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: all 0.2s ease;
+    }
+
+    .bug-preview-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+    }
+
+    .bug-header {
+      background: #f8fafc;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bug-title-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--primary-dark);
+      background: var(--primary-soft);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .bug-body {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .bug-body { grid-template-columns: 1fr; }
+    }
+
+    .bug-section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .bug-content-box {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      border: 1px solid #f1f5f9;
+    }
+
+    /* Video Section */
+    .video-card {
+      background: white;
+      border: 1px solid var(--glass-border);
+      border-radius: var(--card-radius);
+      padding: 32px;
+      margin-top: 40px;
+      box-shadow: var(--glass-shadow);
+    }
+
+    .video-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .video-icon-wrap {
+      width: 40px;
+      height: 40px;
+      background: #fee2e2;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ef4444;
+    }
+
+    .video-title { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 700; margin: 0; }
+
+    .video-container {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      background: #000;
+      border: 1px solid #000;
+    }
+
+    .video-container video { width: 100%; height: 100%; }
+
+    #loader-overlay {
+      position: fixed; inset: 0; background: #fff; z-index: 10000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 0.5s ease;
+    }
+    
+    .loader-pulse {
+      width: 64px; height: 64px; background: var(--primary); border-radius: 16px;
+      animation: pulse 1.5s infinite ease-in-out;
+      display: flex; align-items: center; justify-content: center; color: white;
+    }
+
+    .loader-text { font-family: 'Outfit'; font-weight: 700; font-size: 1.2rem; color: var(--text-main); margin-top: 24px; }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5); }
+      70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(99, 102, 241, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+    }
+
+    /* Success Hero */
+    .success-verified-card { text-align: center; padding: 80px 0; background: white; border-radius: 32px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); }
+    .success-hero-icon { font-size: 80px; color: #10b981; margin-bottom: 24px; filter: drop-shadow(0 4px 12px rgba(16,185,129,0.2)); }
+    .success-hero-title { font-weight: 700; font-size: 1.8rem; font-family: 'Outfit', sans-serif; }
+    .success-hero-desc { max-width: 400px; margin: 0 auto; color: var(--text-muted); }
+
+    /* Modal Styling */
+    .modal-content { border-radius: 28px; border: none; }
+    .modal-header-custom { border-bottom: none; padding: 32px 32px 16px; }
+    .modal-title-custom { font-weight: 700; font-size: 1.5rem; font-family: 'Outfit', sans-serif; }
+    .modal-body-custom { padding: 0 32px 24px; }
+    .modal-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 24px; }
+    .modal-footer-custom { border-top: none; padding: 0 32px 32px; }
+
+    .form-control:focus { box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); border-color: var(--primary); }
+    .token-input-wrap { position: relative; }
+    .token-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 20px; }
+    .token-input { border-radius: 12px; padding: 14px 14px 14px 44px; background: #f8fafc; }
+    .btn-init { border-radius: 14px; font-weight: 700; padding: 16px; background: var(--primary); }
+
+    /* Premium Buttons */
+    .btn-premium {
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-bug {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+    }
+
+    .btn-bug:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3); color: #fff; }
+
+    .btn-back { text-decoration: none; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .btn-back-icon { font-size: 20px; }
+    .btn-token { border-radius: 10px; font-weight: 700; padding: 8px 16px; }
+    .btn-token-icon { vertical-align: middle; font-size: 18px; margin-right: 4px; }
+    
+    .screenshot-container {
+      margin-top: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      background: #000;
+      position: relative;
+    }
+
+    .screenshot-container img { width: 100%; height: auto; display: block; }
+
+    /* ADO Modal Premium Standardized */
+    .ado-modal-premium .modal-content {
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
+    .ado-modal-premium .modal-header {
+      background: #f8fafc;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    
+    .ado-modal-premium .modal-title { 
+      font-family: 'Outfit', sans-serif; 
+      font-weight: 700; 
+      font-size: 1.25rem; 
+      color: var(--text-main); 
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ado-modal-premium .modal-body { 
+      padding: 24px 32px; 
+      max-height: 550px; 
+      overflow-y: auto;
+    }
+    .ado-modal-premium .modal-footer { padding: 12px 32px; background: #f8fafc; border-top: 1px solid var(--glass-border); }
+
+    .ado-field-group { margin-bottom: 20px; }
+    .ado-form-label { display: block; font-weight: 700; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .ado-form-input {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--text-main);
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1.5px solid #e2e8f0;
+      appearance: none;
+      border-radius: 12px;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    .ado-form-input:focus {
+      color: var(--text-main);
+      background-color: #fff;
+      border-color: var(--primary);
+      outline: 0;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .ado-repro-preview {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+    
+    .visual-evidence-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+    
+    .visual-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 8px;
+    }
+
+    .visual-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .screenshot-thumb {
+      width: 100%;
+      height: auto;
+      max-height: 480px;
+      border-radius: 12px;
+      object-fit: contain;
+      background: #000;
+      border: 1.5px solid #e2e8f0;
+      display: block;
+    }
+
+    .video-preview-player {
+      width: 100%;
+      height: 280px;
+      border-radius: 12px;
+      background: #000;
+      border: 1.5px solid #e2e8f0;
+      display: block;
+      object-fit: contain;
+    }
+
+    .ado-repro-preview b { color: var(--primary-dark); }
+    .ado-repro-preview hr { margin: 16px 0; opacity: 0.1; }
+
+    .btn-ado-primary {
+      background: var(--primary); color: #fff; border: none; padding: 12px 28px; border-radius: 12px; font-weight: 700; transition: all 0.2s;
+    }
+    .btn-ado-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25); }
+    
+    .btn-ado-secondary {
+      background: #fff; color: var(--text-main); border: 1.5px solid #e2e8f0; padding: 12px 28px; border-radius: 12px; font-weight: 700; transition: all 0.2s;
+    }
+    .btn-ado-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+    /* Custom select arrow for ado-form-input */
+    select.ado-form-input {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 16px 12px;
+    }
+
+    .modal-xl { max-width: 1000px !important; width: 95% !important; }
+
+    /* Restoration of Bug List UI */
+    .bug-list-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    .bug-item-header {
+      background: #fff;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .bug-item-header:hover { background: #f8fafc; }
+
+    .bug-item-header .chevron {
+      transition: transform 0.3s;
+      color: var(--text-muted);
+    }
+
+    .bug-item-header[aria-expanded="true"] .chevron {
+      transform: rotate(180deg);
+    }
+
+    .bug-snippet {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--primary-dark);
+      background: var(--primary-soft);
+      padding: 6px 12px;
+      border-radius: 8px;
+      max-width: 65%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    .bug-details-body {
+      padding: 20px;
+      background: #f8fafc;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .log-bug-btn {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      padding: 6px 16px !important;
+    }
+
+    .log-bug-btn span {
+      font-size: 18px !important;
+      margin: 0 !important;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader-overlay">
+    <div class="loader-pulse">
+      <span class="material-symbols-outlined" style="font-size: 32px;">query_stats</span>
+    </div>
+    <div class="loader-text">Compiling Audit Results</div>
+  </div>
+
+  <header>
+    <a href="#" class="brand" style="cursor: default;">
+      <div class="brand-icon">
+        <span class="material-symbols-outlined" style="font-size: 22px;">accessibility_new</span>
+      </div>
+      <h1 class="brand-text">Accessibility Audit</h1>
+    </a>
+    <div class="header-actions" style="display: flex; gap: 16px; align-items: center;">
+      <a href="../summary.html" class="btn btn-link btn-sm btn-back">
+        <span class="material-symbols-outlined btn-back-icon">arrow_back</span>
+        Back to Summary
+      </a>
+      <button type="button" class="btn btn-outline-primary btn-sm btn-token" data-bs-toggle="modal" data-bs-target="#tokenModal">
+        <span class="material-symbols-outlined btn-token-icon">key</span>
+        ADO Token
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero">
+      <div class="hero-content">
+        <h2>Target Resource</h2>
+        <p class="page-url"><%= data.pageKey %></p>
+      </div>
+      <div class="stats-pills">
+        <% if (!data.errors || data.errors.length === 0) { %>
+          <div class="stat-pill stat-pill-passed">
+            <span class="material-symbols-outlined text-success">check_circle</span>
+            <span>Passed</span>
+          </div>
+        <% } %>
+        <div class="stat-pill">
+          <span class="material-symbols-outlined stat-pill-icon">bug_report</span>
+          <span><%= (data.errors ? data.errors.reduce((acc, err) => acc + err.total, 0) : 0) %> Issues</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modal for ADO Token -->
+    <div class="modal fade" id="tokenModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form id="tokenForm">
+            <div class="modal-header modal-header-custom">
+              <h5 class="modal-title modal-title-custom">Azure DevOps Access</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body modal-body-custom">
+              <p class="modal-desc">Securely provide your Personal Access Token (PAT) to enable automated bug reporting.</p>
+              <div class="mb-3">
+                <div class="token-input-wrap">
+                  <span class="material-symbols-outlined token-icon">lock</span>
+                  <input type="password" class="form-control token-input" id="tokenInput" placeholder="Enter PAT Token" required>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer modal-footer-custom">
+              <button type="submit" class="btn btn-primary w-100 btn-init">Initialize Session</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <% if(data.errors && data.errors.length) { %>
+      <div class="violation-section">
+        <% data.errors.forEach(function(error, errorIndex) { %>
+          <div class="violation-card">
+            <div class="violation-header">
+              <div class="title-meta">
+                <span class="violation-title"><%= error.id %></span>
+                <span class="violation-rule-info">
+                  <span class="rule-name"><%= error.wcagRule %></span>
+                  <span class="rule-sep">•</span>
+                  <span><%= error.description %></span>
+                </span>
+              </div>
+              <span class="severity-badge <%= error.severity %>">
+                <%= error.total %> <%= error.severity %>
+              </span>
+            </div>
+            
+            <div class="violation-body">
+              <div class="fix-suggestion">
+                <span class="material-symbols-outlined fix-icon">lightbulb</span>
+                <div>
+                  <div class="fix-title">Recommended Action</div>
+                  <%= error.help %>
+                  <a href="<%= error.helpUrl %>" target="_blank" class="fix-link">Technical Docs <span class="material-symbols-outlined fix-link-icon">open_in_new</span></a>
+                </div>
+              </div>
+
+              <div class="instances-list" style="margin-top: 16px;">
+                <% if(error.target && error.target.length) { %>
+                  <h4 class="instances-title">
+                    <span class="material-symbols-outlined instances-icon">preview</span>
+                    Bug Candidates (<%= error.target.length %>)
+                  </h4>
+                  
+                  <% error.target.forEach(function(target, index) { %>
+                    <div class="bug-list-item">
+                      <div class="bug-item-header collapsed" data-bs-toggle="collapse" data-bs-target="#details-<%= errorIndex %>-<%= index %>" aria-expanded="false">
+                         <div class="d-flex align-items-center gap-3" style="max-width: 75%;">
+                            <span class="material-symbols-outlined chevron">expand_more</span>
+                            <div class="bug-snippet" title="<%= error.help %>: <%= target.snippet || target.element %>">
+                               <strong style="color: var(--primary);"><%= error.help %></strong>: <%= target.snippet || target.element %>
+                            </div>
+                         </div>
+                         <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-bug log-bug-btn" type="button" 
+                               onclick="handleLogBugClick(this, event)"
+                               data-title="<%= error.help %> (<%= target.snippet || target.element %>)"
+                               data-axe-id="<%= error.id %>"
+                               data-help="<%= error.help %>"
+                               data-severity="<%= error.severity %>"
+                               data-steps="<%= target.stepsJson || '[]' %>"
+                               data-screenshot="<%= target.screenshotBase64 %>"
+                               data-wcag="<%= error.wcagRule %>">
+                               <span class="material-symbols-outlined" style="font-size: 16px;">bug_report</span>
+                               Log Bug
+                            </button>
+                         </div>
+                      </div>
+ 
+                      <div id="details-<%= errorIndex %>-<%= index %>" class="collapse">
+                         <div class="bug-details-body">
+                            <!-- Left: Repro Steps -->
+                             <div style="margin-bottom: 16px;">
+                                <div class="bug-section-title">Reproduction Steps</div>
+                                <div class="bug-content-box">
+                                    <% if(target.steps && target.steps.length) { %>
+                                        <ol style="margin: 0; padding-left: 18px; line-height: 1.5;">
+                                          <% target.steps.forEach(function(step) { %>
+                                            <li><%= step %></li>
+                                          <% }); %>
+                                        </ol>
+                                    <% } else { %>
+                                        <span style="color: var(--text-muted); font-style: italic;">No interaction steps recorded. Issue found via static scan.</span>
+                                    <% } %>
+                                </div>
+                             </div>
+ 
+                             <!-- Right: Visual -->
+                             <div>
+                                <div class="bug-section-title">Visual Evidence</div>
+                                <div class="screenshot-container">
+                                  <img src="<%= target.screenshot %>" alt="Violation Evidence">
+                                </div>
+                             </div>
+                         </div>
+                      </div>
+                    </div>
+                  <% }); %>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+
+      <!-- ADO Bug Preview Modal -->
+      <div class="modal fade ado-modal-premium" id="bugPreviewModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="modal-title">
+                <span class="material-symbols-outlined" style="color: #cc293d; font-size: 24px;">bug_report</span>
+                New Bug Entry - Azure DevOps
+              </div>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="ado-field-group">
+                <label class="ado-form-label">Title</label>
+                <input type="text" id="bugTitleInput" class="ado-form-input" placeholder="Enter bug title">
+              </div>
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="ado-field-group">
+                    <label class="ado-form-label">Severity</label>
+                    <select id="bugSeverityInput" class="ado-form-input">
+                      <option value="critical">Critical (Priority 1)</option>
+                      <option value="serious">Serious (Priority 2)</option>
+                      <option value="moderate">Moderate (Priority 3)</option>
+                      <option value="minor">Minor (Priority 4)</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="ado-field-group">
+                    <label class="ado-form-label">Target Area</label>
+                    <input type="text" id="bugAreaInput" class="ado-form-input" value="Accessibility">
+                  </div>
+                </div>
+              </div>
+
+              <div class="ado-field-group">
+                <label class="ado-form-label">Reproduction Steps & Description</label>
+                <div id="bugReproPreview" class="ado-repro-preview" style="min-height: 150px;"></div>
+              </div>
+
+              <!-- Visual Evidence - Single Column Full Width -->
+              <div class="ado-field-group" id="screenshotThumbContainer" style="display: none;">
+                <label class="ado-form-label">
+                  <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">image</span>
+                  Violation Screenshot
+                </label>
+                <img id="bugScreenshotPreview" class="screenshot-thumb" src="" alt="Screenshot">
+              </div>
+
+              <div class="ado-field-group" id="videoThumbContainer" style="display: none;">
+                <label class="ado-form-label">
+                  <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">videocam</span>
+                  Session Recording
+                </label>
+                <video id="bugVideoPreview" class="video-preview-player" controls>
+                   Your browser does not support the video tag.
+                </video>
+              </div>
+
+              <div class="ado-field-group" style="margin-bottom: 0;">
+                <div class="ado-repro-preview" style="font-size: 0.75rem; background: #fffcf0; border-color: #f9f0c3; padding: 12px; line-height: 1.5;">
+                  <b>Environment:</b> Playwright engine • <b>URL:</b> <span style="word-break: break-all; color: var(--primary);"><%= data.pageKey %></span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn-ado-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" id="confirmBugBtn" class="btn-ado-primary">Create Bug</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="success-verified-card">
+        <span class="material-symbols-outlined success-hero-icon">check_circle</span>
+        <h3 class="success-hero-title">Compliance Verified</h3>
+        <p class="success-hero-desc">Excellent! No accessibility violations were detected for this target resource.</p>
+      </div>
+    <% } %>
+
+    <% if(data.video) { %>
+      <section class="video-card">
+        <div class="video-header">
+          <div class="video-icon-wrap">
+            <span class="material-symbols-outlined">videocam</span>
+          </div>
+          <h2 class="video-title">Audit Session Recording</h2>
+        </div>
+        <div class="ratio ratio-16x9 video-container">
+          <video controls>
+            <source src="<%= data.video %>" type="video/webm">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </section>
+    <% } %>
+  </main>
+
+  <footer>
+    <div class="powered-by">
+      Generated by <span class="badge-tool">Snap Ally</span>
+    </div>
+    <div>
+      <span style="opacity: 0.7;">&copy; <%= new Date().getFullYear() %> Snap Ally</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    window.addEventListener('load', function() {
+      const loader = document.getElementById('loader-overlay');
+      loader.style.opacity = '0';
+      setTimeout(() => { loader.style.display = 'none'; }, 500);
+    });
+
+    document.getElementById('tokenForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const token = document.getElementById('tokenInput').value;
+      if (token) {
+        sessionStorage.setItem('userToken', token);
+        bootstrap.Modal.getInstance(document.getElementById('tokenModal')).hide();
+      }
+    });
+
+    async function uploadAttachment(blob, name) {
+      const org = "<%= data.adoOrganization %>";
+      const proj = "<%= data.adoProject %>";
+      const pat = sessionStorage.getItem('userToken');
+      if (!org || !proj || !pat) return null;
+
+      const url = `https://dev.azure.com/${org}/${proj}/_apis/wit/attachments?fileName=${name}&api-version=7.1`;
+
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/octet-stream', 'Authorization': `Basic ${btoa(':' + pat)}` },
+        body: blob
+      });
+      return res.ok ? (await res.json()).url : null;
+    }
+
+    function handleLogBugClick(btn, event) {
+      if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+      }
+      const d = btn.dataset;
+      createAzureDevOpsBug(d.title, d.axeId, d.help, d.severity, d.steps, d.screenshot, d.wcag);
+    }
+
+    function createAzureDevOpsBug(title, axeId, help, severity, stepsJson, screenshotBase64, wcag) {
+      const pat = sessionStorage.getItem('userToken');
+      if (!pat) {
+        const tokenModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('tokenModal'));
+        tokenModal.show();
+        return;
+      }
+
+      // Populate Modal Fields
+      document.getElementById('bugTitleInput').value = `[A11y] ${title}`;
+      document.getElementById('bugSeverityInput').value = severity;
+      
+      const steps = JSON.parse(stepsJson);
+      const stepsHtml = steps.length 
+        ? `<ol>${steps.map(s => `<li>${s}</li>`).join('')}</ol>`
+        : `<i>No interaction steps. Issue identified via static scan.</i>`;
+      
+      document.getElementById('bugReproPreview').innerHTML = `
+        <div style="margin-bottom: 4px;"><b>Rule:</b> ${axeId} (${wcag})</div>
+        <div style="margin-bottom: 8px;"><b>Recommendation:</b> ${help}</div>
+        <div style="border-top: 1px solid #e2e8f0; margin: 8px 0; padding-top: 8px;"><b>Steps:</b></div>
+        ${stepsHtml}
+      `;
+
+      // Visual Evidence
+      const screenshotPreview = document.getElementById('bugScreenshotPreview');
+      if (screenshotBase64) {
+        screenshotPreview.src = `data:image/png;base64,${screenshotBase64}`;
+        document.getElementById('screenshotThumbContainer').style.display = 'block';
+      } else {
+        document.getElementById('screenshotThumbContainer').style.display = 'none';
+      }
+
+      const videoRawPath = "<%= data.video %>";
+      if (videoRawPath) {
+        // Fix: Video is in the same folder as the report, no need for '../'
+        const videoFinalPath = videoRawPath.startsWith('http') ? videoRawPath : videoRawPath;
+        const videoPreview = document.getElementById('bugVideoPreview');
+        videoPreview.src = videoFinalPath;
+        document.getElementById('videoThumbContainer').style.display = 'block';
+      } else {
+        document.getElementById('videoThumbContainer').style.display = 'none';
+      }
+
+      // Store data for submission
+      window.currentBugData = { axeId, wcag, help, stepsHtml, screenshotBase64 };
+
+      const modalElement = document.getElementById('bugPreviewModal');
+      const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+      modal.show();
+    }
+
+    // Force focus on title input when modal opens to ensure editability
+    const bugModalEl = document.getElementById('bugPreviewModal');
+    if (bugModalEl) {
+        bugModalEl.addEventListener('shown.bs.modal', function () {
+            const input = document.getElementById('bugTitleInput');
+            if (input) {
+                input.focus();
+                // Select text for quick editing
+                input.select();
+                // Ensure not inert/disabled
+                input.removeAttribute('readonly');
+                input.removeAttribute('disabled');
+            }
+        });
+    }
+
+    // Single Global Event Listener for Confirmation
+    document.getElementById('confirmBugBtn').addEventListener('click', async () => {
+        const btn = document.getElementById('confirmBugBtn');
+        const modal = bootstrap.Modal.getInstance(document.getElementById('bugPreviewModal'));
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Creating...';
+        
+        try {
+          await submitFinalBug();
+          modal.hide();
+        } catch (err) {
+          console.error(err);
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = 'Create Bug';
+        }
+    });
+
+    async function submitFinalBug() {
+      const org = "<%= data.adoOrganization %>";
+      const proj = "<%= data.adoProject %>";
+      const pat = sessionStorage.getItem('userToken');
+      const { axeId, wcag, help, stepsHtml, screenshotBase64 } = window.currentBugData;
+      
+      const title = document.getElementById('bugTitleInput').value;
+      const severity = document.getElementById('bugSeverityInput').value;
+
+      let screenshotUrl = null;
+      if (screenshotBase64) {
+        const screenshotBlob = await fetch(`data:image/png;base64,${screenshotBase64}`).then(res => res.blob());
+        screenshotUrl = await uploadAttachment(screenshotBlob, 'a11y-issue.png');
+      }
+
+      const videoRawPath = "<%= data.video %>";
+      let videoUrl = null;
+      if (videoRawPath) {
+        try {
+          // Fix: Video is in the same folder as the report
+          const videoFinalPath = videoRawPath.startsWith('http') ? videoRawPath : videoRawPath;
+          const videoBlob = await fetch(videoFinalPath).then(res => res.blob());
+          videoUrl = await uploadAttachment(videoBlob, 'session-recording.webm');
+        } catch (e) {
+          console.error("Failed to video upload", e);
+        }
+      }
+
+      const combinedReproHtml = `
+        <div style="margin-bottom: 12px;"><b>Rule:</b> ${axeId} (${wcag})</div>
+        <div style="margin-bottom: 12px;"><b>Recommendation:</b> ${help}</div>
+        <hr>
+        <div style="margin-bottom: 8px;"><b>Steps to Reproduce:</b></div>
+        ${stepsHtml}
+      `;
+
+      const payload = [
+        { op: "add", path: "/fields/System.Title", value: title },
+        { op: "add", path: "/fields/Microsoft.VSTS.TCM.ReproSteps", value: combinedReproHtml },
+        { op: "add", path: "/fields/System.Description", value: `Found at: <a href="${window.location.href}">${window.location.href}</a>` },
+        { op: "add", path: "/fields/Microsoft.VSTS.Common.Priority", value: severity === 'critical' ? 1 : (severity === 'serious' ? 2 : 3) },
+        { op: "add", path: "/fields/System.Tags", value: "A11y;SnapAlly;UI-Test" }
+      ];
+
+      if (screenshotUrl) {
+        payload.push({ op: "add", path: "/relations/-", value: { rel: "AttachedFile", url: screenshotUrl, attributes: { comment: "Accessibility Violation Screenshot" } } });
+      }
+
+      if (videoUrl) {
+        payload.push({ op: "add", path: "/relations/-", value: { rel: "AttachedFile", url: videoUrl, attributes: { comment: "Audit Session Recording" } } });
+      }
+
+      const res = await fetch(`https://dev.azure.com/${org}/${proj}/_apis/wit/workitems/$Bug?api-version=7.1`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json-patch+json', 'Authorization': `Basic ${btoa(':' + pat)}` },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) alert('Bug successfully filed in Azure DevOps!');
+      else alert('Failed to create bug. Check token and organization settings.');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

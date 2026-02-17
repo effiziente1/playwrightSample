@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snap Ally - Test Execution</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: rgba(255, 255, 255, 0.7);
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --passed: #10b981;
+      --failed: #ef4444;
+      --flaky: #f59e0b;
+      --skipped: #6366f1;
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+      
+      /* Severity Parameters */
+      --critical: <%= colors.critical %>;
+      --serious: <%= colors.serious %>;
+      --moderate: <%= colors.moderate %>;
+      --minor: <%= colors.minor %>;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 100px 20px 0; /* Consistent top padding, no bottom padding */
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Fixed Header */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 14px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+    }
+
+    header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(to right, var(--primary-dark), #818cf8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--glass-border);
+      padding: 24px 40px;
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    .powered-by { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+    .badge-tool { background: #f1f5f9; padding: 2px 10px; border-radius: 8px; font-weight: 700; color: #334155; font-size: 0.8rem; }
+
+    .container { max-width: 1200px !important; margin: 0 auto; width: 100%; padding-bottom: 40px; }
+
+    /* Header Section (Hero) */
+    .report-header {
+      background: linear-gradient(135deg, #fff 0%, #f1f5f9 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--glass-shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .header-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-link {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      background: rgba(0,0,0,0.05);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    .back-link:hover { color: var(--primary); }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-passed { background: #e6f9f3; color: var(--passed); }
+    .status-failed { background: #fee2e2; color: var(--failed); }
+    .status-flaky { background: #fffbeb; color: var(--flaky); }
+
+    .report-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+
+    .duration-text {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .duration-val { color: var(--text-main); }
+
+    .meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+ 
+    .meta-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .browser-chip {
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 500;
+      color: #475569;
+    }
+
+    .tag-badge {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.75rem;
+      background: #e0e7ff;
+      padding: 2px 10px;
+      border-radius: 6px;
+    }
+
+    .btn-a11y {
+      display: inline-flex;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+      white-space: nowrap;
+      margin: 0;
+      font-size: 0.8rem;
+      height: fit-content;
+      text-decoration: none;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Content Cards */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+    }
+
+    .section-icon { color: var(--primary); font-size: 20px; }
+
+    /* Success State */
+    .success-verified-card { text-align: center; padding: 80px 0; background: white; border-radius: 32px; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); margin-bottom: 24px; }
+    .success-hero-icon { font-size: 80px; color: #10b981; margin-bottom: 24px; filter: drop-shadow(0 4px 12px rgba(16,185,129,0.2)); }
+    .success-hero-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.8rem; color: var(--text-main); margin-bottom: 12px; }
+    .success-hero-desc { max-width: 400px; margin: 0 auto; color: var(--text-muted); }
+
+    /* Lists */
+    ol, ul { padding-left: 20px; }
+    li { margin-bottom: 10px; padding-left: 4px; color: #334155; }
+    li::marker { font-weight: 600; color: var(--text-muted); }
+
+    /* Media */
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .screenshot-item {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    img { width: 100%; height: auto; display: block; }
+    video { width: 100%; border-radius: 10px; margin-top: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+    .attachment-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      background: #f8fafc;
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 500;
+      margin-bottom: 8px;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .attachment-item:hover {
+      background: #eff6ff;
+      border-color: var(--primary-dark);
+      transform: translateX(2px);
+    }
+
+    /* Errors & Violations */
+    .error-card {
+      background: #fff1f2;
+      border-color: #fecdd3;
+    }
+
+    .violations-title { color: #9f1239; display: flex; align-items: center; gap: 10px; }
+    .violations-container { display: flex; flex-direction: column; gap: 16px; }
+    
+    .violation-item {
+      background: rgba(255,255,255,0.6);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      border-top: 1px solid rgba(255,255,255,0.8);
+      border-left: 5px solid transparent;
+    }
+
+    .violation-item.critical { border-left-color: var(--critical); }
+    .violation-item.serious { border-left-color: var(--serious); }
+    .violation-item.moderate { border-left-color: var(--moderate); }
+    .violation-item.minor { border-left-color: var(--minor); }
+
+    .violation-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .rule-id { font-family: 'ui-monospace', monospace; font-weight: 700; color: var(--text-main); background: #f1f5f9; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; }
+    .sev-badge { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: white; padding: 4px 10px; border-radius: 6px; }
+    .sev-badge.critical { background: var(--critical); }
+    .sev-badge.serious { background: var(--serious); }
+    .sev-badge.moderate { background: var(--moderate); }
+    .sev-badge.minor { background: var(--minor); }
+    .help-text { font-weight: 600; color: #881337; margin-bottom: 4px; }
+    .desc-text { font-size: 0.9rem; color: #475569; margin-bottom: 8px; }
+
+    .instance-grid { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .instance-card { border: 1px solid #fecdd3; border-radius: 8px; overflow: hidden; background: #fff; }
+    .instance-img-wrap { position: relative; padding-top: 56.25%; }
+    .instance-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .instance-info { padding: 8px; font-size: 0.7rem; color: #881337; border-top: 1px solid #fecdd3; font-family: 'ui-monospace', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .occ-row { font-size: 0.85rem; display: flex; align-items: center; gap: 6px; color: #64748b; margin-top: 12px; }
+
+    .error-item {
+      font-family: 'ui-monospace', monospace;
+      font-size: 0.85rem;
+      color: #9f1239;
+      word-break: break-all;
+      white-space: pre-wrap;
+    }
+    
+    /* Exceptions */
+    .exceptions-title { color: #9f1239; }
+
+    /* Success Badge for Header */
+    .status-badge.status-passed-a11y { background: #e6f9f3; color: var(--passed); }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="#" class="brand" style="cursor: default;">
+      <div class="brand-icon">
+        <span class="material-symbols-outlined" style="font-size: 22px;">fact_check</span>
+      </div>
+      <h1>Test Execution Report</h1>
+    </a>
+    <a href="../summary.html" class="back-link">
+          <span class="material-symbols-outlined" style="font-size: 18px;">arrow_back</span>
+          Back to Summary
+    </a>
+  </header>
+
+  <div class="container">
+    <div class="report-header">
+      <div class="header-info">
+        <div class="header-title-row">
+           <div class="title-group">
+             <h1 class="report-title"><%= result.title %></h1>
+             <div class="status-badge status-<%= result.status %>">
+                <span class="material-symbols-outlined" style="font-size: 16px;"><%= result.statusIcon %></span>
+                <%= result.status %>
+             </div>
+             <% if (result.a11yReportPath && result.a11yErrorCount === 0) { %>
+               <div class="status-badge status-passed-a11y">
+                 <span class="material-symbols-outlined" style="font-size: 16px;">verified</span>
+                 A11y Verified
+               </div>
+             <% } %>
+           </div>
+           <div class="duration-text">
+             Duration: <strong class="duration-val"><%= result.duration %></strong>
+           </div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-left">
+            <span class="browser-chip"><%= result.browser %></span>
+            <% if(result.tags && result.tags.length) { %> 
+              <% result.tags.forEach(function(tag) { %>
+                <span class="tag-badge"><%= tag %></span> 
+              <% }); %>
+            <% } %>
+          </div>
+ 
+          <% if (result.a11yReportPath) { %>
+            <a href="./<%= result.a11yReportPath %>" class="btn-a11y">
+              <span class="material-symbols-outlined" style="font-size: 18px;">accessibility_new</span>
+              View Accessibility Report
+            </a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <% if (result.description) { %>
+      <div class="card">
+        <h2><span class="material-symbols-outlined section-icon">info</span> Description</h2>
+        <p><%= result.description %></p>
+      </div>
+    <% } %>
+
+    <% if (result.preConditions && result.preConditions.length) { %>
+      <div class="card">
+        <h2><span class="material-symbols-outlined section-icon">settings</span> Pre-conditions</h2>
+        <ol>
+          <% result.preConditions.forEach(function(pre) { %>
+            <li><%= pre %></li>
+          <% }); %>
+        </ol>
+      </div>
+    <% } %>
+
+    <% if (result.steps && result.steps.length) { %>
+      <div class="card">
+        <h2><span class="material-symbols-outlined section-icon">analytics</span> Test Steps</h2>
+        <ol>
+          <% result.steps.forEach(function(step) { %>
+            <li><%= step %></li>
+          <% }); %>
+        </ol>
+      </div>
+    <% } %>
+
+    <% if (result.postConditions && result.postConditions.length) { %>
+      <div class="card">
+        <h2><span class="material-symbols-outlined section-icon">check_circle</span> Post-conditions</h2>
+        <ol>
+          <% result.postConditions.forEach(function(post) { %>
+            <li><%= post %></li>
+          <% }); %>
+        </ol>
+      </div>
+    <% } %>
+
+    <% if (result.videoPath) { %>
+      <div class="card">
+        <h2><span class="material-symbols-outlined section-icon">videocam</span> Recording</h2>
+        <video controls>
+          <source src="<%= result.videoPath %>" type="video/webm" />
+        </video>
+      </div>
+    <% } %>
+
+    <% if (result.screenshotPaths && result.screenshotPaths.length) { %>
+      <div class="card">
+        <h2><span class="material-symbols-outlined section-icon">image</span> Evidence Gap</h2>
+        <div class="screenshot-grid">
+          <% result.screenshotPaths.forEach(function(path, index) { %>
+            <div class="screenshot-item">
+              <img src="<%= path %>" alt="Evidence <%= index + 1 %>" />
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    <% } %>
+
+    <% if (result.attachments && result.attachments.length) { %>
+      <div class="card">
+        <h2><span class="material-symbols-outlined section-icon">attachment</span> Attachments</h2>
+        <% result.attachments.forEach(function(attachment) { %>
+          <a href="<%= attachment.path %>" target="_blank" class="attachment-item">
+            <span class="material-symbols-outlined" style="font-size: 18px;">description</span>
+            <%= attachment.name %>
+          </a>
+        <% }); %>
+      </div>
+    <% } %>
+
+    <!-- Accessibility Violations Section -->
+    <% if (result.a11yReportPath && result.a11yErrorCount === 0) { %>
+      <div class="success-verified-card">
+        <span class="material-symbols-outlined success-hero-icon">check_circle</span>
+        <h3 class="success-hero-title">Compliance Verified</h3>
+        <p class="success-hero-desc">Excellent! No accessibility violations were detected for this target resource.</p>
+      </div>
+    <% } else if (result.a11yErrors && result.a11yErrors.length) { %>
+      <div class="card error-card">
+        <h2 class="violations-title">
+          <span class="material-symbols-outlined section-icon" style="color: #9f1239;">accessibility_new</span> 
+          Accessibility Violations
+        </h2>
+        <div class="violations-container">
+          <% result.a11yErrors.forEach(function(error) { %>
+            <div class="violation-item <%= error.severity %>">
+               <div class="violation-header">
+                 <span class="rule-id"><%= error.id %></span>
+                 <span class="sev-badge <%= error.severity %>"><%= error.severity %></span>
+               </div>
+               <div class="help-text"><%= error.help %></div>
+               
+               <% if (error.description) { %>
+                 <div class="desc-text"><%= error.description %></div>
+               <% } %>
+
+               <% if (error.target && error.target.length) { %>
+                   <div class="instance-grid">
+                       <% error.target.forEach(function(t) { %>
+                           <% if (t.screenshot) { %>
+                               <div class="instance-card">
+                                   <div class="instance-img-wrap">
+                                      <img src="<%= t.screenshot %>" alt="Violation on <%= t.element %>" class="instance-img">
+                                   </div>
+                                   <div class="instance-info" title="<%= t.element %>">
+                                       <%= t.element %>
+                                   </div>
+                               </div>
+                           <% } %>
+                       <% }); %>
+                   </div>
+               <% } %>
+
+               <div class="occ-row">
+                 <span class="material-symbols-outlined" style="font-size: 16px;">tag</span>
+                 <span>Occurrences: <strong><%= error.total %></strong></span>
+               </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- Other Exceptions -->
+    <% 
+       // Filter out the generic accessibility assertion error if we have detailed reports
+       const filteredErrors = result.errors.filter(err => !err.includes('Accessibility audit failed'));
+    %>
+    <% if (filteredErrors && filteredErrors.length) { %>
+      <div class="card error-card">
+        <h2 class="exceptions-title"><span class="material-symbols-outlined section-icon" style="color: #9f1239;">error</span> Exceptions</h2>
+        <ol>
+          <% filteredErrors.forEach(function(error) { %>
+            <li class="error-item"><%- error %></li>
+          <% }); %>
+        </ol>
+      </div>
+    <% } %>
+  </div>
+  <footer>
+    <div class="powered-by">
+      Generated by <span class="badge-tool">Snap Ally</span>
+    </div>
+    <div>
+      <span style="opacity: 0.7;">&copy; <%= new Date().getFullYear() %> Snap Ally</span>
+    </div>
+  </footer>
+</body>
+</html>

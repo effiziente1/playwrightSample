@@ -137,7 +137,7 @@ When reviewing or generating test code, ensure:
 import { test } from "@playwright/test";
 import { LoginPage } from "../../pages/SauceDemo/loginPage";
 import { AnnotationType } from "../../utils/annotations/AnnotationType";
-import * as allure from "allure-js-commons";
+import * as allure from "allure-playwright";
 
 test.use({ storageState: { cookies: [], origins: [] } });
 

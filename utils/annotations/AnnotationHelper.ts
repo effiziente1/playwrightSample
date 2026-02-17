@@ -1,12 +1,12 @@
 import { Locator, Page, TestInfo, test } from '@playwright/test';
 import { AnnotationType } from './AnnotationType';
 import { Annotation } from './Annotation';
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export class AnnotationHelper {
 
-    private debugElement = 'playwright-debug';
+    private descriptionElementId = 'playwright-description';
     private annotations: Annotation[] = [];
     private resultsFolder = 'test-results';
 
@@ -22,17 +22,15 @@ export class AnnotationHelper {
     }
 
     async addDescription(stepDescription: string, backgroundColor: string) {
-        await test.step(`Add step description: "${stepDescription}"`, async () => {
-            await this.page.evaluate(
-                ([description, backgroundColor]) => {
-                    const descriptionElementId = 'playwright-description';
-                    let descriptionElement = document.getElementById(descriptionElementId);
-                    if (!descriptionElement) {
-                        descriptionElement = document.createElement('div');
-                        descriptionElement.id = descriptionElementId;
-                        document.body.appendChild(descriptionElement);
-                    }
-                    descriptionElement.style.cssText = `
+        await this.page.evaluate(
+            ([description, backgroundColor, descriptionElementId]) => {
+                let descriptionElement = document.getElementById(descriptionElementId);
+                if (!descriptionElement) {
+                    descriptionElement = document.createElement('div');
+                    descriptionElement.id = descriptionElementId;
+                    document.body.appendChild(descriptionElement);
+                }
+                descriptionElement.style.cssText = `
                             background-color: ${backgroundColor};
                             color: #fff;
                             position: fixed;
@@ -48,9 +46,8 @@ export class AnnotationHelper {
                             font-weight: bold;
                             pointer-events: none;
                             `;
-                    descriptionElement.innerText = description;
-                }, [stepDescription, backgroundColor]);
-        });
+                descriptionElement.innerText = description;
+            }, [stepDescription, backgroundColor, this.descriptionElementId]);
     }
 
     async readDescription(stepDescription: string) {
@@ -80,12 +77,12 @@ export class AnnotationHelper {
      */
     async removeDescription() {
         const params = {
-            debugElement: this.debugElement
+            descriptionElementId: this.descriptionElementId
         };
         await this.page.evaluate(params => {
-            const debugElement = document.getElementById(params.debugElement);
-            if (debugElement)
-                debugElement.remove();
+            const descriptionElement = document.getElementById(params.descriptionElementId);
+            if (descriptionElement)
+                descriptionElement.remove();
         }, params);
     }
 

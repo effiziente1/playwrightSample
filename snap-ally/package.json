@@ -1,0 +1,40 @@
+{
+  "name": "snap-ally",
+  "version": "1.0.0",
+  "description": "A custom Playwright reporter for Accessibility testing using Axe, with HTML reporting and Azure DevOps integration.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc && mkdir -p dist/templates && cp -R src/templates/* dist/templates/",
+    "prepublishOnly": "npm run build",
+    "test": "npx playwright test --project=chromium"
+  },
+
+  "keywords": [
+    "playwright",
+    "accessibility",
+    "a11y",
+    "reporter",
+    "axe"
+  ],
+  "author": "Abigail Armijo",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "@axe-core/playwright": "^4.9.0"
+  },
+  "peerDependencies": {
+    "playwright": "^1.58.1",
+    "@playwright/test": "^1.58.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@types/ejs": "^3.1.5",
+    "@playwright/test": "^1.58.1"
+  }
+}

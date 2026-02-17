@@ -1,58 +1,65 @@
 
-import { Page, test } from '@playwright/test';
+import { test } from '@playwright/test';
 import { AnnotationHelper } from '../../utils/annotations/AnnotationHelper';
 import { AnnotationType } from '../../utils/annotations/AnnotationType';
-import playwright from 'playwright';
-import { AccessibilityHelper } from '../../utils/accessibility/AccessibilityHelper';
+import { checkAccessibility } from 'snap-ally';
 import * as allure from 'allure-js-commons';
+import { ServersPage } from '../../pages/Effiziente/serversPage';
+import { Login } from '../../api/Effiziente/Login';
+import { EffizienteLoginPage } from '../../pages/Effiziente/effizienteLoginPage';
 
-test.describe('Test Accessibility By Page', {
+test.describe('Page A11y', {
     tag: ['@PageAccessibility'],
 }, () => {
     // All tests in this describe group will get 0 retry attempts
     test.describe.configure({ retries: 0 });
 
-    let page: Page;
-
     // eslint-disable-next-line playwright/expect-expect
-    test('Check Page accessibility', async ({ browserName }, testInfo) => {
-        // eslint-disable-next-line playwright/no-skipped-test
-        test.skip(browserName !== 'chromium', 'Lighthouse only works in chrome');
+    test('Page', async ({ page }, testInfo) => {
         await allure.feature('Accessibility');
         await allure.suite('Custom Page');
 
-        //You can test any page in environment variable
         const pageToTest = process.env.PAGE_URL!;
-        const browser = await playwright['chromium'].launch({
-            args: ['--remote-debugging-port=9222'],
-        });
-        const context = await browser.newContext({
-            recordVideo: {
-                dir: testInfo.outputPath('videos')
-            },
-
-        });
-        //With manual context or page is needed to setup the video
-        page = await context.newPage();
         const annotationHelper = new AnnotationHelper(page, pageToTest);
         annotationHelper.addAnnotation(AnnotationType.GoTo, 'Go to: ' + pageToTest);
         await page.goto(pageToTest);
-        const accessibilityHelper = new AccessibilityHelper(page, testInfo, annotationHelper);
-        await accessibilityHelper.checkAccessibility(pageToTest, page);
+        await checkAccessibility(page, testInfo, { 
+            consoleLog: true,
+            rules: {
+                'color-contrast': { enabled: true },
+                'html-has-lang': { enabled: true }
+            },
+            tags: ['wcag2aa', 'wcag2a']
+        });
     });
 
-    test.afterAll(async ({ }, testInfo) => {
-        const videoPath = testInfo.outputPath('allyVideo.webm');
-        if (page) {
-            await Promise.all([
-                page.video()?.saveAs(videoPath),
-                page.close()
-            ]);
-            testInfo.attachments.push({
-                name: 'video',
-                path: videoPath,
-                contentType: 'video/webm'
-            });
-        }
+    // eslint-disable-next-line playwright/expect-expect
+    test('Login', async ({ page }, testInfo) => {
+        const pageToTest = process.env.EFFIZIENTE_URL!;
+        const annotationHelper = new AnnotationHelper(page, pageToTest);
+        annotationHelper.addAnnotation(AnnotationType.GoTo, 'Go to: ' + pageToTest);
+        await page.goto(pageToTest);
+
+        await checkAccessibility(page, testInfo, { 
+            consoleLog: true,
+        });
+    
+        let userLogin: Login = {
+            Company: process.env.EFFIZIENTE_COMPANY!,
+            UserName: process.env.EFFIZIENTE_NORMAL_USER!,
+            Password: process.env.EFFIZIENTE_NORMAL_PASSWORD!,
+            KeepSession: true,
+            Code: 0
+        };
+        const loginPage = new EffizienteLoginPage(page);
+        await loginPage.company.fill(userLogin.Company);
+        await loginPage.user.fill(userLogin.UserName);
+        await loginPage.password.fill(userLogin.Password);
+        await loginPage.login.click();
+        await checkAccessibility(page, testInfo, { 
+            consoleLog: true
+        });
     });
+
+
 });
