@@ -4,7 +4,6 @@ import { AnnotationHelper } from '../../utils/annotations/AnnotationHelper';
 import { AnnotationType } from '../../utils/annotations/AnnotationType';
 import { checkAccessibility } from 'snap-ally';
 import * as allure from 'allure-js-commons';
-import { ServersPage } from '../../pages/Effiziente/serversPage';
 import { Login } from '../../api/Effiziente/Login';
 import { EffizienteLoginPage } from '../../pages/Effiziente/effizienteLoginPage';
 
@@ -57,7 +56,8 @@ test.describe('Page A11y', {
         await loginPage.password.fill(userLogin.Password);
         await loginPage.login.click();
         await checkAccessibility(page, testInfo, { 
-            consoleLog: true
+            consoleLog: true,
+            verbose: true
         });
     });
 
