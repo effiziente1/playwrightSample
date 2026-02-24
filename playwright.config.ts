@@ -116,8 +116,8 @@ export default defineConfig({
             outputFolder: 'a11y-reports',
 
             ado: {
-                organization: 'MyOrg',
-                project: 'MyProject'
+                organization: process.env.ADO_ORGANIZATION,
+                project: process.env.ADO_PROJECT,
             }
         } as AccessibilityReporterOptions],
         ['ortoni-report', reportConfig],
