@@ -1,7 +1,6 @@
-import { AzureReporterOptions } from '@alex_neo/playwright-azure-reporter/dist/playwright-azure-reporter';
 import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv';
-import os from 'node:os';
+import * as dotenv from 'dotenv';
+import { AccessibilityReporterOptions } from 'snap-ally';
 
 /**
  * Read environment variables from file.
@@ -54,60 +53,17 @@ export default defineConfig({
     },
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
-        ['junit', { outputFile: 'results.xml' }],
-        ['./utils/reporter/StepReporter.ts'],
-        ['./utils/reporter/AccessibilityReporter.ts'],
-        [
-            '@alex_neo/playwright-azure-reporter',
-            {
-                orgUrl: 'https://dev.azure.com/' + process.env.ADO_ORGANIZATION,
-                token: process.env.ADO_TOKEN,
-                planId: 398,
-                projectName: process.env.ADO_PROJECT,
-                logging: true,
-                testRunTitle: 'Playwright Test Run',
-                publishTestResultsMode: 'testRun',
-                uploadAttachments: true,
-                attachmentsType: ['screenshot', 'video', 'trace'],
-                testRunConfig: {
-                    owner: {
-                        displayName: process.env.TEST_OWNER,
-                    },
-                    comment: 'Playwright Test Run',
-                    // the configuration ids of this test run, use 
-                    // https://dev.azure.com/{organization}/{project}/_apis/test/configurations to get the ids of  your project.
-                    // if multiple configuration ids are used in one run a testPointMapper should be used to pick the correct one, 
-                    // otherwise the results are pushed to all.
-                    configurationIds: [46],
-                },
-            } as AzureReporterOptions
-        ],
-        ['allure-playwright',
-            {
-                detail: true,
-                suiteTitle: false,
-                links: {
-                    link: {
-                        urlTemplate: 'https://github.com/allure-framework/allure-js/blob/main/%s',
-                    },
-                    issue: {
-                        urlTemplate: 'https://github.com/allure-framework/allure-js/issues/%s',
-                        nameTemplate: 'ISSUE-%s',
-                    },
-                },
-                environmentInfo: {
-                    OS: os.platform(),
-                    Architecture: os.arch(),
-                    NodeVersion: process.version,
-                },
-                categories: [
-                    {
-                        name: 'Missing file errors',
-                        messageRegex: /^ENOENT: no such file or directory/,
-                    },
-                ],
+        ['html', { open: 'never' }],
+        ['snap-ally', {
+            outputFolder: 'a11y-reports',
+            colors: {
+                critical: '#ff00ff'
+            },
+            ado: {
+                organization: process.env.ADO_ORGANIZATION,
+                project: process.env.ADO_PROJECT
             }
-        ]
+        } as AccessibilityReporterOptions],
     ],
     /* Configure projects for major browsers */
     projects: [

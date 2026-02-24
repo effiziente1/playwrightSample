@@ -1,8 +1,9 @@
 import { AzureReporterOptions } from '@alex_neo/playwright-azure-reporter/dist/playwright-azure-reporter';
 import { defineConfig, devices } from '@playwright/test';
 import { OrtoniReportConfig } from 'ortoni-report';
-import dotenv from 'dotenv';
-import os from 'node:os';
+import * as dotenv from 'dotenv';
+import * as os from 'node:os';
+import {  AccessibilityReporterOptions } from 'snap-ally';
 
 const reportConfig: OrtoniReportConfig = {
     open: 'never',
@@ -12,7 +13,6 @@ const reportConfig: OrtoniReportConfig = {
     title: 'Playwright report',
     base64Image: true,
     folderPath: 'report',
-    showProject: false
 };
 
 /**
@@ -62,7 +62,7 @@ export default defineConfig({
             snapshots: true
         },
 
-        video: 'retain-on-failure',
+        video: 'on',
 
         screenshot: 'only-on-failure',
 
@@ -111,8 +111,15 @@ export default defineConfig({
                 },
             } as AzureReporterOptions
         ],
-        ['./utils/reporter/StepReporter.ts'],
-        ['./utils/reporter/AccessibilityReporter.ts'],
+
+        ['snap-ally', {
+            outputFolder: 'a11y-reports',
+
+            ado: {
+                organization: process.env.ADO_ORGANIZATION,
+                project: process.env.ADO_PROJECT,
+            }
+        } as AccessibilityReporterOptions],
         ['ortoni-report', reportConfig],
         ['allure-playwright',
             {
@@ -142,6 +149,11 @@ export default defineConfig({
                     }
                 ]
             }
+        ],
+        ['playwright-smart-reporter', {
+            outputFile: 'smart-report.html',
+            historyFile: 'test-history.json',
+            maxHistoryRuns: 10 }
         ]
     ],
     /* Configure projects for major browsers */

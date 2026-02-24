@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { TestResult } from '@playwright/test/reporter';
-import { ImagePath } from './accessibility/models/ImagePath';
 
 export class FileHelper {
 
@@ -66,17 +65,10 @@ export class FileHelper {
         return screenshotPaths.map(screenshotPath => this.copyFileToResults(destFolder, screenshotPath));
     }
 
-    copyImages(result: TestResult, destFolder: string) {
-        const imagePaths: ImagePath[] = result.attachments
-            .filter(attachment => attachment.name.endsWith('.png'))
-            .map(attachment => ({
-                srcPath: attachment.path ?? '',
-                fileName: attachment.name
-            }));
-
-        imagePaths.map(imagePath => this.copyFileTo(destFolder, imagePath.srcPath, imagePath.fileName));
-    }
     copyFileTo(destFolder: string, srcPath: string, fileName: string) {
+        if (srcPath === '') {
+            return '';
+        }
 
         const destDir = path.resolve(__dirname, '..', destFolder);
         const destFile = path.join(destDir, fileName);

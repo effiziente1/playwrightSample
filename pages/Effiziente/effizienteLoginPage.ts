@@ -5,9 +5,9 @@ import { Link } from '../../components/Link';
 import { EffizienteBasePage } from './effizienteBasePage';
 
 export class EffizienteLoginPage extends EffizienteBasePage {
-    company: InputText = new InputText(this.page, this.annotationHelper, 'Company');
-    user: InputText = new InputText(this.page, this.annotationHelper, 'User');
-    password: InputText = new InputText(this.page, this.annotationHelper, 'Password');
+    company: InputText = new InputText(this.page, this.annotationHelper, 'company');
+    user: InputText = new InputText(this.page, this.annotationHelper, 'user');
+    password: InputText = new InputText(this.page, this.annotationHelper, 'password');
     login: Button = new Button(this.page, this.annotationHelper, 'Login');
     forgotPassword: Link = new Link(this.page, this.annotationHelper, '#forgotPass', false);
 

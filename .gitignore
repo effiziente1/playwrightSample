@@ -8,6 +8,8 @@ logs/
 *.env
 auth/
 steps-report/
+a11y-reports/
+playwright-accessibility-reporter/
 
 results.xml
 .husky/pre-commit
