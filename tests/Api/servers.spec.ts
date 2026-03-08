@@ -10,7 +10,15 @@ test.describe('Servers', () => {
     let id = 0;
     test.use({ storageState: 'auth/admin.json' });
 
-    // eslint-disable-next-line playwright/expect-expect
+    test.afterEach(async ({ page }) => {
+        //Delete the server created after each test 
+        const addServerPage = new AddServerPage(page);
+        if (id > 0) {
+            addServerPage.addAnnotation(AnnotationType.PostCondition, 'Delete the server with API request');
+            await addServerPage.serverApi.deleteServer(id);
+        }
+    });
+
     test('Should add a server', {
         tag: ['@API'],
         annotation: [
@@ -37,6 +45,7 @@ test.describe('Servers', () => {
         await addServerPage.saveClick();
         await serversPage.checkSuccessMessage();
         await serversPage.filter.fill(key.toString());
+        await expect(serversPage.table.locator).toContainText(key.toString());
         await serversPage.checkRow(key, name, url);
         const response = await serversPage.serverApi.getServerByKey(key.toString());
         const responseText = await response.text();
@@ -80,12 +89,4 @@ test.describe('Servers', () => {
         await serversPage.checkRow(key, newName, newUrl);
     });
 
-    test.afterEach(async ({ page }) => {
-        //Delete the server created after each test 
-        const addServerPage = new AddServerPage(page);
-        if (id > 0) {
-            addServerPage.addAnnotation(AnnotationType.PostCondition, 'Delete the server with API request');
-            await addServerPage.serverApi.deleteServer(id);
-        }
-    });
 });

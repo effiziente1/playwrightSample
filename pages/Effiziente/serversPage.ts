@@ -102,7 +102,7 @@ export class ServersPage extends EffizienteBasePage {
                     AnnotationType.Assert,
                     assertDescription,
                     async () => {
-                        expect(rowValues.Url, assertDescription).toBe(url);
+                        expect(rowValues.URL, assertDescription).toBe(url);
                     },
                 );
             },
