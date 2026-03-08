@@ -53,8 +53,6 @@ test.describe('Servers', () => {
         id = +responseObject.Id;
     });
 
-
-     
     test('Should edit a server', {
         tag: ['@API'],
         annotation: [
@@ -86,6 +84,8 @@ test.describe('Servers', () => {
         await addServerPage.url.fill(newUrl);
         await addServerPage.save.click();
         await addServerPage.checkSuccessMessage();
+        await serversPage.filter.fill(key.toString());
+        await expect(serversPage.table.locator).toContainText(key.toString());
         await serversPage.checkRow(key, newName, newUrl);
     });
 
