@@ -35,4 +35,4 @@ blob-report
 .DS_Store
 .qodo
 servers.pdf
-tests/VisualTesting/.DS_Store
+tests/
