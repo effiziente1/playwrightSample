@@ -14,6 +14,7 @@ test.describe('Servers', () => {
         await allure.suite('Effiziente Servers');
         const serversPage = new ServersPage(page);
         await serversPage.goTo();
+        await expect(serversPage.table.element).toBeVisible();
         await serversPage.exportToExcel.click('servers.xlsx');
         const excelRows = await serversPage.exportToExcel.getExcelRows();
         const gridRows = await serversPage.table.getRowsValues();

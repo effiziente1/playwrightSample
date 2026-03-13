@@ -10,10 +10,12 @@ export class Table extends BaseComponent implements ITable {
     editButtonSelector = '[aria-label="Edit"]';
     rowSelector = 'tbody > tr';
     cellSelector = 'td';
+    element: Locator;
 
     constructor(page: Page, annotationHelper: AnnotationHelper, selector = 'table') {
         super(page, annotationHelper, selector);
         this.columnsText = [];
+        this.element = this.page.locator(selector);
     }
 
     /**
