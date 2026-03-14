@@ -1,40 +1,40 @@
 [
     {
         "ClientId": 18,
-        "Client": "Blanca Castro Gutiérrez",
-        "ToExpire": 23630.96,
+        "ClientName": "Blanca Castro Gutiérrez",
+        "NextToExpire": 23630.96,
         "Limit1": 0,
         "Limit2": 0,
         "Limit3": 0
     },
     {
         "ClientId": 17,
-        "Client": "Jorge Peréz Mendieta",
-        "ToExpire": 2668,
+        "ClientName": "Jorge Peréz Mendieta",
+        "NextToExpire": 2668,
         "Limit1": 7231.44,
         "Limit2": 8608.96,
         "Limit3": 4640
     },
     {
         "ClientId": 3,
-        "Client": "Océano Atlántico Ltda.",
-        "ToExpire": 12854.56,
+        "ClientName": "Océano Atlántico Ltda.",
+        "NextToExpire": 12854.56,
         "Limit1": 0,
         "Limit2": 0,
         "Limit3": 0
     },
     {
         "ClientId": 11,
-        "Client": "Tom's Club",
-        "ToExpire": 10382,
+        "ClientName": "Tom's Club",
+        "NextToExpire": 10382,
         "Limit1": 0,
         "Limit2": 1116,
         "Limit3": 0
     },
     {
         "ClientId": 6,
-        "Client": "Carlos González Alvarado",
-        "ToExpire": 0,
+        "ClientName": "Carlos González Alvarado",
+        "NextToExpire": 0,
         "Limit1": 0,
         "Limit2": 10382,
         "Limit3": 0
