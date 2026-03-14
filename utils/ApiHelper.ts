@@ -98,7 +98,7 @@ export class ApiHelper implements IApiHelper {
 
         await test.step(description, async () => {
 
-            await this.page.route(url, async route => {
+            await this.page.route(`**${url}`, async route => {
                 await route.fulfill({ body: JSON.stringify(jsonData) });
             });
         });

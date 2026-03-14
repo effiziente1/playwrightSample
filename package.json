@@ -17,30 +17,30 @@
     "@faker-js/faker": "^10.3.0",
     "@types/ejs": "^3.1.5",
     "@types/node": "^25.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.56.0",
-    "@typescript-eslint/parser": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^8.57.0",
+    "@typescript-eslint/parser": "^8.57.0",
     "@zerostep/playwright": "^0.1.5",
     "allure-js-commons": "^3.6.0",
     "allure-playwright": "^3.6.0",
     "eslint": "^10.0.1",
     "eslint-plugin-playwright": "^2.9.0",
     "husky": "^9.1.7",
-    "playwright-smart-reporter": "^1.6.3",
+    "playwright-smart-reporter": "^1.6.5",
     "pw-api-plugin": "^2.1.0",
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@alex_neo/playwright-azure-reporter": "^1.19.0",
+    "@alex_neo/playwright-azure-reporter": "^1.19.1",
     "@azure/playwright": "^1.1.2",
     "@playwright/test": "^1.58.2",
-    "checkly": "^7.5.2",
+    "checkly": "^7.6.1",
     "dotenv": "^17.3.1",
     "ejs": "^5.0.1",
     "exceljs": "^4.4.0",
-    "ortoni-report": "^4.0.7",
+    "ortoni-report": "^4.0.8",
     "pdfjs-dist": "^5.5.207",
-    "playwright-qase-reporter": "^2.2.2",
-    "snap-ally": "^0.1.1-beta"
+    "playwright-qase-reporter": "^2.2.3",
+    "snap-ally": "^0.2.1-beta"
   },
   "config": {
     "commitizen": {
