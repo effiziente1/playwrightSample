@@ -50,7 +50,9 @@ export class ServersPage extends EffizienteBasePage {
             AnnotationType.GoTo,
             `Go to the servers page: "${serversPage}"`,
             async () => {
+                 const waitForServersPromise = this.serverApi.waitForGetServers();
                 await this.page.goto(serversPage);
+                await waitForServersPromise;
                 await this.title.locator.waitFor({ timeout: 30_000 });
             },
         );
