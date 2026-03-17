@@ -13,12 +13,14 @@ test.describe('Servers', () => {
         await allure.feature('Excel');
         await allure.suite('Effiziente Servers');
         const serversPage = new ServersPage(page);
+        const waitForServersPromise = serversPage.serverApi.waitForGetServers();
         await serversPage.goTo();
+        await waitForServersPromise;
         await expect(serversPage.table.element).toBeVisible();
         await serversPage.exportToExcel.click('servers.xlsx');
         const excelRows = await serversPage.exportToExcel.getExcelRows();
         const gridRows = await serversPage.table.getRowsValues();
-        const assertDescription = 'The excel file rows are equal to the grid rows';
+        const assertDescription = `The excel file rows ${gridRows} are equal to the grid rows ${excelRows}`;
         await serversPage.addStepWithAnnotation(AnnotationType.Assert, assertDescription, async () => {
             expect(excelRows, 'The rows on the excel are equal to the rows on the grid').toStrictEqual(gridRows);
         });

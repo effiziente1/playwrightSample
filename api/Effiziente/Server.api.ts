@@ -7,7 +7,7 @@ import { IApiHelper } from '../../utils/IApiHelper';
 export class ServerApi {
 
     private apiHelper: IApiHelper;
-    private api = 'api/Server';
+    private api = 'api/server';
     private annotationHelper = new AnnotationHelper(this.page, '');
 
     constructor(private page: Page) {
