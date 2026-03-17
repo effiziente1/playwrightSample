@@ -40,7 +40,7 @@
     "ortoni-report": "^4.0.8",
     "pdfjs-dist": "^5.5.207",
     "playwright-qase-reporter": "^2.2.3",
-    "snap-ally": "^0.2.1-beta"
+    "snap-ally": "^0.2.7-beta"
   },
   "config": {
     "commitizen": {
