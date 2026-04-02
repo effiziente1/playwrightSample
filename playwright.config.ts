@@ -3,7 +3,6 @@ import { defineConfig, devices } from '@playwright/test';
 import { OrtoniReportConfig } from 'ortoni-report';
 import * as dotenv from 'dotenv';
 import * as os from 'node:os';
-import {  AccessibilityReporterOptions } from 'snap-ally';
 
 const reportConfig: OrtoniReportConfig = {
     open: 'never',
@@ -62,7 +61,7 @@ export default defineConfig({
             snapshots: true
         },
 
-        video: 'on',
+        video: 'retain-on-failure',
 
         screenshot: 'only-on-failure',
 
@@ -71,7 +70,7 @@ export default defineConfig({
     reporter: [
         ['blob'],
         ['junit', { outputFile: 'results.xml' }],
-        ['html', { open: 'never' }],
+        ['html', { open: 'never', attachments: 'all' }],
         ['playwright-qase-reporter',
             {
                 debug: true,
@@ -111,15 +110,13 @@ export default defineConfig({
                 },
             } as AzureReporterOptions
         ],
-
         ['snap-ally', {
             outputFolder: 'a11y-reports',
-
             ado: {
                 organization: process.env.ADO_ORGANIZATION,
                 project: process.env.ADO_PROJECT,
             }
-        } as AccessibilityReporterOptions],
+        }],
         ['ortoni-report', reportConfig],
         ['allure-playwright',
             {
@@ -158,13 +155,6 @@ export default defineConfig({
     ],
     /* Configure projects for major browsers */
     projects: [
-        {
-            name: 'chrome:latest:macOS Monterey@lambdatest',
-            testMatch: /.*LambdaTestFixture.spec.ts/,
-            use: {
-                viewport: { width: 1920, height: 1080 },
-            },
-        },
         {
             name: 'chrome:latest:Windows 11@lambdatest',
             testMatch: /.*LambdaTestFixture.spec.ts/,

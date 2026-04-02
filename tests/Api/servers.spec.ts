@@ -28,6 +28,12 @@ test.describe('Servers', () => {
     }, async ({ page }) => {
         await allure.feature('API');
         await allure.suite('Effiziente Servers');
+        await page.screencast.start({ path: 'server.webm' });
+        await page.screencast.showActions({ position: 'top-right' });
+        await page.screencast.showChapter('Adding TODOs', {
+            description: 'An admin user can add a server',
+            duration: 1000,
+        });
         const serversPage = new ServersPage(page);
         const addServerPage = new AddServerPage(page);
         await serversPage.goTo();
@@ -51,6 +57,7 @@ test.describe('Servers', () => {
         const responseText = await response.text();
         const responseObject = JSON.parse(responseText);
         id = +responseObject.Id;
+        await page.screencast.stop();
     });
 
     test('Should edit a server', {
