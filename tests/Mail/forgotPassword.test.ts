@@ -4,7 +4,7 @@ import { EffizienteForgotPassword } from '../../pages/Effiziente/effizienteForgo
 import { ForgotPasswordMail } from '../../pages/Effiziente/forgotPassword.mail';
 
 test.describe('Forgot Password tests', () => {
-    test.use({ storageState: 'auth/admin.json' });
+    test.use({ storageState: { cookies: [], origins: [] } });
 
     test('Check the forgot mail is send', {
         tag: ['@Mail'],
@@ -12,14 +12,13 @@ test.describe('Forgot Password tests', () => {
         const loginPage = new EffizienteLoginPage(page);
         await loginPage.goTo();
         const forgotPasswordPage = new EffizienteForgotPassword(page);
-        const user = await forgotPasswordPage.usersApi.getCurrentUser();
         await loginPage.forgotPassword.click();
-        await forgotPasswordPage.email.fill(user!.Email);
+        await forgotPasswordPage.email.fill(process.env.EFFIZIENTE_USER_EMAIL!);
         await forgotPasswordPage.requestPassword.click();
         const expectedSubject = 'Reset password request';
         await expect(forgotPasswordPage.message.locator, 'Success request password message is visible').toBeVisible();
         const lastMail = await forgotPasswordPage.mail.getLastEmailWithTitle(expectedSubject);
-        const expectedUser = user!.Name;
+        const expectedUser = process.env.EFFIZIENTE_USER_NAME!;
         
         await test.step(`Assert mail user equals "${expectedUser}"`, async () => {
             expect(lastMail.template_variables.user, `Expected mail user to be "${expectedUser}"`).toBe(expectedUser);
