@@ -34,7 +34,7 @@ This boilerplate includes demos to test different testing scenarios with Playwri
 
 # Required software
 
-- Node js -> v.16 or above
+- Node js -> v.20.19 or above
 - VS Code
 - Playwright Vs Code Extension (Optional)
 

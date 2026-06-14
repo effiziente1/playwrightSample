@@ -12,6 +12,9 @@
   "keywords": [],
   "author": "Abigail Armijo",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.19"
+  },
   "devDependencies": {
     "@faker-js/faker": "^10.4.0",
     "@types/ejs": "^3.1.5",
