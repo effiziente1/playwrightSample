@@ -9,7 +9,7 @@ export class UsersApi {
     private annotationHelper: AnnotationHelper;
 
     constructor(private page: Page) {
-        const baseURL = process.env.EFFIZIENTE_API_URL ?? 'https://effizienteauthdemo.azurewebsites.net';
+        const baseURL = process.env.EFFIZIENTE_API_URL!;
         this.annotationHelper = new AnnotationHelper(this.page, 'usersApi');
         this.apiHelper = new ApiHelper(this.page, baseURL, this.annotationHelper);
     }

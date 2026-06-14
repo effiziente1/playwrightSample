@@ -16,9 +16,7 @@ export class AccountReceivableApi {
     private annotationHelper = new AnnotationHelper(this.page, '');
 
     constructor(private page: Page) {
-        const baseURL = process.env.EFFIZIENTE_API_URL
-            ? process.env.EFFIZIENTE_API_URL
-            : 'https://effizienteauthdemo.azurewebsites.net';
+        const baseURL = process.env.EFFIZIENTE_API_URL!;
         this.apiHelper = new ApiHelper(this.page, baseURL, this.annotationHelper);
     }
 
