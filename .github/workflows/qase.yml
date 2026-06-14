@@ -61,8 +61,10 @@ jobs:
           QASE_API_TOKEN: ${{ env.QASE_API_TOKEN }}
       - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Get installed Playwright version
         id: playwright-version

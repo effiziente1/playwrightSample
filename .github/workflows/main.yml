@@ -50,6 +50,8 @@ jobs:
 
       - name: Install Node.js
         uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       # for playwright reporting service beta is needed the npm config
       - name: Install dependencies
@@ -84,6 +86,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ${{ github.workspace }}/report/
+          force_orphan: true
 
       - name: Upload xml junit result as artifact
         uses: actions/upload-artifact@v4

@@ -48,6 +48,8 @@ jobs:
 
       - name: Install Node.js
         uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Login to Azure with AzPowershell (enableAzPSSession true)
         uses: azure/login@v2
