@@ -35,7 +35,7 @@ export class ServersPage extends EffizienteBasePage {
         this.filter = new InputText(
             page,
             this.annotationHelper,
-            '[placeholder="Filter results..."]',
+            '[placeholder="Search..."]',
             false,
         );
         this.serverApi = new ServerApi(page);
