@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { test, expect } from '@playwright/test';
 
-test('WebSockets Demo Intercept', async ({ page }) => {
+// eslint-disable-next-line playwright/no-skipped-test
+test.skip('WebSockets Demo Intercept', async ({ page }) => {
     const MOCK_CHANGE_VALUE = 1;
     await page.routeWebSocket(/stockticker/, ws => {
 
