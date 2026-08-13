@@ -8,7 +8,9 @@ test.describe('Forgot Password tests', () => {
 
     test('Check the forgot mail is send', {
         tag: ['@Mail'],
-    }, async ({ page }) => {
+    }, async ({ page, browserName }) => {
+        // eslint-disable-next-line playwright/no-skipped-test
+        test.skip(browserName !== 'chromium', 'Only runs on Chromium');
         const loginPage = new EffizienteLoginPage(page);
         await loginPage.goTo();
         const forgotPasswordPage = new EffizienteForgotPassword(page);
