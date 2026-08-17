@@ -9,7 +9,9 @@ test.describe('WebdriverIO Shop', () => {
 
     test('Should add an item to the cart', {
         tag: ['@API'],
-    }, async ({ page }) => {
+    }, async ({ page, browserName }) => {
+        // eslint-disable-next-line playwright/no-skipped-test
+        test.skip(browserName !== 'chromium', 'Only runs on Chromium');
         await allure.feature('API');
         await allure.suite('WebdriverIO Shop');
         const homePage = new HomePage(page);
