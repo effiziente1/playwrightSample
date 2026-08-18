@@ -82,7 +82,7 @@ jobs:
         run: |
           npm ci
 
-      - run: npx playwright install
+      - run: npx playwright install --with-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Run Playwright tests
         run: npx playwright test
