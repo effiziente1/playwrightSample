@@ -62,6 +62,11 @@ export class DashboardPage extends EffizienteBasePage {
                 await expect(
                     this.page.locator(this.summaryExpiration.selector),
                 ).toBeVisible();
+
+                await this.top5.waitForStable();
+                await this.top5Debt.waitForStable();
+                await this.top5DaysDelay.waitForStable();
+                await this.summaryExpiration.waitForStable();
             },
         );
     }
