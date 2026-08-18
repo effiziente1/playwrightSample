@@ -10,8 +10,6 @@ import { EffizienteLoginPage } from '../../pages/Effiziente/effizienteLoginPage'
 test.describe('Page A11y', {
     tag: ['@PageAccessibility'],
 }, () => {
-    // All tests in this describe group will get 0 retry attempts
-    test.describe.configure({ retries: 0 });
 
     // eslint-disable-next-line playwright/expect-expect
     test('Page', async ({ page }, testInfo) => {
@@ -60,6 +58,5 @@ test.describe('Page A11y', {
             verbose: true
         });
     });
-
 
 });
