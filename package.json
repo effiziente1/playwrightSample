@@ -42,7 +42,15 @@
     "ortoni-report": "^4.10.0",
     "pdfjs-dist": "^6.2.108",
     "playwright-qase-reporter": "^2.6.0",
-    "snap-ally": "^1.0.3"
+    "snap-ally": "^1.0.5"
+  },
+  "overrides": {
+    "tar": "^7.5.22",
+    "@tootallnate/once": "^2.0.1",
+    "adm-zip": "^0.6.0",
+    "exceljs": {
+      "uuid": "^11.1.1"
+    }
   },
   "config": {
     "commitizen": {

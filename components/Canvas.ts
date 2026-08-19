@@ -27,7 +27,9 @@ export class Canvas extends BaseComponent {
             await this.page.waitForFunction(
                 (selector: string) => {
                     const win = window as Window & { __canvasStability?: Record<string, string> };
-                    const canvas = document.querySelector(selector) as HTMLCanvasElement | null;
+                    const el = document.querySelector(selector);
+                    if (!el) return false;
+                    const canvas = (el instanceof HTMLCanvasElement ? el : el.querySelector('canvas')) as HTMLCanvasElement | null;
                     if (!canvas) return false;
                     const data = canvas.toDataURL();
                     win.__canvasStability ??= {};
