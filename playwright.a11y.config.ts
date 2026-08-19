@@ -1,6 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 import * as dotenv from 'dotenv';
-import { AccessibilityReporterOptions } from 'snap-ally';
 
 /**
  * Read environment variables from file.
@@ -63,7 +62,7 @@ export default defineConfig({
                 organization: process.env.ADO_ORGANIZATION,
                 project: process.env.ADO_PROJECT
             }
-        } as AccessibilityReporterOptions],
+        }],
     ],
     /* Configure projects for major browsers */
     projects: [
