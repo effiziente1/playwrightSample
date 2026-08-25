@@ -55,7 +55,7 @@ export default defineConfig({
     /* Configure projects for major browsers */
     projects: [
         {
-            name: 'chrome:latest:MacOS Catalina@lambdatest',
+            name: 'chrome:latest:MacOS Sequoia@lambdatest',
             testMatch: /.*LambdaTestFixture.spec.ts/,
             use: {
                 viewport: { width: 1920, height: 1080 },
