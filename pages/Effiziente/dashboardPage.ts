@@ -16,7 +16,7 @@ export class DashboardPage extends EffizienteBasePage {
     constructor(page: Page) {
         super(page, 'Dashboard');
         const noByRole = false;
-        this.title = new Heading(page, this.annotationHelper, '#title', noByRole);
+        this.title = new Heading(page, this.annotationHelper, '.page-header', noByRole);
         this.top5 = new Canvas(page, this.annotationHelper, '#top5');
         this.top5Debt = new Canvas(page, this.annotationHelper, '#top5-debt');
         this.top5DaysDelay = new Canvas(
